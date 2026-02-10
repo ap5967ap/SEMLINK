@@ -1,0 +1,11 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="https://example.org/basic#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Class rdf:about="https://example.org/basic#College"/>
+  <owl:NamedIndividual rdf:about="https://example.org/basic#MyFirstCollege">
+    <rdf:type rdf:resource="https://example.org/basic#College"/>
+  </owl:NamedIndividual>
+</rdf:RDF>
