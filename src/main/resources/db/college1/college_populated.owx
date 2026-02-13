@@ -1,0 +1,1976 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://example.org/collegeone"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://example.org/collegeone">
+    <Prefix name="" IRI="http://example.org/collegeone#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#College"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Course"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Department"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Enrollment"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Faculty"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Person"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Program"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Student"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TACourseAllocation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TeachesAllocation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TeachingAssistantRole"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#college_hasDepartment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#course_enrollments"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#course_hasTAAllocations"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#course_inDepartment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#course_teachesAllocation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#department_hasCollege"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#department_hasCourse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#department_hasFaculty"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#department_hasStudent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#faculty_teachesAllocation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTArole"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#program_hasStudent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#roleOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#student_enrollments"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#student_inDepartment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#student_inProgram"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#subDepartmentOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ta_hasAllocations"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#taalloc_hasCourse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#taalloc_hasTA"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#teaches_hasCourse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#teaches_hasFaculty"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#academic_year"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#accreditation_grade"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#allocation_id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#cgpa"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#city"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#college_code"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#college_id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#college_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#course_code"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#course_id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#course_title"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#created_at"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#credits"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#date_of_joining"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#department_id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#dept_code"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#dept_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#designation"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#duration_years"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#email"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#enrollment_id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#established_year"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#faculty_email"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#faculty_full_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#faculty_id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#full_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#grade"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#max_hours_per_week"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#monthly_stipend"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#person_email"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#person_full_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#program_id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#program_name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#roll_number"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#salary"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#semester"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#state"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#student_id"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#year_of_study"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Alloc_Fac1_Crs1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Course_301"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Course_302"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Course_303"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Course_304"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Course_305"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Course_306"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Dept_CSE"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Dept_ECE"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Dept_MECH"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Enroll_0"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Enroll_1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Enroll_2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Enroll_3"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Enroll_4"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fac_101"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fac_102"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fac_103"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fac_104"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fac_105"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fac_106"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Prog_BTech"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Prog_MTech"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Stud_202301"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Stud_202302"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Stud_202303"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Stud_202304"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Stud_202305"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Stud_202306"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="#sql_note"/>
+    </Declaration>
+    <Declaration>
+        <Datatype abbreviatedIRI="xsd:date"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#College"/>
+        <DataMinCardinality cardinality="1">
+            <DataProperty IRI="#college_name"/>
+            <Datatype abbreviatedIRI="xsd:string"/>
+        </DataMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Department"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#department_hasCollege"/>
+            <Class IRI="#College"/>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Faculty"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Student"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Student"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#student_inDepartment"/>
+            <Class IRI="#Department"/>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Student"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#student_inProgram"/>
+            <Class IRI="#Program"/>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Course"/>
+        <Class IRI="#Department"/>
+        <Class IRI="#Enrollment"/>
+        <Class IRI="#Faculty"/>
+        <Class IRI="#Program"/>
+        <Class IRI="#Student"/>
+        <Class IRI="#TACourseAllocation"/>
+        <Class IRI="#TeachesAllocation"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#TeachesAllocation"/>
+        <NamedIndividual IRI="#Alloc_Fac1_Crs1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Course"/>
+        <NamedIndividual IRI="#Course_301"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Course"/>
+        <NamedIndividual IRI="#Course_302"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Course"/>
+        <NamedIndividual IRI="#Course_303"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Course"/>
+        <NamedIndividual IRI="#Course_304"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Course"/>
+        <NamedIndividual IRI="#Course_305"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Course"/>
+        <NamedIndividual IRI="#Course_306"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Department"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Department"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Department"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#College"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Enrollment"/>
+        <NamedIndividual IRI="#Enroll_0"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Enrollment"/>
+        <NamedIndividual IRI="#Enroll_1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Enrollment"/>
+        <NamedIndividual IRI="#Enroll_2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Enrollment"/>
+        <NamedIndividual IRI="#Enroll_3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Enrollment"/>
+        <NamedIndividual IRI="#Enroll_4"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Faculty"/>
+        <NamedIndividual IRI="#Fac_101"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Faculty"/>
+        <NamedIndividual IRI="#Fac_102"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Faculty"/>
+        <NamedIndividual IRI="#Fac_103"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Faculty"/>
+        <NamedIndividual IRI="#Fac_104"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Faculty"/>
+        <NamedIndividual IRI="#Fac_105"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Faculty"/>
+        <NamedIndividual IRI="#Fac_106"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Program"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Program"/>
+        <NamedIndividual IRI="#Prog_MTech"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Student"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Student"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Student"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Student"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Student"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Student"/>
+        <NamedIndividual IRI="#Stud_202306"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#teaches_hasCourse"/>
+        <NamedIndividual IRI="#Alloc_Fac1_Crs1"/>
+        <NamedIndividual IRI="#Course_301"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#teaches_hasFaculty"/>
+        <NamedIndividual IRI="#Alloc_Fac1_Crs1"/>
+        <NamedIndividual IRI="#Fac_101"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <NamedIndividual IRI="#Course_301"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <NamedIndividual IRI="#Course_302"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <NamedIndividual IRI="#Course_303"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <NamedIndividual IRI="#Course_304"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <NamedIndividual IRI="#Course_305"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <NamedIndividual IRI="#Course_306"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#department_hasCollege"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#department_hasCollege"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#department_hasCollege"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+        <NamedIndividual IRI="#Enroll_0"/>
+        <NamedIndividual IRI="#Course_301"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <NamedIndividual IRI="#Enroll_0"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+        <NamedIndividual IRI="#Enroll_1"/>
+        <NamedIndividual IRI="#Course_302"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <NamedIndividual IRI="#Enroll_1"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+        <NamedIndividual IRI="#Enroll_2"/>
+        <NamedIndividual IRI="#Course_303"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <NamedIndividual IRI="#Enroll_2"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+        <NamedIndividual IRI="#Enroll_3"/>
+        <NamedIndividual IRI="#Course_304"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <NamedIndividual IRI="#Enroll_3"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+        <NamedIndividual IRI="#Enroll_4"/>
+        <NamedIndividual IRI="#Course_305"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <NamedIndividual IRI="#Enroll_4"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+        <NamedIndividual IRI="#Fac_101"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+        <NamedIndividual IRI="#Fac_102"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+        <NamedIndividual IRI="#Fac_103"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+        <NamedIndividual IRI="#Fac_104"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+        <NamedIndividual IRI="#Fac_105"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+        <NamedIndividual IRI="#Fac_106"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inProgram"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inProgram"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inProgram"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inProgram"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inProgram"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <NamedIndividual IRI="#Stud_202306"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#student_inProgram"/>
+        <NamedIndividual IRI="#Stud_202306"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#academic_year"/>
+        <NamedIndividual IRI="#Alloc_Fac1_Crs1"/>
+        <Literal>2023-2024</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_code"/>
+        <NamedIndividual IRI="#Course_301"/>
+        <Literal>CS301</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_title"/>
+        <NamedIndividual IRI="#Course_301"/>
+        <Literal>Subject 1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#credits"/>
+        <NamedIndividual IRI="#Course_301"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#semester"/>
+        <NamedIndividual IRI="#Course_301"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_code"/>
+        <NamedIndividual IRI="#Course_302"/>
+        <Literal>CS302</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_title"/>
+        <NamedIndividual IRI="#Course_302"/>
+        <Literal>Subject 2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#credits"/>
+        <NamedIndividual IRI="#Course_302"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#semester"/>
+        <NamedIndividual IRI="#Course_302"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_code"/>
+        <NamedIndividual IRI="#Course_303"/>
+        <Literal>CS303</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_title"/>
+        <NamedIndividual IRI="#Course_303"/>
+        <Literal>Subject 3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#credits"/>
+        <NamedIndividual IRI="#Course_303"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#semester"/>
+        <NamedIndividual IRI="#Course_303"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_code"/>
+        <NamedIndividual IRI="#Course_304"/>
+        <Literal>CS304</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_title"/>
+        <NamedIndividual IRI="#Course_304"/>
+        <Literal>Subject 4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#credits"/>
+        <NamedIndividual IRI="#Course_304"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#semester"/>
+        <NamedIndividual IRI="#Course_304"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_code"/>
+        <NamedIndividual IRI="#Course_305"/>
+        <Literal>CS305</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_title"/>
+        <NamedIndividual IRI="#Course_305"/>
+        <Literal>Subject 5</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#credits"/>
+        <NamedIndividual IRI="#Course_305"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#semester"/>
+        <NamedIndividual IRI="#Course_305"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_code"/>
+        <NamedIndividual IRI="#Course_306"/>
+        <Literal>CS306</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#course_title"/>
+        <NamedIndividual IRI="#Course_306"/>
+        <Literal>Subject 6</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#credits"/>
+        <NamedIndividual IRI="#Course_306"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#semester"/>
+        <NamedIndividual IRI="#Course_306"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#dept_code"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+        <Literal>CSE</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#dept_name"/>
+        <NamedIndividual IRI="#Dept_CSE"/>
+        <Literal>Computer Science</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#dept_code"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+        <Literal>ECE</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#dept_name"/>
+        <NamedIndividual IRI="#Dept_ECE"/>
+        <Literal>Electronics</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#dept_code"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+        <Literal>MECH</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#dept_name"/>
+        <NamedIndividual IRI="#Dept_MECH"/>
+        <Literal>Mechanical</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#accreditation_grade"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+        <Literal>A+</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#city"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+        <Literal>Tech City</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#college_code"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+        <Literal>IAT01</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#college_name"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+        <Literal>Institute of Advanced Tech</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#established_year"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1995</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#state"/>
+        <NamedIndividual IRI="#EnggCollege_01"/>
+        <Literal>StateOne</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#academic_year"/>
+        <NamedIndividual IRI="#Enroll_0"/>
+        <Literal>2023-2024</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#grade"/>
+        <NamedIndividual IRI="#Enroll_0"/>
+        <Literal>A</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#academic_year"/>
+        <NamedIndividual IRI="#Enroll_1"/>
+        <Literal>2023-2024</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#grade"/>
+        <NamedIndividual IRI="#Enroll_1"/>
+        <Literal>B</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#academic_year"/>
+        <NamedIndividual IRI="#Enroll_2"/>
+        <Literal>2023-2024</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#grade"/>
+        <NamedIndividual IRI="#Enroll_2"/>
+        <Literal>A</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#academic_year"/>
+        <NamedIndividual IRI="#Enroll_3"/>
+        <Literal>2023-2024</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#grade"/>
+        <NamedIndividual IRI="#Enroll_3"/>
+        <Literal>B</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#academic_year"/>
+        <NamedIndividual IRI="#Enroll_4"/>
+        <Literal>2023-2024</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#grade"/>
+        <NamedIndividual IRI="#Enroll_4"/>
+        <Literal>A</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#date_of_joining"/>
+        <NamedIndividual IRI="#Fac_101"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#dateTime">2015-06-01</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#designation"/>
+        <NamedIndividual IRI="#Fac_101"/>
+        <Literal>Professor</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_email"/>
+        <NamedIndividual IRI="#Fac_101"/>
+        <Literal>fac1@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_full_name"/>
+        <NamedIndividual IRI="#Fac_101"/>
+        <Literal>Professor Name 1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#salary"/>
+        <NamedIndividual IRI="#Fac_101"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">80000.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#date_of_joining"/>
+        <NamedIndividual IRI="#Fac_102"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#dateTime">2015-06-01</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#designation"/>
+        <NamedIndividual IRI="#Fac_102"/>
+        <Literal>Assistant Professor</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_email"/>
+        <NamedIndividual IRI="#Fac_102"/>
+        <Literal>fac2@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_full_name"/>
+        <NamedIndividual IRI="#Fac_102"/>
+        <Literal>Professor Name 2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#salary"/>
+        <NamedIndividual IRI="#Fac_102"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">90000.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#date_of_joining"/>
+        <NamedIndividual IRI="#Fac_103"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#dateTime">2015-06-01</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#designation"/>
+        <NamedIndividual IRI="#Fac_103"/>
+        <Literal>Professor</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_email"/>
+        <NamedIndividual IRI="#Fac_103"/>
+        <Literal>fac3@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_full_name"/>
+        <NamedIndividual IRI="#Fac_103"/>
+        <Literal>Professor Name 3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#salary"/>
+        <NamedIndividual IRI="#Fac_103"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">80000.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#date_of_joining"/>
+        <NamedIndividual IRI="#Fac_104"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#dateTime">2015-06-01</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#designation"/>
+        <NamedIndividual IRI="#Fac_104"/>
+        <Literal>Assistant Professor</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_email"/>
+        <NamedIndividual IRI="#Fac_104"/>
+        <Literal>fac4@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_full_name"/>
+        <NamedIndividual IRI="#Fac_104"/>
+        <Literal>Professor Name 4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#salary"/>
+        <NamedIndividual IRI="#Fac_104"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">90000.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#date_of_joining"/>
+        <NamedIndividual IRI="#Fac_105"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#dateTime">2015-06-01</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#designation"/>
+        <NamedIndividual IRI="#Fac_105"/>
+        <Literal>Professor</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_email"/>
+        <NamedIndividual IRI="#Fac_105"/>
+        <Literal>fac5@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_full_name"/>
+        <NamedIndividual IRI="#Fac_105"/>
+        <Literal>Professor Name 5</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#salary"/>
+        <NamedIndividual IRI="#Fac_105"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">80000.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#date_of_joining"/>
+        <NamedIndividual IRI="#Fac_106"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#dateTime">2015-06-01</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#designation"/>
+        <NamedIndividual IRI="#Fac_106"/>
+        <Literal>Assistant Professor</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_email"/>
+        <NamedIndividual IRI="#Fac_106"/>
+        <Literal>fac6@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#faculty_full_name"/>
+        <NamedIndividual IRI="#Fac_106"/>
+        <Literal>Professor Name 6</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#salary"/>
+        <NamedIndividual IRI="#Fac_106"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">90000.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#duration_years"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#program_name"/>
+        <NamedIndividual IRI="#Prog_BTech"/>
+        <Literal>BTech</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#duration_years"/>
+        <NamedIndividual IRI="#Prog_MTech"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#program_name"/>
+        <NamedIndividual IRI="#Prog_MTech"/>
+        <Literal>MTech</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#cgpa"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">3.5</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#email"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+        <Literal>student1@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#full_name"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+        <Literal>Student Name 1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#roll_number"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+        <Literal>R202301</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#year_of_study"/>
+        <NamedIndividual IRI="#Stud_202301"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#cgpa"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">3.7</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#email"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+        <Literal>student2@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#full_name"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+        <Literal>Student Name 2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#roll_number"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+        <Literal>R202302</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#year_of_study"/>
+        <NamedIndividual IRI="#Stud_202302"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#cgpa"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">3.5</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#email"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+        <Literal>student3@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#full_name"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+        <Literal>Student Name 3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#roll_number"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+        <Literal>R202303</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#year_of_study"/>
+        <NamedIndividual IRI="#Stud_202303"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#cgpa"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">3.7</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#email"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+        <Literal>student4@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#full_name"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+        <Literal>Student Name 4</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#roll_number"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+        <Literal>R202304</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#year_of_study"/>
+        <NamedIndividual IRI="#Stud_202304"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#cgpa"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">3.5</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#email"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+        <Literal>student5@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#full_name"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+        <Literal>Student Name 5</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#roll_number"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+        <Literal>R202305</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#year_of_study"/>
+        <NamedIndividual IRI="#Stud_202305"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#cgpa"/>
+        <NamedIndividual IRI="#Stud_202306"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">3.7</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#email"/>
+        <NamedIndividual IRI="#Stud_202306"/>
+        <Literal>student6@college.edu</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#full_name"/>
+        <NamedIndividual IRI="#Stud_202306"/>
+        <Literal>Student Name 6</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#roll_number"/>
+        <NamedIndividual IRI="#Stud_202306"/>
+        <Literal>R202306</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#year_of_study"/>
+        <NamedIndividual IRI="#Stud_202306"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2</Literal>
+    </DataPropertyAssertion>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#college_hasDepartment"/>
+        <ObjectProperty IRI="#department_hasCollege"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#course_enrollments"/>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#course_hasTAAllocations"/>
+        <ObjectProperty IRI="#taalloc_hasCourse"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <ObjectProperty IRI="#department_hasCourse"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#course_teachesAllocation"/>
+        <ObjectProperty IRI="#teaches_hasCourse"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#department_hasFaculty"/>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#department_hasStudent"/>
+        <ObjectProperty IRI="#student_inDepartment"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <ObjectProperty IRI="#student_enrollments"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#faculty_teachesAllocation"/>
+        <ObjectProperty IRI="#teaches_hasFaculty"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasTArole"/>
+        <ObjectProperty IRI="#roleOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#program_hasStudent"/>
+        <ObjectProperty IRI="#student_inProgram"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#ta_hasAllocations"/>
+        <ObjectProperty IRI="#taalloc_hasTA"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#department_hasCollege"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasTArole"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#student_inDepartment"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#student_inProgram"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#teaches_hasCourse"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#teaches_hasFaculty"/>
+    </FunctionalObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#subDepartmentOf"/>
+    </TransitiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#college_hasDepartment"/>
+        <Class IRI="#College"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#course_enrollments"/>
+        <Class IRI="#Course"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#course_hasTAAllocations"/>
+        <Class IRI="#Course"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <Class IRI="#Course"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#course_teachesAllocation"/>
+        <Class IRI="#Course"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#department_hasCollege"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#department_hasCourse"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#department_hasFaculty"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#department_hasStudent"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+        <Class IRI="#Enrollment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <Class IRI="#Enrollment"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+        <Class IRI="#Faculty"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#faculty_teachesAllocation"/>
+        <Class IRI="#Faculty"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTArole"/>
+        <Class IRI="#Student"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#program_hasStudent"/>
+        <Class IRI="#Program"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#roleOf"/>
+        <Class IRI="#TeachingAssistantRole"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#student_enrollments"/>
+        <Class IRI="#Student"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <Class IRI="#Student"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#student_inProgram"/>
+        <Class IRI="#Student"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#subDepartmentOf"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#ta_hasAllocations"/>
+        <Class IRI="#TeachingAssistantRole"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#taalloc_hasCourse"/>
+        <Class IRI="#TACourseAllocation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#taalloc_hasTA"/>
+        <Class IRI="#TACourseAllocation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#teaches_hasCourse"/>
+        <Class IRI="#TeachesAllocation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#teaches_hasFaculty"/>
+        <Class IRI="#TeachesAllocation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#college_hasDepartment"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#course_enrollments"/>
+        <Class IRI="#Enrollment"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#course_hasTAAllocations"/>
+        <Class IRI="#TACourseAllocation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#course_teachesAllocation"/>
+        <Class IRI="#TeachesAllocation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#department_hasCollege"/>
+        <Class IRI="#College"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#department_hasCourse"/>
+        <Class IRI="#Course"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#department_hasFaculty"/>
+        <Class IRI="#Faculty"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#department_hasStudent"/>
+        <Class IRI="#Student"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+        <Class IRI="#Course"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <Class IRI="#Student"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#faculty_inDepartment"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#faculty_teachesAllocation"/>
+        <Class IRI="#TeachesAllocation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTArole"/>
+        <Class IRI="#TeachingAssistantRole"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#program_hasStudent"/>
+        <Class IRI="#Student"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#roleOf"/>
+        <Class IRI="#Student"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#student_enrollments"/>
+        <Class IRI="#Enrollment"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#student_inProgram"/>
+        <Class IRI="#Program"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#subDepartmentOf"/>
+        <Class IRI="#Department"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#ta_hasAllocations"/>
+        <Class IRI="#TACourseAllocation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#taalloc_hasCourse"/>
+        <Class IRI="#Course"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#taalloc_hasTA"/>
+        <Class IRI="#TeachingAssistantRole"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#teaches_hasCourse"/>
+        <Class IRI="#Course"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#teaches_hasFaculty"/>
+        <Class IRI="#Faculty"/>
+    </ObjectPropertyRange>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#email"/>
+        <DataProperty IRI="#person_email"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#faculty_email"/>
+        <DataProperty IRI="#person_email"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#faculty_full_name"/>
+        <DataProperty IRI="#person_full_name"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#full_name"/>
+        <DataProperty IRI="#person_full_name"/>
+    </SubDataPropertyOf>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#person_email"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#academic_year"/>
+        <Class IRI="#TeachesAllocation"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#accreditation_grade"/>
+        <Class IRI="#College"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#cgpa"/>
+        <Class IRI="#Student"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#city"/>
+        <Class IRI="#College"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#college_code"/>
+        <Class IRI="#College"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#college_name"/>
+        <Class IRI="#College"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#course_code"/>
+        <Class IRI="#Course"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#course_title"/>
+        <Class IRI="#Course"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#created_at"/>
+        <Class IRI="#College"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#credits"/>
+        <Class IRI="#Course"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#date_of_joining"/>
+        <Class IRI="#Faculty"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#dept_code"/>
+        <Class IRI="#Department"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#dept_name"/>
+        <Class IRI="#Department"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#designation"/>
+        <Class IRI="#Faculty"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#duration_years"/>
+        <Class IRI="#Program"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#email"/>
+        <Class IRI="#Student"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#established_year"/>
+        <Class IRI="#College"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#faculty_email"/>
+        <Class IRI="#Faculty"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#faculty_full_name"/>
+        <Class IRI="#Faculty"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#full_name"/>
+        <Class IRI="#Student"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#grade"/>
+        <Class IRI="#Enrollment"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#max_hours_per_week"/>
+        <Class IRI="#TeachingAssistantRole"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#monthly_stipend"/>
+        <Class IRI="#TeachingAssistantRole"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#program_name"/>
+        <Class IRI="#Program"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#roll_number"/>
+        <Class IRI="#Student"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#salary"/>
+        <Class IRI="#Faculty"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#semester"/>
+        <Class IRI="#Course"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#state"/>
+        <Class IRI="#College"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#year_of_study"/>
+        <Class IRI="#Student"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#academic_year"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#accreditation_grade"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#accreditation_grade"/>
+        <DataOneOf>
+            <Literal>A</Literal>
+            <Literal>A+</Literal>
+            <Literal>A++</Literal>
+            <Literal>B</Literal>
+            <Literal>C</Literal>
+        </DataOneOf>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#cgpa"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#cgpa"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:decimal"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">0.0</Literal>
+            </FacetRestriction>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">4.0</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#city"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#college_code"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#college_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#course_code"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#course_title"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#created_at"/>
+        <Datatype abbreviatedIRI="xsd:date"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#credits"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#credits"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:integer"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1</Literal>
+            </FacetRestriction>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">10</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#date_of_joining"/>
+        <Datatype abbreviatedIRI="xsd:date"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#dept_code"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#dept_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#designation"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#designation"/>
+        <DataOneOf>
+            <Literal>Assistant Professor</Literal>
+            <Literal>Associate Professor</Literal>
+            <Literal>Professor</Literal>
+        </DataOneOf>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#duration_years"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#duration_years"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:integer"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1</Literal>
+            </FacetRestriction>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">6</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#email"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#established_year"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#established_year"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:integer"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1900</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#faculty_email"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#faculty_full_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#full_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#grade"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#grade"/>
+        <DataOneOf>
+            <Literal>A</Literal>
+            <Literal>A+</Literal>
+            <Literal>B</Literal>
+            <Literal>B+</Literal>
+            <Literal>C</Literal>
+            <Literal>F</Literal>
+            <Literal>I</Literal>
+        </DataOneOf>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#max_hours_per_week"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#max_hours_per_week"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:integer"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">20</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#monthly_stipend"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#monthly_stipend"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:decimal"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">0.0</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#program_name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#program_name"/>
+        <DataOneOf>
+            <Literal>BTech</Literal>
+            <Literal>MS</Literal>
+            <Literal>MTech</Literal>
+            <Literal>PhD</Literal>
+            <Literal>iMTech</Literal>
+        </DataOneOf>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#roll_number"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#salary"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#salary"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:decimal"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">0.0</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#semester"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#semester"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:integer"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1</Literal>
+            </FacetRestriction>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">12</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#state"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#year_of_study"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#year_of_study"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:integer"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1</Literal>
+            </FacetRestriction>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">8</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <HasKey>
+        <Class IRI="#College"/>
+        <DataProperty IRI="#college_code"/>
+    </HasKey>
+    <HasKey>
+        <Class IRI="#Course"/>
+        <ObjectProperty IRI="#course_inDepartment"/>
+        <DataProperty IRI="#course_code"/>
+    </HasKey>
+    <HasKey>
+        <Class IRI="#Department"/>
+        <ObjectProperty IRI="#department_hasCollege"/>
+        <DataProperty IRI="#dept_code"/>
+    </HasKey>
+    <HasKey>
+        <Class IRI="#Enrollment"/>
+        <ObjectProperty IRI="#enrollment_hasCourse"/>
+        <ObjectProperty IRI="#enrollment_hasStudent"/>
+        <DataProperty IRI="#academic_year"/>
+    </HasKey>
+    <HasKey>
+        <Class IRI="#Student"/>
+        <ObjectProperty IRI="#student_inDepartment"/>
+        <DataProperty IRI="#roll_number"/>
+    </HasKey>
+    <HasKey>
+        <Class IRI="#TACourseAllocation"/>
+        <ObjectProperty IRI="#taalloc_hasCourse"/>
+        <ObjectProperty IRI="#taalloc_hasTA"/>
+        <DataProperty IRI="#academic_year"/>
+    </HasKey>
+    <HasKey>
+        <Class IRI="#TeachesAllocation"/>
+        <ObjectProperty IRI="#teaches_hasCourse"/>
+        <ObjectProperty IRI="#teaches_hasFaculty"/>
+        <DataProperty IRI="#academic_year"/>
+    </HasKey>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="#sql_note"/>
+        <IRI>#Enrollment</IRI>
+        <Literal>UNIQUE(student_id, course_id, academic_year) enforced in SQL; represented as hasKey in OWL</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="#sql_note"/>
+        <IRI>#academic_year</IRI>
+        <Literal>Format: YYYY-YYYY (example: 2023-2024). OWL cannot enforce string pattern; use SHACL for pattern checks.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="#sql_note"/>
+        <IRI>#department_hasCollege</IRI>
+        <Literal>REFERENCES college(college_id) ON DELETE CASCADE ON UPDATE CASCADE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="#sql_note"/>
+        <IRI>#student_inProgram</IRI>
+        <Literal>REFERENCES program(program_id) ON DELETE RESTRICT ON UPDATE CASCADE</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+
