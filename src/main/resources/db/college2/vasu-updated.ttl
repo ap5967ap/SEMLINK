@@ -1,0 +1,392 @@
+PREFIX :     <http://example.org/college#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xml:  <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+:teaches  rdf:type   owl:ObjectProperty;
+        rdfs:domain  :Professor;
+        rdfs:range   :Course .
+
+:Course  rdf:type        owl:Class;
+        rdfs:subClassOf  :AcademicEntity .
+
+:semesterId  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Semester;
+        rdfs:range   xsd:string .
+
+:courseId  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Course;
+        rdfs:range   xsd:string .
+
+:enrolledIn  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Student;
+        rdfs:range     :Course;
+        owl:inverseOf  :hasEnrolledStudent .
+
+:Facility  rdf:type  owl:Class .
+
+:gradeId  rdf:type   owl:DatatypeProperty;
+        rdfs:domain  :Grade;
+        rdfs:range   xsd:string .
+
+:phoneNumber  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Person;
+        rdfs:range   xsd:string .
+
+:courseCode  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Course;
+        rdfs:range   xsd:string .
+
+<http://example.org/uni#S001>
+        rdf:type  <http://example.org/uni#Student>;
+        <http://example.org/uni#belongsToDepartment>
+                <http://example.org/uni#CSE>;
+        <http://example.org/uni#enrolledIn>
+                <http://example.org/uni#CS101>;
+        <http://example.org/uni#hasCGPA>
+                "9.2"^^xsd:double;
+        <http://example.org/uni#hasEmail>
+                "vasu@mail.com";
+        <http://example.org/uni#hasFirstName>
+                "Vasu";
+        <http://example.org/uni#hasLastName>
+                "Aggarwal";
+        <http://example.org/uni#hasRollNumber>
+                "2025101";
+        <http://example.org/uni#hasYearOfStudy>
+                "3"^^xsd:int;
+        <http://example.org/uni#inSemester>
+                <http://example.org/uni#Sem1>;
+        <http://example.org/uni#studiesProgram>
+                <http://example.org/uni#BTech_CS> .
+
+:belongsToDepartment  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Student;
+        rdfs:range     :Department;
+        owl:inverseOf  :hasStudentInDepartment .
+
+:AcademicEntity  rdf:type  owl:Class .
+
+:offeredBy  rdf:type   owl:ObjectProperty;
+        rdfs:domain    :Course;
+        rdfs:range     :Department;
+        owl:inverseOf  :offersCourse .
+
+:dateOfBirth  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Person;
+        rdfs:range   xsd:date .
+
+xsd:date  rdf:type  rdfs:Datatype .
+
+:Semester  rdf:type      owl:Class;
+        rdfs:subClassOf  :AcademicEntity .
+
+:examOfCourse  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Exam;
+        rdfs:range     :Course;
+        owl:inverseOf  :hasExam .
+
+:roomNumber  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Classroom;
+        rdfs:range   xsd:string .
+
+:cgpa   rdf:type     owl:DatatypeProperty;
+        rdfs:domain  :Student;
+        rdfs:range   xsd:decimal .
+
+:conductedIn  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Course;
+        rdfs:range     :Classroom;
+        owl:inverseOf  :hostsCourse .
+
+:partOfProgram  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Course;
+        rdfs:range   :Program .
+
+:taughtBy  rdf:type    owl:ObjectProperty;
+        rdfs:domain    :Course;
+        rdfs:range     :Professor;
+        owl:inverseOf  :teaches .
+
+:classroomId  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Classroom;
+        rdfs:range   xsd:string .
+
+:Exam   rdf:type         owl:Class;
+        rdfs:subClassOf  :Assessment .
+
+:studentId  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Student;
+        rdfs:range   xsd:string .
+
+:programLevel  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Program;
+        rdfs:range   xsd:string .
+
+:hasProfessor  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Department;
+        rdfs:range     :Professor;
+        owl:inverseOf  :worksInDepartment .
+
+:Department  rdf:type    owl:Class;
+        rdfs:subClassOf  :AcademicEntity .
+
+:Assessment  rdf:type  owl:Class .
+
+:email  rdf:type     owl:DatatypeProperty;
+        rdfs:domain  :Person;
+        rdfs:range   xsd:string .
+
+:gender  rdf:type    owl:DatatypeProperty;
+        rdfs:domain  :Person;
+        rdfs:range   xsd:string .
+
+:Student  rdf:type       owl:Class;
+        rdfs:subClassOf  :Person .
+
+:programOfDepartment  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Program;
+        rdfs:range   :Department .
+
+:departmentId  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Department;
+        rdfs:range   xsd:string .
+
+:departmentName  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Department;
+        rdfs:range   xsd:string .
+
+:examType  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Exam;
+        rdfs:range   xsd:string .
+
+<http://example.org/uni#BTech_CS>
+        rdf:type  <http://example.org/uni#Program>;
+        <http://example.org/uni#belongsToDepartment>
+                <http://example.org/uni#CSE>;
+        <http://example.org/uni#hasProgramLevel>
+                "UG";
+        <http://example.org/uni#hasProgramName>
+                "BTech CS" .
+
+:offersProgram  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Department;
+        rdfs:range     :Program;
+        owl:inverseOf  :programOfDepartment .
+
+:firstName  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Person;
+        rdfs:range   xsd:string .
+
+:address  rdf:type   owl:DatatypeProperty;
+        rdfs:domain  :Person;
+        rdfs:range   xsd:string .
+
+:semesterHasGrade  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Semester;
+        rdfs:range   :Grade .
+
+:hasCourse  rdf:type   owl:ObjectProperty;
+        rdfs:domain    :Program;
+        rdfs:range     :Course;
+        owl:inverseOf  :partOfProgram .
+
+:worksInDepartment  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Professor;
+        rdfs:range   :Department .
+
+:gradeInSemester  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Grade;
+        rdfs:range     :Semester;
+        owl:inverseOf  :semesterHasGrade .
+
+:courseHasGrade  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Course;
+        rdfs:range     :Grade;
+        owl:inverseOf  :gradeForCourse .
+
+:professorId  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Professor;
+        rdfs:range   xsd:string .
+
+:rollNumber  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Student;
+        rdfs:range   xsd:string .
+
+:staffId  rdf:type   owl:DatatypeProperty;
+        rdfs:domain  :Staff;
+        rdfs:range   xsd:string .
+
+:programName  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Program;
+        rdfs:range   xsd:string .
+
+:hostsCourse  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Classroom;
+        rdfs:range   :Course .
+
+:Program  rdf:type       owl:Class;
+        rdfs:subClassOf  :AcademicEntity .
+
+:examId  rdf:type    owl:DatatypeProperty;
+        rdfs:domain  :Exam;
+        rdfs:range   xsd:string .
+
+:studentHasGrade  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Student;
+        rdfs:range   :Grade .
+
+:Classroom  rdf:type     owl:Class;
+        rdfs:subClassOf  :Facility .
+
+<http://example.org/college>
+        rdf:type  owl:Ontology .
+
+:semesterNumber  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Semester;
+        rdfs:range   xsd:integer .
+
+:hasStudentInDepartment
+        rdf:type     owl:ObjectProperty;
+        rdfs:domain  :Department;
+        rdfs:range   :Student .
+
+<http://example.org/uni#CSE>
+        rdf:type  <http://example.org/uni#Department>;
+        <http://example.org/uni#hasDepartmentName>
+                "Computer Science" .
+
+:examDate  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Exam;
+        rdfs:range   xsd:date .
+
+:lastName  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Person;
+        rdfs:range   xsd:string .
+
+:Grade  rdf:type         owl:Class;
+        rdfs:subClassOf  :Assessment .
+
+:hasExam  rdf:type   owl:ObjectProperty;
+        rdfs:domain  :Course;
+        rdfs:range   :Exam .
+
+:gradeLetter  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Grade;
+        rdfs:range   xsd:string .
+
+:academicYear  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Semester;
+        rdfs:range   xsd:string .
+
+:departmentCode  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Department;
+        rdfs:range   xsd:string .
+
+:credits  rdf:type   owl:DatatypeProperty;
+        rdfs:domain  :Course;
+        rdfs:range   xsd:integer .
+
+:Person  rdf:type  owl:Class .
+
+:studiesProgram  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Student;
+        rdfs:range   :Program .
+
+:Staff  rdf:type         owl:Class;
+        rdfs:subClassOf  :Person .
+
+<http://example.org/uni#CS101>
+        rdf:type  <http://example.org/uni#Course>;
+        <http://example.org/uni#hasCourseName>
+                "Introduction to CS";
+        <http://example.org/uni#hasCredits>
+                "4"^^xsd:int;
+        <http://example.org/uni#inSemester>
+                <http://example.org/uni#Sem1>;
+        <http://example.org/uni#offeredBy>
+                <http://example.org/uni#BTech_CS> .
+
+:inSemester  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Student;
+        rdfs:range   :Semester .
+
+:gradeForCourse  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Grade;
+        rdfs:range   :Course .
+
+:buildingName  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Classroom;
+        rdfs:range   xsd:string .
+
+:yearOfStudy  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Student;
+        rdfs:range   xsd:integer .
+
+<http://example.org/uni#G1>
+        rdf:type  <http://example.org/uni#Grade>;
+        <http://example.org/uni#awardedTo>
+                <http://example.org/uni#S001>;
+        <http://example.org/uni#forCourse>
+                <http://example.org/uni#CS101>;
+        <http://example.org/uni#hasGradeValue>
+                "9.5"^^xsd:double .
+
+:hasPrerequisite  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Course;
+        rdfs:range   :Course .
+
+:hasStudentInProgram  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Program;
+        rdfs:range     :Student;
+        owl:inverseOf  :studiesProgram .
+
+:Professor  rdf:type     owl:Class;
+        rdfs:subClassOf  :Person .
+
+:offersCourse  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Department;
+        rdfs:range   :Course .
+
+:courseInSemester  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Course;
+        rdfs:range     :Semester;
+        owl:inverseOf  :hasCourseInSemester .
+
+:courseTitle  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Course;
+        rdfs:range   xsd:string .
+
+:hasCourseInSemester  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Semester;
+        rdfs:range   :Course .
+
+:gradePoints  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Grade;
+        rdfs:range   xsd:decimal .
+
+<http://example.org/uni#Sem1>
+        rdf:type  <http://example.org/uni#Semester>;
+        <http://example.org/uni#hasSemesterNumber>
+                "1"^^xsd:int .
+
+:hasStudentInSemester
+        rdf:type       owl:ObjectProperty;
+        rdfs:domain    :Semester;
+        rdfs:range     :Student;
+        owl:inverseOf  :inSemester .
+
+:programId  rdf:type  owl:DatatypeProperty;
+        rdfs:domain  :Program;
+        rdfs:range   xsd:string .
+
+:hasEnrolledStudent  rdf:type  owl:ObjectProperty;
+        rdfs:domain  :Course;
+        rdfs:range   :Student .
+
+:gradeOfStudent  rdf:type  owl:ObjectProperty;
+        rdfs:domain    :Grade;
+        rdfs:range     :Student;
+        owl:inverseOf  :studentHasGrade .
