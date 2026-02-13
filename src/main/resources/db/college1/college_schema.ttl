@@ -1,0 +1,675 @@
+@prefix : <http://example.org/collegeone#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.org/collegeone#> .
+
+<http://example.org/collegeone> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://example.org/collegeone#sql_note
+:sql_note rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/collegeone#college_hasDepartment
+:college_hasDepartment rdf:type owl:ObjectProperty ;
+                       rdfs:domain :College ;
+                       rdfs:range :Department .
+
+
+###  http://example.org/collegeone#course_enrollments
+:course_enrollments rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Course ;
+                    rdfs:range :Enrollment .
+
+
+###  http://example.org/collegeone#course_hasTAAllocations
+:course_hasTAAllocations rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Course ;
+                         rdfs:range :TACourseAllocation .
+
+
+###  http://example.org/collegeone#course_inDepartment
+:course_inDepartment rdf:type owl:ObjectProperty ;
+                     owl:inverseOf :department_hasCourse ;
+                     rdfs:domain :Course ;
+                     rdfs:range :Department .
+
+
+###  http://example.org/collegeone#course_teachesAllocation
+:course_teachesAllocation rdf:type owl:ObjectProperty ;
+                          rdfs:domain :Course ;
+                          rdfs:range :TeachesAllocation .
+
+
+###  http://example.org/collegeone#department_hasCollege
+:department_hasCollege rdf:type owl:ObjectProperty ;
+                       owl:inverseOf :college_hasDepartment ;
+                       rdf:type owl:FunctionalProperty ;
+                       rdfs:domain :Department ;
+                       rdfs:range :College ;
+                       :sql_note "REFERENCES college(college_id) ON DELETE CASCADE ON UPDATE CASCADE" .
+
+
+###  http://example.org/collegeone#department_hasCourse
+:department_hasCourse rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Department ;
+                      rdfs:range :Course .
+
+
+###  http://example.org/collegeone#department_hasFaculty
+:department_hasFaculty rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Department ;
+                       rdfs:range :Faculty .
+
+
+###  http://example.org/collegeone#department_hasStudent
+:department_hasStudent rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Department ;
+                       rdfs:range :Student .
+
+
+###  http://example.org/collegeone#enrollment_hasCourse
+:enrollment_hasCourse rdf:type owl:ObjectProperty ;
+                      owl:inverseOf :course_enrollments ;
+                      rdf:type owl:FunctionalProperty ;
+                      rdfs:domain :Enrollment ;
+                      rdfs:range :Course .
+
+
+###  http://example.org/collegeone#enrollment_hasStudent
+:enrollment_hasStudent rdf:type owl:ObjectProperty ;
+                       owl:inverseOf :student_enrollments ;
+                       rdf:type owl:FunctionalProperty ;
+                       rdfs:domain :Enrollment ;
+                       rdfs:range :Student .
+
+
+###  http://example.org/collegeone#faculty_inDepartment
+:faculty_inDepartment rdf:type owl:ObjectProperty ;
+                      owl:inverseOf :department_hasFaculty ;
+                      rdfs:domain :Faculty ;
+                      rdfs:range :Department .
+
+
+###  http://example.org/collegeone#faculty_teachesAllocation
+:faculty_teachesAllocation rdf:type owl:ObjectProperty ;
+                           rdfs:domain :Faculty ;
+                           rdfs:range :TeachesAllocation .
+
+
+###  http://example.org/collegeone#hasTArole
+:hasTArole rdf:type owl:ObjectProperty ;
+           owl:inverseOf :roleOf ;
+           rdf:type owl:FunctionalProperty ;
+           rdfs:domain :Student ;
+           rdfs:range :TeachingAssistantRole .
+
+
+###  http://example.org/collegeone#program_hasStudent
+:program_hasStudent rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Program ;
+                    rdfs:range :Student .
+
+
+###  http://example.org/collegeone#roleOf
+:roleOf rdf:type owl:ObjectProperty ;
+        rdfs:domain :TeachingAssistantRole ;
+        rdfs:range :Student .
+
+
+###  http://example.org/collegeone#student_enrollments
+:student_enrollments rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Student ;
+                     rdfs:range :Enrollment .
+
+
+###  http://example.org/collegeone#student_inDepartment
+:student_inDepartment rdf:type owl:ObjectProperty ;
+                      owl:inverseOf :department_hasStudent ;
+                      rdf:type owl:FunctionalProperty ;
+                      rdfs:domain :Student ;
+                      rdfs:range :Department .
+
+
+###  http://example.org/collegeone#student_inProgram
+:student_inProgram rdf:type owl:ObjectProperty ;
+                   owl:inverseOf :program_hasStudent ;
+                   rdf:type owl:FunctionalProperty ;
+                   rdfs:domain :Student ;
+                   rdfs:range :Program ;
+                   :sql_note "REFERENCES program(program_id) ON DELETE RESTRICT ON UPDATE CASCADE" .
+
+
+###  http://example.org/collegeone#subDepartmentOf
+:subDepartmentOf rdf:type owl:ObjectProperty ,
+                          owl:TransitiveProperty ;
+                 rdfs:domain :Department ;
+                 rdfs:range :Department .
+
+
+###  http://example.org/collegeone#ta_hasAllocations
+:ta_hasAllocations rdf:type owl:ObjectProperty ;
+                   rdfs:domain :TeachingAssistantRole ;
+                   rdfs:range :TACourseAllocation .
+
+
+###  http://example.org/collegeone#taalloc_hasCourse
+:taalloc_hasCourse rdf:type owl:ObjectProperty ;
+                   owl:inverseOf :course_hasTAAllocations ;
+                   rdfs:domain :TACourseAllocation ;
+                   rdfs:range :Course .
+
+
+###  http://example.org/collegeone#taalloc_hasTA
+:taalloc_hasTA rdf:type owl:ObjectProperty ;
+               owl:inverseOf :ta_hasAllocations ;
+               rdfs:domain :TACourseAllocation ;
+               rdfs:range :TeachingAssistantRole .
+
+
+###  http://example.org/collegeone#teaches_hasCourse
+:teaches_hasCourse rdf:type owl:ObjectProperty ;
+                   owl:inverseOf :course_teachesAllocation ;
+                   rdf:type owl:FunctionalProperty ;
+                   rdfs:domain :TeachesAllocation ;
+                   rdfs:range :Course .
+
+
+###  http://example.org/collegeone#teaches_hasFaculty
+:teaches_hasFaculty rdf:type owl:ObjectProperty ;
+                    owl:inverseOf :faculty_teachesAllocation ;
+                    rdf:type owl:FunctionalProperty ;
+                    rdfs:domain :TeachesAllocation ;
+                    rdfs:range :Faculty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/collegeone#academic_year
+:academic_year rdf:type owl:DatatypeProperty ;
+               rdfs:domain :TeachesAllocation ;
+               rdfs:range xsd:string ;
+               :sql_note "Format: YYYY-YYYY (example: 2023-2024). OWL cannot enforce string pattern; use SHACL for pattern checks." .
+
+
+###  http://example.org/collegeone#accreditation_grade
+:accreditation_grade rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :College ;
+                     rdfs:range xsd:string ,
+                                [ rdf:type rdfs:Datatype ;
+                                  owl:oneOf [ rdf:type rdf:List ;
+                                              rdf:first "A" ;
+                                              rdf:rest [ rdf:type rdf:List ;
+                                                         rdf:first "A+" ;
+                                                         rdf:rest [ rdf:type rdf:List ;
+                                                                    rdf:first "A++" ;
+                                                                    rdf:rest [ rdf:type rdf:List ;
+                                                                               rdf:first "B" ;
+                                                                               rdf:rest [ rdf:type rdf:List ;
+                                                                                          rdf:first "C" ;
+                                                                                          rdf:rest rdf:nil
+                                                                                        ]
+                                                                             ]
+                                                                  ]
+                                                       ]
+                                            ]
+                                ] .
+
+
+###  http://example.org/collegeone#allocation_id
+:allocation_id rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#cgpa
+:cgpa rdf:type owl:DatatypeProperty ;
+      rdfs:domain :Student ;
+      rdfs:range xsd:decimal ,
+                 [ rdf:type rdfs:Datatype ;
+                   owl:onDatatype xsd:decimal ;
+                   owl:withRestrictions ( [ xsd:minInclusive 0.00
+                                          ]
+                                          [ xsd:maxInclusive 4.00
+                                          ]
+                                        )
+                 ] .
+
+
+###  http://example.org/collegeone#city
+:city rdf:type owl:DatatypeProperty ;
+      rdfs:domain :College ;
+      rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#college_code
+:college_code rdf:type owl:DatatypeProperty ;
+              rdfs:domain :College ;
+              rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#college_id
+:college_id rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#college_name
+:college_name rdf:type owl:DatatypeProperty ;
+              rdfs:domain :College ;
+              rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#course_code
+:course_code rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Course ;
+             rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#course_id
+:course_id rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#course_title
+:course_title rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Course ;
+              rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#created_at
+:created_at rdf:type owl:DatatypeProperty ;
+            rdfs:domain :College ;
+            rdfs:range xsd:date .
+
+
+###  http://example.org/collegeone#credits
+:credits rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Course ;
+         rdfs:range xsd:integer ,
+                    [ rdf:type rdfs:Datatype ;
+                      owl:onDatatype xsd:integer ;
+                      owl:withRestrictions ( [ xsd:minInclusive 1
+                                             ]
+                                             [ xsd:maxInclusive 10
+                                             ]
+                                           )
+                    ] .
+
+
+###  http://example.org/collegeone#date_of_joining
+:date_of_joining rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Faculty ;
+                 rdfs:range xsd:date .
+
+
+###  http://example.org/collegeone#department_id
+:department_id rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#dept_code
+:dept_code rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Department ;
+           rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#dept_name
+:dept_name rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Department ;
+           rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#designation
+:designation rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Faculty ;
+             rdfs:range xsd:string ,
+                        [ rdf:type rdfs:Datatype ;
+                          owl:oneOf [ rdf:type rdf:List ;
+                                      rdf:first "Assistant Professor" ;
+                                      rdf:rest [ rdf:type rdf:List ;
+                                                 rdf:first "Associate Professor" ;
+                                                 rdf:rest [ rdf:type rdf:List ;
+                                                            rdf:first "Professor" ;
+                                                            rdf:rest rdf:nil
+                                                          ]
+                                               ]
+                                    ]
+                        ] .
+
+
+###  http://example.org/collegeone#duration_years
+:duration_years rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Program ;
+                rdfs:range xsd:integer ,
+                           [ rdf:type rdfs:Datatype ;
+                             owl:onDatatype xsd:integer ;
+                             owl:withRestrictions ( [ xsd:minInclusive 1
+                                                    ]
+                                                    [ xsd:maxInclusive 6
+                                                    ]
+                                                  )
+                           ] .
+
+
+###  http://example.org/collegeone#email
+:email rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf :person_email ;
+       rdfs:domain :Student ;
+       rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#enrollment_id
+:enrollment_id rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#established_year
+:established_year rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :College ;
+                  rdfs:range xsd:integer ,
+                             [ rdf:type rdfs:Datatype ;
+                               owl:onDatatype xsd:integer ;
+                               owl:withRestrictions ( [ xsd:minInclusive 1900
+                                                      ]
+                                                    )
+                             ] .
+
+
+###  http://example.org/collegeone#faculty_email
+:faculty_email rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf :person_email ;
+               rdfs:domain :Faculty ;
+               rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#faculty_full_name
+:faculty_full_name rdf:type owl:DatatypeProperty ;
+                   rdfs:subPropertyOf :person_full_name ;
+                   rdfs:domain :Faculty ;
+                   rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#faculty_id
+:faculty_id rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#full_name
+:full_name rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf :person_full_name ;
+           rdfs:domain :Student ;
+           rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#grade
+:grade rdf:type owl:DatatypeProperty ;
+       rdfs:domain :Enrollment ;
+       rdfs:range xsd:string ,
+                  [ rdf:type rdfs:Datatype ;
+                    owl:oneOf [ rdf:type rdf:List ;
+                                rdf:first "A" ;
+                                rdf:rest [ rdf:type rdf:List ;
+                                           rdf:first "A+" ;
+                                           rdf:rest [ rdf:type rdf:List ;
+                                                      rdf:first "B" ;
+                                                      rdf:rest [ rdf:type rdf:List ;
+                                                                 rdf:first "B+" ;
+                                                                 rdf:rest [ rdf:type rdf:List ;
+                                                                            rdf:first "C" ;
+                                                                            rdf:rest [ rdf:type rdf:List ;
+                                                                                       rdf:first "F" ;
+                                                                                       rdf:rest [ rdf:type rdf:List ;
+                                                                                                  rdf:first "I" ;
+                                                                                                  rdf:rest rdf:nil
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ]
+                              ]
+                  ] .
+
+
+###  http://example.org/collegeone#max_hours_per_week
+:max_hours_per_week rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :TeachingAssistantRole ;
+                    rdfs:range xsd:integer ,
+                               [ rdf:type rdfs:Datatype ;
+                                 owl:onDatatype xsd:integer ;
+                                 owl:withRestrictions ( [ xsd:maxInclusive 20
+                                                        ]
+                                                      )
+                               ] .
+
+
+###  http://example.org/collegeone#monthly_stipend
+:monthly_stipend rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :TeachingAssistantRole ;
+                 rdfs:range xsd:decimal ,
+                            [ rdf:type rdfs:Datatype ;
+                              owl:onDatatype xsd:decimal ;
+                              owl:withRestrictions ( [ xsd:minInclusive 0.0
+                                                     ]
+                                                   )
+                            ] .
+
+
+###  http://example.org/collegeone#person_email
+:person_email rdf:type owl:DatatypeProperty ,
+                       owl:FunctionalProperty .
+
+
+###  http://example.org/collegeone#person_full_name
+:person_full_name rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#program_id
+:program_id rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#program_name
+:program_name rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Program ;
+              rdfs:range xsd:string ,
+                         [ rdf:type rdfs:Datatype ;
+                           owl:oneOf [ rdf:type rdf:List ;
+                                       rdf:first "BTech" ;
+                                       rdf:rest [ rdf:type rdf:List ;
+                                                  rdf:first "MS" ;
+                                                  rdf:rest [ rdf:type rdf:List ;
+                                                             rdf:first "MTech" ;
+                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                        rdf:first "PhD" ;
+                                                                        rdf:rest [ rdf:type rdf:List ;
+                                                                                   rdf:first "iMTech" ;
+                                                                                   rdf:rest rdf:nil
+                                                                                 ]
+                                                                      ]
+                                                           ]
+                                                ]
+                                     ]
+                         ] .
+
+
+###  http://example.org/collegeone#roll_number
+:roll_number rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Student ;
+             rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#salary
+:salary rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Faculty ;
+        rdfs:range xsd:decimal ,
+                   [ rdf:type rdfs:Datatype ;
+                     owl:onDatatype xsd:decimal ;
+                     owl:withRestrictions ( [ xsd:minInclusive 0.0
+                                            ]
+                                          )
+                   ] .
+
+
+###  http://example.org/collegeone#semester
+:semester rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Course ;
+          rdfs:range xsd:integer ,
+                     [ rdf:type rdfs:Datatype ;
+                       owl:onDatatype xsd:integer ;
+                       owl:withRestrictions ( [ xsd:minInclusive 1
+                                              ]
+                                              [ xsd:maxInclusive 12
+                                              ]
+                                            )
+                     ] .
+
+
+###  http://example.org/collegeone#state
+:state rdf:type owl:DatatypeProperty ;
+       rdfs:domain :College ;
+       rdfs:range xsd:string .
+
+
+###  http://example.org/collegeone#student_id
+:student_id rdf:type owl:DatatypeProperty .
+
+
+###  http://example.org/collegeone#year_of_study
+:year_of_study rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Student ;
+               rdfs:range xsd:integer ,
+                          [ rdf:type rdfs:Datatype ;
+                            owl:onDatatype xsd:integer ;
+                            owl:withRestrictions ( [ xsd:minInclusive 1
+                                                   ]
+                                                   [ xsd:maxInclusive 8
+                                                   ]
+                                                 )
+                          ] .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/collegeone#College
+:College rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :college_name ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onDataRange xsd:string
+                         ] ;
+         owl:hasKey ( :college_code
+                    ) .
+
+
+###  http://example.org/collegeone#Course
+:Course rdf:type owl:Class ;
+        owl:hasKey ( :course_inDepartment
+                     :course_code
+                   ) .
+
+
+###  http://example.org/collegeone#Department
+:Department rdf:type owl:Class ;
+            rdfs:subClassOf [ rdf:type owl:Restriction ;
+                              owl:onProperty :department_hasCollege ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :College
+                            ] ;
+            owl:hasKey ( :department_hasCollege
+                         :dept_code
+                       ) .
+
+
+###  http://example.org/collegeone#Enrollment
+:Enrollment rdf:type owl:Class ;
+            owl:hasKey ( :enrollment_hasCourse
+                         :enrollment_hasStudent
+                         :academic_year
+                       ) ;
+            :sql_note "UNIQUE(student_id, course_id, academic_year) enforced in SQL; represented as hasKey in OWL" .
+
+
+###  http://example.org/collegeone#Faculty
+:Faculty rdf:type owl:Class ;
+         rdfs:subClassOf :Person .
+
+
+###  http://example.org/collegeone#Person
+:Person rdf:type owl:Class .
+
+
+###  http://example.org/collegeone#Program
+:Program rdf:type owl:Class .
+
+
+###  http://example.org/collegeone#Student
+:Student rdf:type owl:Class ;
+         rdfs:subClassOf :Person ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :student_inDepartment ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :Department
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :student_inProgram ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :Program
+                         ] ;
+         owl:hasKey ( :student_inDepartment
+                      :roll_number
+                    ) .
+
+
+###  http://example.org/collegeone#TACourseAllocation
+:TACourseAllocation rdf:type owl:Class ;
+                    owl:hasKey ( :taalloc_hasCourse
+                                 :taalloc_hasTA
+                                 :academic_year
+                               ) .
+
+
+###  http://example.org/collegeone#TeachesAllocation
+:TeachesAllocation rdf:type owl:Class ;
+                   owl:hasKey ( :teaches_hasCourse
+                                :teaches_hasFaculty
+                                :academic_year
+                              ) .
+
+
+###  http://example.org/collegeone#TeachingAssistantRole
+:TeachingAssistantRole rdf:type owl:Class .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Course
+                :Department
+                :Enrollment
+                :Faculty
+                :Program
+                :Student
+                :TACourseAllocation
+                :TeachesAllocation
+              )
+] .
+
+
+###  Generated by the OWL API (version 5.1.19.2021-07-31T19:16:32Z) https://github.com/owlcs/owlapi/

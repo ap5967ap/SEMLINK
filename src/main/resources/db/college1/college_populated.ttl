@@ -1,0 +1,1122 @@
+@base <http://example.org/collegeone#> .
+@prefix : <http://example.org/collegeone#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+# 
+# 
+# #################################################################
+# #
+# #    Annotation properties
+# #
+# #################################################################
+# 
+# 
+# http://example.org/collegeone#sql_note
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Datatypes
+# #
+# #################################################################
+# 
+# 
+# http://www.w3.org/2001/XMLSchema#date
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Object Properties
+# #
+# #################################################################
+# 
+# 
+# http://example.org/collegeone#college_hasDepartment
+# 
+# http://example.org/collegeone#course_enrollments
+# 
+# http://example.org/collegeone#course_hasTAAllocations
+# 
+# http://example.org/collegeone#course_inDepartment
+# 
+# http://example.org/collegeone#course_teachesAllocation
+# 
+# http://example.org/collegeone#department_hasCollege
+# 
+# http://example.org/collegeone#department_hasCourse
+# 
+# http://example.org/collegeone#department_hasFaculty
+# 
+# http://example.org/collegeone#department_hasStudent
+# 
+# http://example.org/collegeone#enrollment_hasCourse
+# 
+# http://example.org/collegeone#enrollment_hasStudent
+# 
+# http://example.org/collegeone#faculty_inDepartment
+# 
+# http://example.org/collegeone#faculty_teachesAllocation
+# 
+# http://example.org/collegeone#hasTArole
+# 
+# http://example.org/collegeone#program_hasStudent
+# 
+# http://example.org/collegeone#roleOf
+# 
+# http://example.org/collegeone#student_enrollments
+# 
+# http://example.org/collegeone#student_inDepartment
+# 
+# http://example.org/collegeone#student_inProgram
+# 
+# http://example.org/collegeone#subDepartmentOf
+# 
+# http://example.org/collegeone#ta_hasAllocations
+# 
+# http://example.org/collegeone#taalloc_hasCourse
+# 
+# http://example.org/collegeone#taalloc_hasTA
+# 
+# http://example.org/collegeone#teaches_hasCourse
+# 
+# http://example.org/collegeone#teaches_hasFaculty
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Data properties
+# #
+# #################################################################
+# 
+# 
+# http://example.org/collegeone#academic_year
+# 
+# http://example.org/collegeone#accreditation_grade
+# 
+# http://example.org/collegeone#allocation_id
+# 
+# http://example.org/collegeone#cgpa
+# 
+# http://example.org/collegeone#city
+# 
+# http://example.org/collegeone#college_code
+# 
+# http://example.org/collegeone#college_id
+# 
+# http://example.org/collegeone#college_name
+# 
+# http://example.org/collegeone#course_code
+# 
+# http://example.org/collegeone#course_id
+# 
+# http://example.org/collegeone#course_title
+# 
+# http://example.org/collegeone#created_at
+# 
+# http://example.org/collegeone#credits
+# 
+# http://example.org/collegeone#date_of_joining
+# 
+# http://example.org/collegeone#department_id
+# 
+# http://example.org/collegeone#dept_code
+# 
+# http://example.org/collegeone#dept_name
+# 
+# http://example.org/collegeone#designation
+# 
+# http://example.org/collegeone#duration_years
+# 
+# http://example.org/collegeone#email
+# 
+# http://example.org/collegeone#enrollment_id
+# 
+# http://example.org/collegeone#established_year
+# 
+# http://example.org/collegeone#faculty_email
+# 
+# http://example.org/collegeone#faculty_full_name
+# 
+# http://example.org/collegeone#faculty_id
+# 
+# http://example.org/collegeone#full_name
+# 
+# http://example.org/collegeone#grade
+# 
+# http://example.org/collegeone#max_hours_per_week
+# 
+# http://example.org/collegeone#monthly_stipend
+# 
+# http://example.org/collegeone#person_email
+# 
+# http://example.org/collegeone#person_full_name
+# 
+# http://example.org/collegeone#program_id
+# 
+# http://example.org/collegeone#program_name
+# 
+# http://example.org/collegeone#roll_number
+# 
+# http://example.org/collegeone#salary
+# 
+# http://example.org/collegeone#semester
+# 
+# http://example.org/collegeone#state
+# 
+# http://example.org/collegeone#student_id
+# 
+# http://example.org/collegeone#year_of_study
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# http://example.org/collegeone#College
+# 
+# http://example.org/collegeone#Course
+# 
+# http://example.org/collegeone#Department
+# 
+# http://example.org/collegeone#Enrollment
+# 
+# http://example.org/collegeone#Faculty
+# 
+# http://example.org/collegeone#Person
+# 
+# http://example.org/collegeone#Program
+# 
+# http://example.org/collegeone#Student
+# 
+# http://example.org/collegeone#TACourseAllocation
+# 
+# http://example.org/collegeone#TeachesAllocation
+# 
+# http://example.org/collegeone#TeachingAssistantRole
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Individuals
+# #
+# #################################################################
+# 
+# 
+# http://example.org/collegeone#Alloc_Fac1_Crs1
+# 
+# http://example.org/collegeone#Course_301
+# 
+# http://example.org/collegeone#Course_302
+# 
+# http://example.org/collegeone#Course_303
+# 
+# http://example.org/collegeone#Course_304
+# 
+# http://example.org/collegeone#Course_305
+# 
+# http://example.org/collegeone#Course_306
+# 
+# http://example.org/collegeone#Dept_CSE
+# 
+# http://example.org/collegeone#Dept_ECE
+# 
+# http://example.org/collegeone#Dept_MECH
+# 
+# http://example.org/collegeone#EnggCollege_01
+# 
+# http://example.org/collegeone#Enroll_0
+# 
+# http://example.org/collegeone#Enroll_1
+# 
+# http://example.org/collegeone#Enroll_2
+# 
+# http://example.org/collegeone#Enroll_3
+# 
+# http://example.org/collegeone#Enroll_4
+# 
+# http://example.org/collegeone#Fac_101
+# 
+# http://example.org/collegeone#Fac_102
+# 
+# http://example.org/collegeone#Fac_103
+# 
+# http://example.org/collegeone#Fac_104
+# 
+# http://example.org/collegeone#Fac_105
+# 
+# http://example.org/collegeone#Fac_106
+# 
+# http://example.org/collegeone#Prog_BTech
+# 
+# http://example.org/collegeone#Prog_MTech
+# 
+# http://example.org/collegeone#Stud_202301
+# 
+# http://example.org/collegeone#Stud_202302
+# 
+# http://example.org/collegeone#Stud_202303
+# 
+# http://example.org/collegeone#Stud_202304
+# 
+# http://example.org/collegeone#Stud_202305
+# 
+# http://example.org/collegeone#Stud_202306
+# 
+# 
+# 
+# #################################################################
+# #
+# #    General axioms
+# #
+# #################################################################
+# 
+# 
+# 
+# Generated by the OWL API (version 5.1.19.2021-07-31T19:16:32Z) https://github.com/owlcs/owlapi/
+
+<collegeone> a owl:Ontology .
+
+:sql_note a owl:AnnotationProperty .
+
+xsd:date a rdfs:Datatype .
+
+:college_hasDepartment a owl:ObjectProperty;
+  rdfs:domain :College;
+  rdfs:range :Department .
+
+:course_enrollments a owl:ObjectProperty;
+  rdfs:domain :Course;
+  rdfs:range :Enrollment .
+
+:course_hasTAAllocations a owl:ObjectProperty;
+  rdfs:domain :Course;
+  rdfs:range :TACourseAllocation .
+
+:course_inDepartment a owl:ObjectProperty;
+  owl:inverseOf :department_hasCourse;
+  rdfs:domain :Course;
+  rdfs:range :Department .
+
+:course_teachesAllocation a owl:ObjectProperty;
+  rdfs:domain :Course;
+  rdfs:range :TeachesAllocation .
+
+:department_hasCollege a owl:ObjectProperty, owl:FunctionalProperty;
+  owl:inverseOf :college_hasDepartment;
+  rdfs:domain :Department;
+  rdfs:range :College;
+  :sql_note "REFERENCES college(college_id) ON DELETE CASCADE ON UPDATE CASCADE" .
+
+:department_hasCourse a owl:ObjectProperty;
+  rdfs:domain :Department;
+  rdfs:range :Course .
+
+:department_hasFaculty a owl:ObjectProperty;
+  rdfs:domain :Department;
+  rdfs:range :Faculty .
+
+:department_hasStudent a owl:ObjectProperty;
+  rdfs:domain :Department;
+  rdfs:range :Student .
+
+:enrollment_hasCourse a owl:ObjectProperty, owl:FunctionalProperty;
+  owl:inverseOf :course_enrollments;
+  rdfs:domain :Enrollment;
+  rdfs:range :Course .
+
+:enrollment_hasStudent a owl:ObjectProperty, owl:FunctionalProperty;
+  owl:inverseOf :student_enrollments;
+  rdfs:domain :Enrollment;
+  rdfs:range :Student .
+
+:faculty_inDepartment a owl:ObjectProperty;
+  owl:inverseOf :department_hasFaculty;
+  rdfs:domain :Faculty;
+  rdfs:range :Department .
+
+:faculty_teachesAllocation a owl:ObjectProperty;
+  rdfs:domain :Faculty;
+  rdfs:range :TeachesAllocation .
+
+:hasTArole a owl:ObjectProperty, owl:FunctionalProperty;
+  owl:inverseOf :roleOf;
+  rdfs:domain :Student;
+  rdfs:range :TeachingAssistantRole .
+
+:program_hasStudent a owl:ObjectProperty;
+  rdfs:domain :Program;
+  rdfs:range :Student .
+
+:roleOf a owl:ObjectProperty;
+  rdfs:domain :TeachingAssistantRole;
+  rdfs:range :Student .
+
+:student_enrollments a owl:ObjectProperty;
+  rdfs:domain :Student;
+  rdfs:range :Enrollment .
+
+:student_inDepartment a owl:ObjectProperty, owl:FunctionalProperty;
+  owl:inverseOf :department_hasStudent;
+  rdfs:domain :Student;
+  rdfs:range :Department .
+
+:student_inProgram a owl:ObjectProperty, owl:FunctionalProperty;
+  owl:inverseOf :program_hasStudent;
+  rdfs:domain :Student;
+  rdfs:range :Program;
+  :sql_note "REFERENCES program(program_id) ON DELETE RESTRICT ON UPDATE CASCADE" .
+
+:subDepartmentOf a owl:ObjectProperty, owl:TransitiveProperty;
+  rdfs:domain :Department;
+  rdfs:range :Department .
+
+:ta_hasAllocations a owl:ObjectProperty;
+  rdfs:domain :TeachingAssistantRole;
+  rdfs:range :TACourseAllocation .
+
+:taalloc_hasCourse a owl:ObjectProperty;
+  owl:inverseOf :course_hasTAAllocations;
+  rdfs:domain :TACourseAllocation;
+  rdfs:range :Course .
+
+:taalloc_hasTA a owl:ObjectProperty;
+  owl:inverseOf :ta_hasAllocations;
+  rdfs:domain :TACourseAllocation;
+  rdfs:range :TeachingAssistantRole .
+
+:teaches_hasCourse a owl:ObjectProperty, owl:FunctionalProperty;
+  owl:inverseOf :course_teachesAllocation;
+  rdfs:domain :TeachesAllocation;
+  rdfs:range :Course .
+
+:teaches_hasFaculty a owl:ObjectProperty, owl:FunctionalProperty;
+  owl:inverseOf :faculty_teachesAllocation;
+  rdfs:domain :TeachesAllocation;
+  rdfs:range :Faculty .
+
+:academic_year a owl:DatatypeProperty;
+  rdfs:domain :TeachesAllocation;
+  rdfs:range xsd:string;
+  :sql_note "Format: YYYY-YYYY (example: 2023-2024). OWL cannot enforce string pattern; use SHACL for pattern checks." .
+
+:accreditation_grade a owl:DatatypeProperty;
+  rdfs:domain :College;
+  rdfs:range xsd:string, _:genid1 .
+
+_:genid1 a rdfs:Datatype;
+  owl:oneOf _:genid6 .
+
+_:genid6 a rdf:List;
+  rdf:rest _:genid5;
+  rdf:first "A" .
+
+_:genid5 a rdf:List;
+  rdf:rest _:genid4;
+  rdf:first "A+" .
+
+_:genid4 a rdf:List;
+  rdf:rest _:genid3;
+  rdf:first "A++" .
+
+_:genid3 a rdf:List;
+  rdf:rest _:genid2;
+  rdf:first "B" .
+
+_:genid2 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first "C" .
+
+:allocation_id a owl:DatatypeProperty .
+
+:cgpa a owl:DatatypeProperty;
+  rdfs:domain :Student;
+  rdfs:range xsd:decimal, _:genid7 .
+
+_:genid7 a rdfs:Datatype;
+  owl:withRestrictions _:genid10;
+  owl:onDatatype xsd:decimal .
+
+_:genid10 a rdf:List;
+  rdf:rest _:genid8;
+  rdf:first _:genid11 .
+
+_:genid8 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid9 .
+
+_:genid9 xsd:maxInclusive 4.0 .
+
+_:genid11 xsd:minInclusive 0.0 .
+
+:city a owl:DatatypeProperty;
+  rdfs:domain :College;
+  rdfs:range xsd:string .
+
+:college_code a owl:DatatypeProperty;
+  rdfs:domain :College;
+  rdfs:range xsd:string .
+
+:college_id a owl:DatatypeProperty .
+
+:college_name a owl:DatatypeProperty;
+  rdfs:domain :College;
+  rdfs:range xsd:string .
+
+:course_code a owl:DatatypeProperty;
+  rdfs:domain :Course;
+  rdfs:range xsd:string .
+
+:course_id a owl:DatatypeProperty .
+
+:course_title a owl:DatatypeProperty;
+  rdfs:domain :Course;
+  rdfs:range xsd:string .
+
+:created_at a owl:DatatypeProperty;
+  rdfs:domain :College;
+  rdfs:range xsd:date .
+
+:credits a owl:DatatypeProperty;
+  rdfs:domain :Course;
+  rdfs:range xsd:integer, _:genid12 .
+
+_:genid12 a rdfs:Datatype;
+  owl:withRestrictions _:genid15;
+  owl:onDatatype xsd:integer .
+
+_:genid15 a rdf:List;
+  rdf:rest _:genid13;
+  rdf:first _:genid16 .
+
+_:genid13 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid14 .
+
+_:genid14 xsd:maxInclusive 10 .
+
+_:genid16 xsd:minInclusive 1 .
+
+:date_of_joining a owl:DatatypeProperty;
+  rdfs:domain :Faculty;
+  rdfs:range xsd:date .
+
+:department_id a owl:DatatypeProperty .
+
+:dept_code a owl:DatatypeProperty;
+  rdfs:domain :Department;
+  rdfs:range xsd:string .
+
+:dept_name a owl:DatatypeProperty;
+  rdfs:domain :Department;
+  rdfs:range xsd:string .
+
+:designation a owl:DatatypeProperty;
+  rdfs:domain :Faculty;
+  rdfs:range xsd:string, _:genid17 .
+
+_:genid17 a rdfs:Datatype;
+  owl:oneOf _:genid20 .
+
+_:genid20 a rdf:List;
+  rdf:rest _:genid19;
+  rdf:first "Assistant Professor" .
+
+_:genid19 a rdf:List;
+  rdf:rest _:genid18;
+  rdf:first "Associate Professor" .
+
+_:genid18 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first "Professor" .
+
+:duration_years a owl:DatatypeProperty;
+  rdfs:domain :Program;
+  rdfs:range xsd:integer, _:genid21 .
+
+_:genid21 a rdfs:Datatype;
+  owl:withRestrictions _:genid24;
+  owl:onDatatype xsd:integer .
+
+_:genid24 a rdf:List;
+  rdf:rest _:genid22;
+  rdf:first _:genid25 .
+
+_:genid22 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid23 .
+
+_:genid23 xsd:maxInclusive 6 .
+
+_:genid25 xsd:minInclusive 1 .
+
+:email a owl:DatatypeProperty;
+  rdfs:subPropertyOf :person_email;
+  rdfs:domain :Student;
+  rdfs:range xsd:string .
+
+:enrollment_id a owl:DatatypeProperty .
+
+:established_year a owl:DatatypeProperty;
+  rdfs:domain :College;
+  rdfs:range xsd:integer, _:genid26 .
+
+_:genid26 a rdfs:Datatype;
+  owl:withRestrictions _:genid27;
+  owl:onDatatype xsd:integer .
+
+_:genid27 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid28 .
+
+_:genid28 xsd:minInclusive 1900 .
+
+:faculty_email a owl:DatatypeProperty;
+  rdfs:subPropertyOf :person_email;
+  rdfs:domain :Faculty;
+  rdfs:range xsd:string .
+
+:faculty_full_name a owl:DatatypeProperty;
+  rdfs:subPropertyOf :person_full_name;
+  rdfs:domain :Faculty;
+  rdfs:range xsd:string .
+
+:faculty_id a owl:DatatypeProperty .
+
+:full_name a owl:DatatypeProperty;
+  rdfs:subPropertyOf :person_full_name;
+  rdfs:domain :Student;
+  rdfs:range xsd:string .
+
+:grade a owl:DatatypeProperty;
+  rdfs:domain :Enrollment;
+  rdfs:range xsd:string, _:genid29 .
+
+_:genid29 a rdfs:Datatype;
+  owl:oneOf _:genid36 .
+
+_:genid36 a rdf:List;
+  rdf:rest _:genid35;
+  rdf:first "A" .
+
+_:genid35 a rdf:List;
+  rdf:rest _:genid34;
+  rdf:first "A+" .
+
+_:genid34 a rdf:List;
+  rdf:rest _:genid33;
+  rdf:first "B" .
+
+_:genid33 a rdf:List;
+  rdf:rest _:genid32;
+  rdf:first "B+" .
+
+_:genid32 a rdf:List;
+  rdf:rest _:genid31;
+  rdf:first "C" .
+
+_:genid31 a rdf:List;
+  rdf:rest _:genid30;
+  rdf:first "F" .
+
+_:genid30 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first "I" .
+
+:max_hours_per_week a owl:DatatypeProperty;
+  rdfs:domain :TeachingAssistantRole;
+  rdfs:range xsd:integer, _:genid37 .
+
+_:genid37 a rdfs:Datatype;
+  owl:withRestrictions _:genid38;
+  owl:onDatatype xsd:integer .
+
+_:genid38 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid39 .
+
+_:genid39 xsd:maxInclusive 20 .
+
+:monthly_stipend a owl:DatatypeProperty;
+  rdfs:domain :TeachingAssistantRole;
+  rdfs:range xsd:decimal, _:genid40 .
+
+_:genid40 a rdfs:Datatype;
+  owl:withRestrictions _:genid41;
+  owl:onDatatype xsd:decimal .
+
+_:genid41 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid42 .
+
+_:genid42 xsd:minInclusive 0.0 .
+
+:person_email a owl:DatatypeProperty, owl:FunctionalProperty .
+
+:person_full_name a owl:DatatypeProperty .
+
+:program_id a owl:DatatypeProperty .
+
+:program_name a owl:DatatypeProperty;
+  rdfs:domain :Program;
+  rdfs:range xsd:string, _:genid43 .
+
+_:genid43 a rdfs:Datatype;
+  owl:oneOf _:genid48 .
+
+_:genid48 a rdf:List;
+  rdf:rest _:genid47;
+  rdf:first "BTech" .
+
+_:genid47 a rdf:List;
+  rdf:rest _:genid46;
+  rdf:first "MS" .
+
+_:genid46 a rdf:List;
+  rdf:rest _:genid45;
+  rdf:first "MTech" .
+
+_:genid45 a rdf:List;
+  rdf:rest _:genid44;
+  rdf:first "PhD" .
+
+_:genid44 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first "iMTech" .
+
+:roll_number a owl:DatatypeProperty;
+  rdfs:domain :Student;
+  rdfs:range xsd:string .
+
+:salary a owl:DatatypeProperty;
+  rdfs:domain :Faculty;
+  rdfs:range xsd:decimal, _:genid49 .
+
+_:genid49 a rdfs:Datatype;
+  owl:withRestrictions _:genid50;
+  owl:onDatatype xsd:decimal .
+
+_:genid50 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid51 .
+
+_:genid51 xsd:minInclusive 0.0 .
+
+:semester a owl:DatatypeProperty;
+  rdfs:domain :Course;
+  rdfs:range xsd:integer, _:genid52 .
+
+_:genid52 a rdfs:Datatype;
+  owl:withRestrictions _:genid55;
+  owl:onDatatype xsd:integer .
+
+_:genid55 a rdf:List;
+  rdf:rest _:genid53;
+  rdf:first _:genid56 .
+
+_:genid53 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid54 .
+
+_:genid54 xsd:maxInclusive 12 .
+
+_:genid56 xsd:minInclusive 1 .
+
+:state a owl:DatatypeProperty;
+  rdfs:domain :College;
+  rdfs:range xsd:string .
+
+:student_id a owl:DatatypeProperty .
+
+:year_of_study a owl:DatatypeProperty;
+  rdfs:domain :Student;
+  rdfs:range xsd:integer, _:genid57 .
+
+_:genid57 a rdfs:Datatype;
+  owl:withRestrictions _:genid60;
+  owl:onDatatype xsd:integer .
+
+_:genid60 a rdf:List;
+  rdf:rest _:genid58;
+  rdf:first _:genid61 .
+
+_:genid58 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first _:genid59 .
+
+_:genid59 xsd:maxInclusive 8 .
+
+_:genid61 xsd:minInclusive 1 .
+
+:College a owl:Class;
+  rdfs:subClassOf _:genid62;
+  owl:hasKey _:genid63 .
+
+_:genid62 a owl:Restriction;
+  owl:onDataRange xsd:string;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onProperty :college_name .
+
+_:genid63 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first :college_code .
+
+:Course a owl:Class;
+  owl:hasKey _:genid65 .
+
+_:genid65 a rdf:List;
+  rdf:rest _:genid64;
+  rdf:first :course_inDepartment .
+
+_:genid64 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first :course_code .
+
+:Department a owl:Class;
+  rdfs:subClassOf _:genid66;
+  owl:hasKey _:genid68 .
+
+_:genid66 a owl:Restriction;
+  owl:onClass :College;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onProperty :department_hasCollege .
+
+_:genid68 a rdf:List;
+  rdf:rest _:genid67;
+  rdf:first :department_hasCollege .
+
+_:genid67 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first :dept_code .
+
+:Enrollment a owl:Class;
+  owl:hasKey _:genid71;
+  :sql_note "UNIQUE(student_id, course_id, academic_year) enforced in SQL; represented as hasKey in OWL" .
+
+_:genid71 a rdf:List;
+  rdf:rest _:genid70;
+  rdf:first :enrollment_hasCourse .
+
+_:genid70 a rdf:List;
+  rdf:rest _:genid69;
+  rdf:first :enrollment_hasStudent .
+
+_:genid69 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first :academic_year .
+
+:Faculty a owl:Class;
+  rdfs:subClassOf :Person .
+
+:Person a owl:Class .
+
+:Program a owl:Class .
+
+:Student a owl:Class;
+  rdfs:subClassOf :Person, _:genid72, _:genid73;
+  owl:hasKey _:genid75 .
+
+_:genid72 a owl:Restriction;
+  owl:onClass :Department;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onProperty :student_inDepartment .
+
+_:genid73 a owl:Restriction;
+  owl:onClass :Program;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onProperty :student_inProgram .
+
+_:genid75 a rdf:List;
+  rdf:rest _:genid74;
+  rdf:first :student_inDepartment .
+
+_:genid74 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first :roll_number .
+
+:TACourseAllocation a owl:Class;
+  owl:hasKey _:genid78 .
+
+_:genid78 a rdf:List;
+  rdf:rest _:genid77;
+  rdf:first :taalloc_hasCourse .
+
+_:genid77 a rdf:List;
+  rdf:rest _:genid76;
+  rdf:first :taalloc_hasTA .
+
+_:genid76 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first :academic_year .
+
+:TeachesAllocation a owl:Class;
+  owl:hasKey _:genid81 .
+
+_:genid81 a rdf:List;
+  rdf:rest _:genid80;
+  rdf:first :teaches_hasCourse .
+
+_:genid80 a rdf:List;
+  rdf:rest _:genid79;
+  rdf:first :teaches_hasFaculty .
+
+_:genid79 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first :academic_year .
+
+:TeachingAssistantRole a owl:Class .
+
+:Alloc_Fac1_Crs1 a owl:NamedIndividual, :TeachesAllocation;
+  :teaches_hasCourse :Course_301;
+  :teaches_hasFaculty :Fac_101;
+  :academic_year "2023-2024" .
+
+:Course_301 a owl:NamedIndividual, :Course;
+  :course_inDepartment :Dept_CSE;
+  :course_code "CS301";
+  :course_title "Subject 1";
+  :credits 3;
+  :semester 4 .
+
+:Fac_101 a owl:NamedIndividual, :Faculty;
+  :faculty_inDepartment :Dept_CSE;
+  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :designation "Professor";
+  :faculty_email "fac1@college.edu";
+  :faculty_full_name "Professor Name 1";
+  :salary 80000.0 .
+
+:Dept_CSE a owl:NamedIndividual, :Department;
+  :department_hasCollege :EnggCollege_01;
+  :dept_code "CSE";
+  :dept_name "Computer Science" .
+
+:Course_302 a owl:NamedIndividual, :Course;
+  :course_inDepartment :Dept_CSE;
+  :course_code "CS302";
+  :course_title "Subject 2";
+  :credits 3;
+  :semester 4 .
+
+:Course_303 a owl:NamedIndividual, :Course;
+  :course_inDepartment :Dept_ECE;
+  :course_code "CS303";
+  :course_title "Subject 3";
+  :credits 3;
+  :semester 4 .
+
+:Dept_ECE a owl:NamedIndividual, :Department;
+  :department_hasCollege :EnggCollege_01;
+  :dept_code "ECE";
+  :dept_name "Electronics" .
+
+:Course_304 a owl:NamedIndividual, :Course;
+  :course_inDepartment :Dept_ECE;
+  :course_code "CS304";
+  :course_title "Subject 4";
+  :credits 3;
+  :semester 4 .
+
+:Course_305 a owl:NamedIndividual, :Course;
+  :course_inDepartment :Dept_MECH;
+  :course_code "CS305";
+  :course_title "Subject 5";
+  :credits 3;
+  :semester 4 .
+
+:Dept_MECH a owl:NamedIndividual, :Department;
+  :department_hasCollege :EnggCollege_01;
+  :dept_code "MECH";
+  :dept_name "Mechanical" .
+
+:Course_306 a owl:NamedIndividual, :Course;
+  :course_inDepartment :Dept_MECH;
+  :course_code "CS306";
+  :course_title "Subject 6";
+  :credits 3;
+  :semester 4 .
+
+:EnggCollege_01 a owl:NamedIndividual, :College;
+  :accreditation_grade "A+";
+  :city "Tech City";
+  :college_code "IAT01";
+  :college_name "Institute of Advanced Tech";
+  :established_year 1995;
+  :state "StateOne" .
+
+:Enroll_0 a owl:NamedIndividual, :Enrollment;
+  :enrollment_hasCourse :Course_301;
+  :enrollment_hasStudent :Stud_202301;
+  :academic_year "2023-2024";
+  :grade "A" .
+
+:Stud_202301 a owl:NamedIndividual, :Student;
+  :student_inDepartment :Dept_CSE;
+  :student_inProgram :Prog_BTech;
+  :cgpa 3.5;
+  :email "student1@college.edu";
+  :full_name "Student Name 1";
+  :roll_number "R202301";
+  :year_of_study 2 .
+
+:Enroll_1 a owl:NamedIndividual, :Enrollment;
+  :enrollment_hasCourse :Course_302;
+  :enrollment_hasStudent :Stud_202302;
+  :academic_year "2023-2024";
+  :grade "B" .
+
+:Stud_202302 a owl:NamedIndividual, :Student;
+  :student_inDepartment :Dept_CSE;
+  :student_inProgram :Prog_BTech;
+  :cgpa 3.7;
+  :email "student2@college.edu";
+  :full_name "Student Name 2";
+  :roll_number "R202302";
+  :year_of_study 2 .
+
+:Enroll_2 a owl:NamedIndividual, :Enrollment;
+  :enrollment_hasCourse :Course_303;
+  :enrollment_hasStudent :Stud_202303;
+  :academic_year "2023-2024";
+  :grade "A" .
+
+:Stud_202303 a owl:NamedIndividual, :Student;
+  :student_inDepartment :Dept_ECE;
+  :student_inProgram :Prog_BTech;
+  :cgpa 3.5;
+  :email "student3@college.edu";
+  :full_name "Student Name 3";
+  :roll_number "R202303";
+  :year_of_study 2 .
+
+:Enroll_3 a owl:NamedIndividual, :Enrollment;
+  :enrollment_hasCourse :Course_304;
+  :enrollment_hasStudent :Stud_202304;
+  :academic_year "2023-2024";
+  :grade "B" .
+
+:Stud_202304 a owl:NamedIndividual, :Student;
+  :student_inDepartment :Dept_ECE;
+  :student_inProgram :Prog_BTech;
+  :cgpa 3.7;
+  :email "student4@college.edu";
+  :full_name "Student Name 4";
+  :roll_number "R202304";
+  :year_of_study 2 .
+
+:Enroll_4 a owl:NamedIndividual, :Enrollment;
+  :enrollment_hasCourse :Course_305;
+  :enrollment_hasStudent :Stud_202305;
+  :academic_year "2023-2024";
+  :grade "A" .
+
+:Stud_202305 a owl:NamedIndividual, :Student;
+  :student_inDepartment :Dept_MECH;
+  :student_inProgram :Prog_BTech;
+  :cgpa 3.5;
+  :email "student5@college.edu";
+  :full_name "Student Name 5";
+  :roll_number "R202305";
+  :year_of_study 2 .
+
+:Fac_102 a owl:NamedIndividual, :Faculty;
+  :faculty_inDepartment :Dept_CSE;
+  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :designation "Assistant Professor";
+  :faculty_email "fac2@college.edu";
+  :faculty_full_name "Professor Name 2";
+  :salary 90000.0 .
+
+:Fac_103 a owl:NamedIndividual, :Faculty;
+  :faculty_inDepartment :Dept_ECE;
+  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :designation "Professor";
+  :faculty_email "fac3@college.edu";
+  :faculty_full_name "Professor Name 3";
+  :salary 80000.0 .
+
+:Fac_104 a owl:NamedIndividual, :Faculty;
+  :faculty_inDepartment :Dept_ECE;
+  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :designation "Assistant Professor";
+  :faculty_email "fac4@college.edu";
+  :faculty_full_name "Professor Name 4";
+  :salary 90000.0 .
+
+:Fac_105 a owl:NamedIndividual, :Faculty;
+  :faculty_inDepartment :Dept_MECH;
+  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :designation "Professor";
+  :faculty_email "fac5@college.edu";
+  :faculty_full_name "Professor Name 5";
+  :salary 80000.0 .
+
+:Fac_106 a owl:NamedIndividual, :Faculty;
+  :faculty_inDepartment :Dept_MECH;
+  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :designation "Assistant Professor";
+  :faculty_email "fac6@college.edu";
+  :faculty_full_name "Professor Name 6";
+  :salary 90000.0 .
+
+:Prog_BTech a owl:NamedIndividual, :Program;
+  :duration_years 4;
+  :program_name "BTech" .
+
+:Prog_MTech a owl:NamedIndividual, :Program;
+  :duration_years 2;
+  :program_name "MTech" .
+
+:Stud_202306 a owl:NamedIndividual, :Student;
+  :student_inDepartment :Dept_MECH;
+  :student_inProgram :Prog_BTech;
+  :cgpa 3.7;
+  :email "student6@college.edu";
+  :full_name "Student Name 6";
+  :roll_number "R202306";
+  :year_of_study 2 .
+
+_:genid82 a owl:AllDisjointClasses;
+  owl:members _:genid90 .
+
+_:genid90 a rdf:List;
+  rdf:rest _:genid89;
+  rdf:first :Course .
+
+_:genid89 a rdf:List;
+  rdf:rest _:genid88;
+  rdf:first :Department .
+
+_:genid88 a rdf:List;
+  rdf:rest _:genid87;
+  rdf:first :Enrollment .
+
+_:genid87 a rdf:List;
+  rdf:rest _:genid86;
+  rdf:first :Faculty .
+
+_:genid86 a rdf:List;
+  rdf:rest _:genid85;
+  rdf:first :Program .
+
+_:genid85 a rdf:List;
+  rdf:rest _:genid84;
+  rdf:first :Student .
+
+_:genid84 a rdf:List;
+  rdf:rest _:genid83;
+  rdf:first :TACourseAllocation .
+
+_:genid83 a rdf:List;
+  rdf:rest rdf:nil;
+  rdf:first :TeachesAllocation .
