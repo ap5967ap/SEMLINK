@@ -1,0 +1,202 @@
+@prefix u2: <https://semlink.example.org/university2#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://semlink.example.org/ontology/university2> a owl:Ontology ;
+  rdfs:label "University 2 Curated Ontology" ;
+  rdfs:comment "Curated from the legacy vasu-updated.ttl seed with normalized namespaces and expanded institute-level semantics." .
+
+u2:Learner a owl:Class .
+u2:Institute a owl:Class .
+u2:Module a owl:Class .
+u2:School a owl:Class .
+u2:Track a owl:Class .
+u2:UniversityHub a owl:Class .
+u2:Semester a owl:Class .
+
+u2:Student a owl:Class ;
+  owl:equivalentClass u2:Learner .
+
+u2:Course a owl:Class ;
+  owl:equivalentClass u2:Module .
+
+u2:Department a owl:Class ;
+  owl:equivalentClass u2:School .
+
+u2:Program a owl:Class ;
+  owl:equivalentClass u2:Track .
+
+u2:College a owl:Class ;
+  owl:equivalentClass u2:Institute .
+
+u2:University a owl:Class ;
+  owl:equivalentClass u2:UniversityHub .
+
+u2:studiesAtInstitute a owl:ObjectProperty ;
+  rdfs:domain u2:Learner ;
+  rdfs:range u2:Institute .
+
+u2:enrolledIn a owl:ObjectProperty ;
+  rdfs:domain u2:Learner ;
+  rdfs:range u2:Module .
+
+u2:memberOfSchool a owl:ObjectProperty ;
+  rdfs:domain u2:Learner ;
+  rdfs:range u2:School .
+
+u2:followsTrack a owl:ObjectProperty ;
+  rdfs:domain u2:Learner ;
+  rdfs:range u2:Track .
+
+u2:governedBy a owl:ObjectProperty ;
+  rdfs:domain u2:Institute ;
+  rdfs:range u2:UniversityHub .
+
+u2:schoolPartOfInstitute a owl:ObjectProperty ;
+  rdfs:domain u2:School ;
+  rdfs:range u2:Institute .
+
+u2:offersModule a owl:ObjectProperty ;
+  rdfs:domain u2:Institute ;
+  rdfs:range u2:Module .
+
+u2:moduleInSchool a owl:ObjectProperty ;
+  rdfs:domain u2:Module ;
+  rdfs:range u2:School .
+
+u2:belongsToDepartment a owl:ObjectProperty ;
+  owl:equivalentProperty u2:memberOfSchool .
+
+u2:studiesProgram a owl:ObjectProperty ;
+  owl:equivalentProperty u2:followsTrack .
+
+u2:offeredByInstitute a owl:ObjectProperty ;
+  owl:equivalentProperty u2:studiesAtInstitute .
+
+u2:displayName a owl:DatatypeProperty .
+u2:learnerId a owl:DatatypeProperty .
+u2:instituteName a owl:DatatypeProperty .
+u2:moduleTitle a owl:DatatypeProperty .
+u2:schoolName a owl:DatatypeProperty .
+u2:trackName a owl:DatatypeProperty .
+u2:hubName a owl:DatatypeProperty .
+u2:email a owl:DatatypeProperty .
+u2:semesterNumber a owl:DatatypeProperty .
+
+u2:studentId a owl:DatatypeProperty ;
+  owl:equivalentProperty u2:learnerId .
+
+u2:hasCourseName a owl:DatatypeProperty ;
+  owl:equivalentProperty u2:moduleTitle .
+
+u2:hasDepartmentName a owl:DatatypeProperty ;
+  owl:equivalentProperty u2:schoolName .
+
+u2:hasProgramName a owl:DatatypeProperty ;
+  owl:equivalentProperty u2:trackName .
+
+u2:BeaconUniversity a u2:UniversityHub ;
+  u2:hubName "Beacon University" .
+
+u2:BeaconInstitute a u2:Institute ;
+  u2:governedBy u2:BeaconUniversity ;
+  u2:instituteName "Beacon Institute of Computing" .
+
+u2:AnalyticsInstitute a u2:Institute ;
+  u2:governedBy u2:BeaconUniversity ;
+  u2:instituteName "Beacon Institute of Analytics" .
+
+u2:CSE a u2:School ;
+  u2:schoolName "Computer Science" ;
+  u2:schoolPartOfInstitute u2:BeaconInstitute .
+
+u2:AIDS a u2:School ;
+  u2:schoolName "Artificial Intelligence" ;
+  u2:schoolPartOfInstitute u2:AnalyticsInstitute .
+
+u2:BTech_CS a u2:Track ;
+  u2:trackName "BTech Computer Science" .
+
+u2:BTech_AI a u2:Track ;
+  u2:trackName "BTech Artificial Intelligence" .
+
+u2:Sem1 a u2:Semester ;
+  u2:semesterNumber "1"^^xsd:int .
+
+u2:Sem3 a u2:Semester ;
+  u2:semesterNumber "3"^^xsd:int .
+
+u2:CS101 a u2:Module ;
+  u2:moduleTitle "Programming Foundations" ;
+  u2:moduleInSchool u2:CSE .
+
+u2:CS102 a u2:Module ;
+  u2:moduleTitle "Data Structures" ;
+  u2:moduleInSchool u2:CSE .
+
+u2:AI201 a u2:Module ;
+  u2:moduleTitle "Machine Learning Basics" ;
+  u2:moduleInSchool u2:AIDS .
+
+u2:DS202 a u2:Module ;
+  u2:moduleTitle "Data Analytics" ;
+  u2:moduleInSchool u2:AIDS .
+
+u2:BeaconInstitute u2:offersModule u2:CS101, u2:CS102 .
+u2:AnalyticsInstitute u2:offersModule u2:AI201, u2:DS202 .
+
+u2:S001 a u2:Learner ;
+  u2:displayName "Student Name 1" ;
+  u2:learnerId "R202301" ;
+  u2:email "student1@college.edu" ;
+  u2:memberOfSchool u2:CSE ;
+  u2:followsTrack u2:BTech_CS ;
+  u2:studiesAtInstitute u2:BeaconInstitute ;
+  u2:enrolledIn u2:CS101, u2:CS102 .
+
+u2:S002 a u2:Learner ;
+  u2:displayName "Neha Kulkarni" ;
+  u2:learnerId "B202302" ;
+  u2:email "neha.kulkarni@beacon.edu" ;
+  u2:memberOfSchool u2:CSE ;
+  u2:followsTrack u2:BTech_CS ;
+  u2:studiesAtInstitute u2:BeaconInstitute ;
+  u2:enrolledIn u2:CS101 .
+
+u2:S003 a u2:Learner ;
+  u2:displayName "Harsh Patel" ;
+  u2:learnerId "B202303" ;
+  u2:email "harsh.patel@beacon.edu" ;
+  u2:memberOfSchool u2:CSE ;
+  u2:followsTrack u2:BTech_CS ;
+  u2:studiesAtInstitute u2:BeaconInstitute ;
+  u2:enrolledIn u2:CS102 .
+
+u2:S004 a u2:Learner ;
+  u2:displayName "Riya Sen" ;
+  u2:learnerId "B202304" ;
+  u2:email "riya.sen@beacon.edu" ;
+  u2:memberOfSchool u2:AIDS ;
+  u2:followsTrack u2:BTech_AI ;
+  u2:studiesAtInstitute u2:AnalyticsInstitute ;
+  u2:enrolledIn u2:AI201 .
+
+u2:S005 a u2:Learner ;
+  u2:displayName "Vasu Aggarwal" ;
+  u2:learnerId "B202305" ;
+  u2:email "vasu@beacon.edu" ;
+  u2:memberOfSchool u2:AIDS ;
+  u2:followsTrack u2:BTech_AI ;
+  u2:studiesAtInstitute u2:AnalyticsInstitute ;
+  u2:enrolledIn u2:AI201, u2:DS202 .
+
+u2:S006 a u2:Learner ;
+  u2:displayName "Ishita Rao" ;
+  u2:learnerId "B202306" ;
+  u2:email "ishita.rao@beacon.edu" ;
+  u2:memberOfSchool u2:AIDS ;
+  u2:followsTrack u2:BTech_AI ;
+  u2:studiesAtInstitute u2:AnalyticsInstitute ;
+  u2:enrolledIn u2:DS202 .

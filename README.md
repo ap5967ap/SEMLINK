@@ -1,3 +1,20 @@
 # SEMLINK
-Cross Database Semantic Linking - Data Modelling Project
 
+Semantic integration of heterogeneous university databases using OWL, RDF, SPARQL, SHACL, and a central AICTE ontology.
+
+## Run
+
+```bash
+mvn -q exec:java -Dexec.args="demo"
+```
+
+Useful commands:
+
+```bash
+mvn -q exec:java -Dexec.args="query all_students"
+mvn -q exec:java -Dexec.args="validate"
+```
+
+Generated outputs are written to `target/semantic-output/`.
+
+Documentation is available in `docs/semantic-integration/`.

@@ -1,0 +1,420 @@
+[u1-student-class:
+  (?x rdf:type <http://example.org/collegeone#Student>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Student>)
+]
+
+[u1-college-class:
+  (?x rdf:type <http://example.org/collegeone#College>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#College>)
+]
+
+[u1-course-class:
+  (?x rdf:type <http://example.org/collegeone#Course>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Course>)
+]
+
+[u1-department-class:
+  (?x rdf:type <http://example.org/collegeone#Department>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Department>)
+]
+
+[u1-program-class:
+  (?x rdf:type <http://example.org/collegeone#Program>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Program>)
+]
+
+[u1-name-student:
+  (?x <http://example.org/collegeone#full_name> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u1-name-college:
+  (?x <http://example.org/collegeone#college_name> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u1-name-course:
+  (?x <http://example.org/collegeone#course_title> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u1-name-department:
+  (?x <http://example.org/collegeone#dept_name> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u1-name-program:
+  (?x <http://example.org/collegeone#program_name> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u1-id-student:
+  (?x <http://example.org/collegeone#roll_number> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#id> ?value)
+]
+
+[u1-studiesAt:
+  (?student <http://example.org/collegeone#student_inDepartment> ?dept)
+  (?dept <http://example.org/collegeone#department_hasCollege> ?college)
+  ->
+  (?student <https://semlink.example.org/aicte#studiesAt> ?college)
+]
+
+[u1-memberOfDepartment:
+  (?student <http://example.org/collegeone#student_inDepartment> ?dept)
+  ->
+  (?student <https://semlink.example.org/aicte#memberOfDepartment> ?dept)
+]
+
+[u1-departmentLiteral:
+  (?student <http://example.org/collegeone#student_inDepartment> ?dept)
+  (?dept <http://example.org/collegeone#dept_name> ?deptName)
+  ->
+  (?student <https://semlink.example.org/aicte#department> ?deptName)
+]
+
+[u1-offersCourse:
+  (?course <http://example.org/collegeone#course_inDepartment> ?dept)
+  (?dept <http://example.org/collegeone#department_hasCollege> ?college)
+  ->
+  (?college <https://semlink.example.org/aicte#offersCourse> ?course)
+]
+
+[u2-student-class:
+  (?x rdf:type <https://semlink.example.org/university2#Learner>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Student>)
+]
+
+[u2-college-class:
+  (?x rdf:type <https://semlink.example.org/university2#Institute>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#College>)
+]
+
+[u2-course-class:
+  (?x rdf:type <https://semlink.example.org/university2#Module>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Course>)
+]
+
+[u2-department-class:
+  (?x rdf:type <https://semlink.example.org/university2#School>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Department>)
+]
+
+[u2-program-class:
+  (?x rdf:type <https://semlink.example.org/university2#Track>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Program>)
+]
+
+[u2-university-class:
+  (?x rdf:type <https://semlink.example.org/university2#UniversityHub>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#University>)
+]
+
+[u2-name-display:
+  (?x <https://semlink.example.org/university2#displayName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u2-name-institute:
+  (?x <https://semlink.example.org/university2#instituteName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u2-name-module:
+  (?x <https://semlink.example.org/university2#moduleTitle> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u2-name-school:
+  (?x <https://semlink.example.org/university2#schoolName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u2-name-track:
+  (?x <https://semlink.example.org/university2#trackName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u2-name-university:
+  (?x <https://semlink.example.org/university2#hubName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u2-id-student:
+  (?x <https://semlink.example.org/university2#learnerId> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#id> ?value)
+]
+
+[u2-studiesAt:
+  (?student <https://semlink.example.org/university2#studiesAtInstitute> ?college)
+  ->
+  (?student <https://semlink.example.org/aicte#studiesAt> ?college)
+]
+
+[u2-memberOfDepartment:
+  (?student <https://semlink.example.org/university2#memberOfSchool> ?dept)
+  ->
+  (?student <https://semlink.example.org/aicte#memberOfDepartment> ?dept)
+]
+
+[u2-departmentLiteral:
+  (?student <https://semlink.example.org/university2#memberOfSchool> ?school)
+  (?school <https://semlink.example.org/university2#schoolName> ?deptName)
+  ->
+  (?student <https://semlink.example.org/aicte#department> ?deptName)
+]
+
+[u2-belongsToUniversity:
+  (?college <https://semlink.example.org/university2#governedBy> ?university)
+  ->
+  (?college <https://semlink.example.org/aicte#belongsToUniversity> ?university)
+]
+
+[u2-offersCourse:
+  (?college <https://semlink.example.org/university2#offersModule> ?course)
+  ->
+  (?college <https://semlink.example.org/aicte#offersCourse> ?course)
+]
+
+[u3-student-class:
+  (?x rdf:type <https://semlink.example.org/university3#Pupil>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Student>)
+]
+
+[u3-college-class:
+  (?x rdf:type <https://semlink.example.org/university3#CampusCollege>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#College>)
+]
+
+[u3-course-class:
+  (?x rdf:type <https://semlink.example.org/university3#Subject>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Course>)
+]
+
+[u3-department-class:
+  (?x rdf:type <https://semlink.example.org/university3#FacultyArea>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Department>)
+]
+
+[u3-program-class:
+  (?x rdf:type <https://semlink.example.org/university3#AcademicProgramme>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Program>)
+]
+
+[u3-university-class:
+  (?x rdf:type <https://semlink.example.org/university3#StateUniversity>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#University>)
+]
+
+[u3-name-pupil:
+  (?x <https://semlink.example.org/university3#personName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u3-name-college:
+  (?x <https://semlink.example.org/university3#campusName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u3-name-course:
+  (?x <https://semlink.example.org/university3#subjectTitle> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u3-name-department:
+  (?x <https://semlink.example.org/university3#facultyName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u3-name-program:
+  (?x <https://semlink.example.org/university3#programmeName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u3-name-university:
+  (?x <https://semlink.example.org/university3#universityName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u3-id-student:
+  (?x <https://semlink.example.org/university3#pupilNumber> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#id> ?value)
+]
+
+[u3-studiesAt:
+  (?student <https://semlink.example.org/university3#registeredAt> ?college)
+  ->
+  (?student <https://semlink.example.org/aicte#studiesAt> ?college)
+]
+
+[u3-memberOfDepartment:
+  (?student <https://semlink.example.org/university3#linkedFaculty> ?dept)
+  ->
+  (?student <https://semlink.example.org/aicte#memberOfDepartment> ?dept)
+]
+
+[u3-departmentLiteral:
+  (?student <https://semlink.example.org/university3#linkedFaculty> ?faculty)
+  (?faculty <https://semlink.example.org/university3#facultyName> ?deptName)
+  ->
+  (?student <https://semlink.example.org/aicte#department> ?deptName)
+]
+
+[u3-belongsToUniversity:
+  (?college <https://semlink.example.org/university3#campusUnder> ?university)
+  ->
+  (?college <https://semlink.example.org/aicte#belongsToUniversity> ?university)
+]
+
+[u3-offersCourse:
+  (?college <https://semlink.example.org/university3#listsSubject> ?course)
+  ->
+  (?college <https://semlink.example.org/aicte#offersCourse> ?course)
+]
+
+[u4-student-class:
+  (?x rdf:type <https://semlink.example.org/university4#StudentInfo>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Student>)
+]
+
+[u4-college-class:
+  (?x rdf:type <https://semlink.example.org/university4#AffiliatedCollege>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#College>)
+]
+
+[u4-course-class:
+  (?x rdf:type <https://semlink.example.org/university4#Paper>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Course>)
+]
+
+[u4-department-class:
+  (?x rdf:type <https://semlink.example.org/university4#Division>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Department>)
+]
+
+[u4-program-class:
+  (?x rdf:type <https://semlink.example.org/university4#AcademicPlan>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Program>)
+]
+
+[u4-university-class:
+  (?x rdf:type <https://semlink.example.org/university4#ParentUniversity>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#University>)
+]
+
+[u4-name-student:
+  (?x <https://semlink.example.org/university4#studentLabel> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u4-name-college:
+  (?x <https://semlink.example.org/university4#collegeLabel> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u4-name-course:
+  (?x <https://semlink.example.org/university4#paperTitle> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u4-name-department:
+  (?x <https://semlink.example.org/university4#divisionName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u4-name-program:
+  (?x <https://semlink.example.org/university4#planName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u4-name-university:
+  (?x <https://semlink.example.org/university4#universityLabel> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[u4-id-student:
+  (?x <https://semlink.example.org/university4#recordId> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#id> ?value)
+]
+
+[u4-memberOfDepartment:
+  (?student <https://semlink.example.org/university4#studentInDivision> ?dept)
+  ->
+  (?student <https://semlink.example.org/aicte#memberOfDepartment> ?dept)
+]
+
+[u4-departmentLiteral:
+  (?student <https://semlink.example.org/university4#studentInDivision> ?division)
+  (?division <https://semlink.example.org/university4#divisionName> ?deptName)
+  ->
+  (?student <https://semlink.example.org/aicte#department> ?deptName)
+]
+
+[u4-belongsToUniversity:
+  (?college <https://semlink.example.org/university4#collegeAffiliatedTo> ?university)
+  ->
+  (?college <https://semlink.example.org/aicte#belongsToUniversity> ?university)
+]
+
+[u4-offersCourse:
+  (?college <https://semlink.example.org/university4#publishesPaper> ?course)
+  ->
+  (?college <https://semlink.example.org/aicte#offersCourse> ?course)
+]
+
+[u4-studiesAt:
+  (?student <https://semlink.example.org/university4#pursuesProgram> ?plan)
+  (?plan <https://semlink.example.org/university4#programHostedBy> ?college)
+  ->
+  (?student <https://semlink.example.org/aicte#studiesAt> ?college)
+]

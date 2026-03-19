@@ -1,0 +1,11 @@
+PREFIX aicte: <https://semlink.example.org/aicte#>
+
+SELECT DISTINCT ?collegeName ?courseName
+WHERE {
+  ?college a aicte:College ;
+    aicte:name ?collegeName ;
+    aicte:offersCourse ?course .
+  ?course a aicte:Course ;
+    aicte:name ?courseName .
+}
+ORDER BY ?collegeName ?courseName

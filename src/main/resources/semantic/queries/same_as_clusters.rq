@@ -1,0 +1,8 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT ?left ?right
+WHERE {
+  ?left owl:sameAs ?right .
+  FILTER(STR(?left) < STR(?right))
+}
+ORDER BY ?left ?right

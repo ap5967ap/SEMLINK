@@ -1,0 +1,39 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix aicte: <https://semlink.example.org/aicte#> .
+
+aicte:StudentShape a sh:NodeShape ;
+  sh:targetClass aicte:Student ;
+  sh:property [
+    sh:path aicte:id ;
+    sh:minCount 1 ;
+    sh:datatype xsd:string
+  ] ;
+  sh:property [
+    sh:path aicte:name ;
+    sh:minCount 1
+  ] ;
+  sh:property [
+    sh:path aicte:department ;
+    sh:minCount 1 ;
+    sh:datatype xsd:string
+  ] .
+
+aicte:CollegeShape a sh:NodeShape ;
+  sh:targetClass aicte:College ;
+  sh:property [
+    sh:path aicte:name ;
+    sh:minCount 1
+  ] ;
+  sh:property [
+    sh:path aicte:belongsToUniversity ;
+    sh:minCount 1 ;
+    sh:class aicte:University
+  ] .
+
+aicte:CourseShape a sh:NodeShape ;
+  sh:targetClass aicte:Course ;
+  sh:property [
+    sh:path aicte:name ;
+    sh:minCount 1
+  ] .

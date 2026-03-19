@@ -1,0 +1,138 @@
+@prefix u3: <https://semlink.example.org/university3#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://semlink.example.org/ontology/university3> a owl:Ontology ;
+  rdfs:label "University 3 Ontology" ;
+  rdfs:comment "Heterogeneous ontology using Pupil, CampusCollege, Subject, and FacultyArea terms." .
+
+u3:Pupil a owl:Class .
+u3:CampusCollege a owl:Class .
+u3:Subject a owl:Class .
+u3:FacultyArea a owl:Class .
+u3:AcademicProgramme a owl:Class .
+u3:StateUniversity a owl:Class .
+
+u3:registeredAt a owl:ObjectProperty ;
+  rdfs:domain u3:Pupil ;
+  rdfs:range u3:CampusCollege .
+
+u3:linkedFaculty a owl:ObjectProperty ;
+  rdfs:domain u3:Pupil ;
+  rdfs:range u3:FacultyArea .
+
+u3:joinsProgramme a owl:ObjectProperty ;
+  rdfs:domain u3:Pupil ;
+  rdfs:range u3:AcademicProgramme .
+
+u3:campusUnder a owl:ObjectProperty ;
+  rdfs:domain u3:CampusCollege ;
+  rdfs:range u3:StateUniversity .
+
+u3:listsSubject a owl:ObjectProperty ;
+  rdfs:domain u3:CampusCollege ;
+  rdfs:range u3:Subject .
+
+u3:subjectInFaculty a owl:ObjectProperty ;
+  rdfs:domain u3:Subject ;
+  rdfs:range u3:FacultyArea .
+
+u3:programmeInFaculty a owl:ObjectProperty ;
+  rdfs:domain u3:AcademicProgramme ;
+  rdfs:range u3:FacultyArea .
+
+u3:personName a owl:DatatypeProperty .
+u3:pupilNumber a owl:DatatypeProperty .
+u3:campusName a owl:DatatypeProperty .
+u3:subjectTitle a owl:DatatypeProperty .
+u3:facultyName a owl:DatatypeProperty .
+u3:programmeName a owl:DatatypeProperty .
+u3:universityName a owl:DatatypeProperty .
+
+u3:NorthStateUniversity a u3:StateUniversity ;
+  u3:universityName "North State University" .
+
+u3:SunriseCampusCollege a u3:CampusCollege ;
+  u3:campusName "Sunrise Engineering College" ;
+  u3:campusUnder u3:NorthStateUniversity .
+
+u3:HarborCampusCollege a u3:CampusCollege ;
+  u3:campusName "Harbor College of Technology" ;
+  u3:campusUnder u3:NorthStateUniversity .
+
+u3:ComputingFaculty a u3:FacultyArea ;
+  u3:facultyName "Computer Science" .
+
+u3:ElectronicsFaculty a u3:FacultyArea ;
+  u3:facultyName "Electronics" .
+
+u3:BScSemanticWeb a u3:AcademicProgramme ;
+  u3:programmeName "BSc Semantic Web" ;
+  u3:programmeInFaculty u3:ComputingFaculty .
+
+u3:BScEmbedded a u3:AcademicProgramme ;
+  u3:programmeName "BSc Embedded Systems" ;
+  u3:programmeInFaculty u3:ElectronicsFaculty .
+
+u3:SW301 a u3:Subject ;
+  u3:subjectTitle "Semantic Web Engineering" ;
+  u3:subjectInFaculty u3:ComputingFaculty .
+
+u3:KR302 a u3:Subject ;
+  u3:subjectTitle "Knowledge Representation" ;
+  u3:subjectInFaculty u3:ComputingFaculty .
+
+u3:EC201 a u3:Subject ;
+  u3:subjectTitle "Embedded Circuits" ;
+  u3:subjectInFaculty u3:ElectronicsFaculty .
+
+u3:NW202 a u3:Subject ;
+  u3:subjectTitle "Sensor Networks" ;
+  u3:subjectInFaculty u3:ElectronicsFaculty .
+
+u3:SunriseCampusCollege u3:listsSubject u3:SW301, u3:KR302 .
+u3:HarborCampusCollege u3:listsSubject u3:EC201, u3:NW202 .
+
+u3:P001 a u3:Pupil ;
+  u3:personName "Mira Joshi" ;
+  u3:pupilNumber "P202301" ;
+  u3:linkedFaculty u3:ComputingFaculty ;
+  u3:joinsProgramme u3:BScSemanticWeb ;
+  u3:registeredAt u3:SunriseCampusCollege .
+
+u3:P002 a u3:Pupil ;
+  u3:personName "Rahul Iyer" ;
+  u3:pupilNumber "P202302" ;
+  u3:linkedFaculty u3:ComputingFaculty ;
+  u3:joinsProgramme u3:BScSemanticWeb ;
+  u3:registeredAt u3:SunriseCampusCollege .
+
+u3:P003 a u3:Pupil ;
+  u3:personName "Asha Verma" ;
+  u3:pupilNumber "P202303" ;
+  u3:linkedFaculty u3:ComputingFaculty ;
+  u3:joinsProgramme u3:BScSemanticWeb ;
+  u3:registeredAt u3:SunriseCampusCollege .
+
+u3:P004 a u3:Pupil ;
+  u3:personName "Dev Malik" ;
+  u3:pupilNumber "P202304" ;
+  u3:linkedFaculty u3:ElectronicsFaculty ;
+  u3:joinsProgramme u3:BScEmbedded ;
+  u3:registeredAt u3:HarborCampusCollege .
+
+u3:P005 a u3:Pupil ;
+  u3:personName "Anika Roy" ;
+  u3:pupilNumber "P202305" ;
+  u3:linkedFaculty u3:ElectronicsFaculty ;
+  u3:joinsProgramme u3:BScEmbedded ;
+  u3:registeredAt u3:HarborCampusCollege .
+
+u3:P006 a u3:Pupil ;
+  u3:personName "Karan Shah" ;
+  u3:pupilNumber "P202306" ;
+  u3:linkedFaculty u3:ElectronicsFaculty ;
+  u3:joinsProgramme u3:BScEmbedded ;
+  u3:registeredAt u3:HarborCampusCollege .

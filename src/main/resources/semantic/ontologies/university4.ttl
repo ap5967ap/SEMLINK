@@ -1,0 +1,128 @@
+@prefix u4: <https://semlink.example.org/university4#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://semlink.example.org/ontology/university4> a owl:Ontology ;
+  rdfs:label "University 4 Ontology" ;
+  rdfs:comment "Heterogeneous ontology using StudentInfo, AffiliatedCollege, and Paper with indirect student-to-college links." .
+
+u4:StudentInfo a owl:Class .
+u4:AffiliatedCollege a owl:Class .
+u4:Paper a owl:Class .
+u4:Division a owl:Class .
+u4:AcademicPlan a owl:Class .
+u4:ParentUniversity a owl:Class .
+
+u4:pursuesProgram a owl:ObjectProperty ;
+  rdfs:domain u4:StudentInfo ;
+  rdfs:range u4:AcademicPlan .
+
+u4:studentInDivision a owl:ObjectProperty ;
+  rdfs:domain u4:StudentInfo ;
+  rdfs:range u4:Division .
+
+u4:programHostedBy a owl:ObjectProperty ;
+  rdfs:domain u4:AcademicPlan ;
+  rdfs:range u4:AffiliatedCollege .
+
+u4:paperInDivision a owl:ObjectProperty ;
+  rdfs:domain u4:Paper ;
+  rdfs:range u4:Division .
+
+u4:collegeAffiliatedTo a owl:ObjectProperty ;
+  rdfs:domain u4:AffiliatedCollege ;
+  rdfs:range u4:ParentUniversity .
+
+u4:publishesPaper a owl:ObjectProperty ;
+  rdfs:domain u4:AffiliatedCollege ;
+  rdfs:range u4:Paper .
+
+u4:studentLabel a owl:DatatypeProperty .
+u4:recordId a owl:DatatypeProperty .
+u4:collegeLabel a owl:DatatypeProperty .
+u4:paperTitle a owl:DatatypeProperty .
+u4:divisionName a owl:DatatypeProperty .
+u4:planName a owl:DatatypeProperty .
+u4:universityLabel a owl:DatatypeProperty .
+
+u4:KnowledgeGridUniversity a u4:ParentUniversity ;
+  u4:universityLabel "Knowledge Grid University" .
+
+u4:SunriseAffiliatedCollege a u4:AffiliatedCollege ;
+  u4:collegeAffiliatedTo u4:KnowledgeGridUniversity ;
+  u4:collegeLabel "Sunrise Engineering College" .
+
+u4:MetroAffiliatedCollege a u4:AffiliatedCollege ;
+  u4:collegeAffiliatedTo u4:KnowledgeGridUniversity ;
+  u4:collegeLabel "Metro College of Informatics" .
+
+u4:SemanticSystemsDivision a u4:Division ;
+  u4:divisionName "Computer Science" .
+
+u4:NetworksDivision a u4:Division ;
+  u4:divisionName "Networks" .
+
+u4:PlanSW a u4:AcademicPlan ;
+  u4:planName "Applied Semantic Systems" ;
+  u4:programHostedBy u4:SunriseAffiliatedCollege .
+
+u4:PlanNetworks a u4:AcademicPlan ;
+  u4:planName "Advanced Networks" ;
+  u4:programHostedBy u4:MetroAffiliatedCollege .
+
+u4:Paper501 a u4:Paper ;
+  u4:paperTitle "Ontology Alignment Practice" ;
+  u4:paperInDivision u4:SemanticSystemsDivision .
+
+u4:Paper502 a u4:Paper ;
+  u4:paperTitle "Linked Data Applications" ;
+  u4:paperInDivision u4:SemanticSystemsDivision .
+
+u4:Paper601 a u4:Paper ;
+  u4:paperTitle "Wireless Infrastructure" ;
+  u4:paperInDivision u4:NetworksDivision .
+
+u4:Paper602 a u4:Paper ;
+  u4:paperTitle "Distributed Routing" ;
+  u4:paperInDivision u4:NetworksDivision .
+
+u4:SunriseAffiliatedCollege u4:publishesPaper u4:Paper501, u4:Paper502 .
+u4:MetroAffiliatedCollege u4:publishesPaper u4:Paper601, u4:Paper602 .
+
+u4:SI001 a u4:StudentInfo ;
+  u4:studentLabel "Tanvi Mehta" ;
+  u4:recordId "SI202301" ;
+  u4:studentInDivision u4:SemanticSystemsDivision ;
+  u4:pursuesProgram u4:PlanSW .
+
+u4:SI002 a u4:StudentInfo ;
+  u4:studentLabel "Omkar Deshpande" ;
+  u4:recordId "SI202302" ;
+  u4:studentInDivision u4:SemanticSystemsDivision ;
+  u4:pursuesProgram u4:PlanSW .
+
+u4:SI003 a u4:StudentInfo ;
+  u4:studentLabel "Asha Verma" ;
+  u4:recordId "P202303" ;
+  u4:studentInDivision u4:SemanticSystemsDivision ;
+  u4:pursuesProgram u4:PlanSW .
+
+u4:SI004 a u4:StudentInfo ;
+  u4:studentLabel "Samarjit Bose" ;
+  u4:recordId "SI202304" ;
+  u4:studentInDivision u4:NetworksDivision ;
+  u4:pursuesProgram u4:PlanNetworks .
+
+u4:SI005 a u4:StudentInfo ;
+  u4:studentLabel "Nidhi Kapoor" ;
+  u4:recordId "SI202305" ;
+  u4:studentInDivision u4:NetworksDivision ;
+  u4:pursuesProgram u4:PlanNetworks .
+
+u4:SI006 a u4:StudentInfo ;
+  u4:studentLabel "Aditya Soni" ;
+  u4:recordId "SI202306" ;
+  u4:studentInDivision u4:NetworksDivision ;
+  u4:pursuesProgram u4:PlanNetworks .

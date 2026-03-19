@@ -1,0 +1,122 @@
+@prefix aicte: <https://semlink.example.org/aicte#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix u1: <http://example.org/collegeone#> .
+@prefix u2: <https://semlink.example.org/university2#> .
+@prefix u3: <https://semlink.example.org/university3#> .
+@prefix u4: <https://semlink.example.org/university4#> .
+
+<https://semlink.example.org/ontology/aicte> a owl:Ontology ;
+  rdfs:label "Central AICTE Ontology" ;
+  rdfs:comment "Global integration ontology for semantically aligning heterogeneous university ontologies." ;
+  owl:imports <http://example.org/collegeone>,
+    <https://semlink.example.org/ontology/university2>,
+    <https://semlink.example.org/ontology/university3>,
+    <https://semlink.example.org/ontology/university4> .
+
+aicte:Student a owl:Class .
+aicte:College a owl:Class .
+aicte:University a owl:Class .
+aicte:Course a owl:Class .
+aicte:Department a owl:Class .
+aicte:Program a owl:Class .
+
+aicte:studiesAt a owl:ObjectProperty ;
+  rdfs:domain aicte:Student ;
+  rdfs:range aicte:College .
+
+aicte:belongsToUniversity a owl:ObjectProperty ;
+  rdfs:domain aicte:College ;
+  rdfs:range aicte:University .
+
+aicte:offersCourse a owl:ObjectProperty ;
+  rdfs:domain aicte:College ;
+  rdfs:range aicte:Course .
+
+aicte:memberOfDepartment a owl:ObjectProperty ;
+  rdfs:domain aicte:Student ;
+  rdfs:range aicte:Department .
+
+aicte:name a owl:DatatypeProperty .
+aicte:id a owl:DatatypeProperty .
+aicte:department a owl:DatatypeProperty .
+
+u1:Student owl:equivalentClass aicte:Student .
+u1:College owl:equivalentClass aicte:College .
+u1:Course owl:equivalentClass aicte:Course .
+u1:Department owl:equivalentClass aicte:Department .
+u1:Program owl:equivalentClass aicte:Program .
+
+u2:Learner owl:equivalentClass aicte:Student .
+u2:Institute owl:equivalentClass aicte:College .
+u2:Module owl:equivalentClass aicte:Course .
+u2:School owl:equivalentClass aicte:Department .
+u2:Track owl:equivalentClass aicte:Program .
+u2:UniversityHub owl:equivalentClass aicte:University .
+
+u3:Pupil owl:equivalentClass aicte:Student .
+u3:CampusCollege owl:equivalentClass aicte:College .
+u3:Subject owl:equivalentClass aicte:Course .
+u3:FacultyArea owl:equivalentClass aicte:Department .
+u3:AcademicProgramme owl:equivalentClass aicte:Program .
+u3:StateUniversity owl:equivalentClass aicte:University .
+
+u4:StudentInfo owl:equivalentClass aicte:Student .
+u4:AffiliatedCollege owl:equivalentClass aicte:College .
+u4:Paper owl:equivalentClass aicte:Course .
+u4:Division owl:equivalentClass aicte:Department .
+u4:AcademicPlan owl:equivalentClass aicte:Program .
+u4:ParentUniversity owl:equivalentClass aicte:University .
+
+u1:full_name owl:equivalentProperty aicte:name .
+u1:roll_number owl:equivalentProperty aicte:id .
+u1:college_name owl:equivalentProperty aicte:name .
+u1:course_title owl:equivalentProperty aicte:name .
+u1:dept_name owl:equivalentProperty aicte:name .
+u1:program_name owl:equivalentProperty aicte:name .
+
+u2:displayName owl:equivalentProperty aicte:name .
+u2:learnerId owl:equivalentProperty aicte:id .
+u2:instituteName owl:equivalentProperty aicte:name .
+u2:moduleTitle owl:equivalentProperty aicte:name .
+u2:schoolName owl:equivalentProperty aicte:name .
+u2:trackName owl:equivalentProperty aicte:name .
+u2:hubName owl:equivalentProperty aicte:name .
+u2:studiesAtInstitute owl:equivalentProperty aicte:studiesAt .
+u2:governedBy owl:equivalentProperty aicte:belongsToUniversity .
+u2:offersModule owl:equivalentProperty aicte:offersCourse .
+u2:memberOfSchool owl:equivalentProperty aicte:memberOfDepartment .
+
+u3:personName owl:equivalentProperty aicte:name .
+u3:pupilNumber owl:equivalentProperty aicte:id .
+u3:campusName owl:equivalentProperty aicte:name .
+u3:subjectTitle owl:equivalentProperty aicte:name .
+u3:facultyName owl:equivalentProperty aicte:name .
+u3:programmeName owl:equivalentProperty aicte:name .
+u3:universityName owl:equivalentProperty aicte:name .
+u3:registeredAt owl:equivalentProperty aicte:studiesAt .
+u3:campusUnder owl:equivalentProperty aicte:belongsToUniversity .
+u3:listsSubject owl:equivalentProperty aicte:offersCourse .
+u3:linkedFaculty owl:equivalentProperty aicte:memberOfDepartment .
+
+u4:studentLabel owl:equivalentProperty aicte:name .
+u4:recordId owl:equivalentProperty aicte:id .
+u4:collegeLabel owl:equivalentProperty aicte:name .
+u4:paperTitle owl:equivalentProperty aicte:name .
+u4:divisionName owl:equivalentProperty aicte:name .
+u4:planName owl:equivalentProperty aicte:name .
+u4:universityLabel owl:equivalentProperty aicte:name .
+u4:collegeAffiliatedTo owl:equivalentProperty aicte:belongsToUniversity .
+u4:publishesPaper owl:equivalentProperty aicte:offersCourse .
+u4:studentInDivision owl:equivalentProperty aicte:memberOfDepartment .
+
+aicte:InstituteOfAdvancedTechUniversity a aicte:University ;
+  aicte:name "Institute of Advanced Tech University" .
+
+u1:EnggCollege_01 aicte:belongsToUniversity aicte:InstituteOfAdvancedTechUniversity .
+
+u1:Stud_202301 owl:sameAs u2:S001 .
+u3:P003 owl:sameAs u4:SI003 .
+u3:SunriseCampusCollege owl:sameAs u4:SunriseAffiliatedCollege .

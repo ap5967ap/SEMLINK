@@ -1,0 +1,13 @@
+PREFIX aicte: <https://semlink.example.org/aicte#>
+
+SELECT DISTINCT ?studentId ?studentName ?collegeName
+WHERE {
+  ?student a aicte:Student ;
+    aicte:id ?studentId ;
+    aicte:name ?studentName ;
+    aicte:department ?department ;
+    aicte:studiesAt ?college .
+  ?college aicte:name ?collegeName .
+  FILTER(LCASE(STR(?department)) = "computer science")
+}
+ORDER BY ?studentId

@@ -1,0 +1,8 @@
+@prefix aicte: <https://semlink.example.org/aicte#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+aicte:BrokenStudent a aicte:Student ;
+  aicte:name "Broken Student Without Identifier" .
+
+aicte:BrokenCollege a aicte:College ;
+  aicte:name "College Without Parent University" .

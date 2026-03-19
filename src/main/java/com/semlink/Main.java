@@ -1,36 +1,33 @@
 package com.semlink;
 
-import org.apache.jena.ontapi.OntModelFactory;
-import org.apache.jena.ontapi.model.OntClass;
-import org.apache.jena.ontapi.model.OntIndividual;
-import org.apache.jena.ontapi.model.OntModel;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.FileOutputStream;
+import java.util.Arrays;
 
 public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
-
     public static void main(String[] args) {
-        OntModel model = OntModelFactory.createModel();
+        SemanticProject project = new SemanticProject();
+        String command = args.length == 0 ? "demo" : args[0];
 
-        String ns = "https://example.org/basic#";
-
-        OntClass collegeClass = model.createOntClass(ns + "College");
-        OntIndividual myCollege = collegeClass.createIndividual(ns + "MyFirstCollege");
-
-        System.out.println("--- Generated Ontology (Turtle Format) ---");
-        RDFDataMgr.write(System.out, model, Lang.TURTLE);
-
-        try (FileOutputStream out = new FileOutputStream("basic_ontology.owl")) {
-            RDFDataMgr.write(out, model, Lang.RDFXML);
-            System.out.println("\nSUCCESS: 'basic_ontology.owl' created in project root.");
-            logger.info("Created individual: {}", myCollege.getURI());
-        } catch (Exception e) {
-            logger.error("An error occurred: {}", e.getMessage());
+        switch (command) {
+            case "demo" -> project.runDemo();
+            case "query" -> {
+                if (args.length < 2) {
+                    printUsage();
+                    throw new IllegalArgumentException("Missing query name.");
+                }
+                project.runQuery(args[1]);
+            }
+            case "validate" -> project.runValidationOnly();
+            default -> {
+                printUsage();
+                throw new IllegalArgumentException("Unknown command: " + command + " " + Arrays.toString(args));
+            }
         }
+    }
+
+    private static void printUsage() {
+        System.out.println("Usage:");
+        System.out.println("  mvn exec:java -Dexec.args=\"demo\"");
+        System.out.println("  mvn exec:java -Dexec.args=\"query all_students\"");
+        System.out.println("  mvn exec:java -Dexec.args=\"validate\"");
     }
 }
