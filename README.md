@@ -19,6 +19,12 @@ Generated outputs are written to `target/semantic-output/`.
 
 Documentation is available in `docs/semantic-integration/`.
 
+Recommended reading order:
+
+1. `docs/semantic-integration/report.md`
+2. `docs/semantic-integration/deep-dive.md`
+3. `docs/semantic-integration/query-catalog.md`
+
 ## Project Structure
 
 ```text
@@ -26,6 +32,7 @@ Documentation is available in `docs/semantic-integration/`.
 ├── docs
 │   └── semantic-integration
 │       ├── architecture.md
+│       ├── deep-dive.md
 │       ├── demo-script.md
 │       ├── query-catalog.md
 │       ├── report.md

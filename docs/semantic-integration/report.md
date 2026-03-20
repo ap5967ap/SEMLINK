@@ -111,3 +111,5 @@ mvn -q exec:java -Dexec.args="validate"
 ```
 
 For a fuller list of the grouped queries, see `docs/semantic-integration/query-catalog.md`.
+
+For a diagram-rich conceptual explanation, see `docs/semantic-integration/deep-dive.md`.
