@@ -16,16 +16,7 @@ This project solves that problem by using a central AICTE ontology as the semant
 
 ## 2. Big Picture Diagram
 
-```mermaid
-flowchart LR
-    U1["University 1\nStudent / College / Course"] --> G["AICTE Global Ontology"]
-    U2["University 2\nLearner / Institute / Module"] --> G
-    U3["University 3\nPupil / CampusCollege / Subject"] --> G
-    U4["University 4\nStudentInfo / AffiliatedCollege / Paper"] --> G
-    G --> R["Semantic Alignment and Reasoning"]
-    R --> Q["AICTE-Only SPARQL Queries"]
-    Q --> H["Unified Results for Users"]
-```
+![alt text](image-1.png)
 
 ### What this means
 
@@ -36,18 +27,8 @@ flowchart LR
 
 ## 3. Project Architecture Diagram
 
-```mermaid
-flowchart TD
-    A["Local Ontologies"] --> B["Merged RDF Model"]
-    B --> C["Alignment Rules"]
-    B --> D["OWL Alignment Axioms"]
-    C --> E["Inferred AICTE View"]
-    D --> E
-    E --> F["SPARQL Query Engine"]
-    E --> G["SHACL Validation"]
-    E --> H["OWL Exports and Snapshots"]
-    E --> I["Similarity Suggestions"]
-```
+
+![alt text](image-2.png)
 
 ### Why this architecture was used
 
@@ -59,23 +40,7 @@ flowchart TD
 
 ## 4. Ontology Mapping Diagram
 
-```mermaid
-flowchart LR
-    U1S["U1 Student"] --> AS["AICTE Student"]
-    U2S["U2 Learner"] --> AS
-    U3S["U3 Pupil"] --> AS
-    U4S["U4 StudentInfo"] --> AS
-
-    U1C["U1 College"] --> AC["AICTE College"]
-    U2C["U2 Institute"] --> AC
-    U3C["U3 CampusCollege"] --> AC
-    U4C["U4 AffiliatedCollege"] --> AC
-
-    U1R["U1 Course"] --> AR["AICTE Course"]
-    U2R["U2 Module"] --> AR
-    U3R["U3 Subject"] --> AR
-    U4R["U4 Paper"] --> AR
-```
+![alt text](image-3.png)
 
 ### Why these mappings matter
 
@@ -93,16 +58,8 @@ flowchart LR
 
 University 4 was designed to demonstrate a structural conflict.
 
-```mermaid
-flowchart LR
-    S["StudentInfo"] --> P["pursuesProgram"]
-    P --> C["programHostedBy"]
-    C --> U["collegeAffiliatedTo"]
 
-    S2["AICTE Student"] --> X["AICTE studiesAt"]
-    X --> C2["AICTE College"]
-    C2 --> U2["AICTE University"]
-```
+![alt text](image-4.png)
 
 ### What happens here
 
@@ -135,7 +92,7 @@ sequenceDiagram
     SPARQL->>Output: Execute named queries
     Output-->>User: Unified results
 ```
-
+![alt text](image-5.png)
 ### Why SPARQL was used
 
 - SPARQL is the native query language for RDF graphs.
@@ -229,6 +186,7 @@ flowchart TD
     F --> G["Validate with SHACL"]
     G --> H["Export results and reports"]
 ```
+![alt text](image-6.png)
 
 ### Full explanation
 
