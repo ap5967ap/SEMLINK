@@ -18,3 +18,21 @@ mvn -q exec:java -Dexec.args="validate"
 Generated outputs are written to `target/semantic-output/`.
 
 Documentation is available in `docs/semantic-integration/`.
+
+## Project Structure
+
+```text
+src/main/java/com/semlink/
+src/main/resources/semantic/
+  ontologies/
+    central/
+    local/
+    support/
+  queries/
+    core/
+    analysis/
+    identity/
+  rules/
+  shapes/
+docs/semantic-integration/
+```

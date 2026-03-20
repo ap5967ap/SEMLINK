@@ -16,28 +16,29 @@ import java.util.Map;
 import java.util.Objects;
 
 public class QueryEngine {
-    private static final List<String> QUERY_NAMES = List.of(
-        "all_students",
-        "students_in_computer_science",
-        "colleges_by_university",
-        "courses_by_college",
-        "same_as_clusters",
-        "student_college_resolution"
-    );
+    private static final Map<String, String> QUERY_RESOURCES = new LinkedHashMap<>();
 
-    private final String queryRoot;
-
-    public QueryEngine(String queryRoot) {
-        this.queryRoot = queryRoot;
+    static {
+        QUERY_RESOURCES.put("all_students", "semantic/queries/core/all_students.rq");
+        QUERY_RESOURCES.put("students_in_computer_science", "semantic/queries/core/students_in_computer_science.rq");
+        QUERY_RESOURCES.put("colleges_by_university", "semantic/queries/core/colleges_by_university.rq");
+        QUERY_RESOURCES.put("courses_by_college", "semantic/queries/core/courses_by_college.rq");
+        QUERY_RESOURCES.put("student_college_resolution", "semantic/queries/core/student_college_resolution.rq");
+        QUERY_RESOURCES.put("student_count_by_university", "semantic/queries/analysis/student_count_by_university.rq");
+        QUERY_RESOURCES.put("student_count_by_department", "semantic/queries/analysis/student_count_by_department.rq");
+        QUERY_RESOURCES.put("course_count_by_college", "semantic/queries/analysis/course_count_by_college.rq");
+        QUERY_RESOURCES.put("department_to_college_map", "semantic/queries/analysis/department_to_college_map.rq");
+        QUERY_RESOURCES.put("same_as_clusters", "semantic/queries/identity/same_as_clusters.rq");
+        QUERY_RESOURCES.put("same_as_student_details", "semantic/queries/identity/same_as_student_details.rq");
     }
 
     public List<String> listQueries() {
-        return QUERY_NAMES;
+        return List.copyOf(QUERY_RESOURCES.keySet());
     }
 
     public Map<String, String> runAll(Model model) {
         Map<String, String> outputs = new LinkedHashMap<>();
-        for (String queryName : QUERY_NAMES) {
+        for (String queryName : QUERY_RESOURCES.keySet()) {
             outputs.put(queryName, run(queryName, model));
         }
         return outputs;
@@ -59,7 +60,11 @@ public class QueryEngine {
     }
 
     private String queryResource(String queryName) {
-        return queryRoot + "/" + queryName + ".rq";
+        String resource = QUERY_RESOURCES.get(queryName);
+        if (resource == null) {
+            throw new IllegalArgumentException("Unknown query: " + queryName + ". Available queries: " + QUERY_RESOURCES.keySet());
+        }
+        return resource;
     }
 
     private String readResource(String resourcePath) {

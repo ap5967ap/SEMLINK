@@ -9,6 +9,8 @@ Capture these for the academic submission:
 5. A screenshot of `all_students.txt`.
 6. A screenshot of `colleges_by_university.txt`.
 7. A screenshot of `courses_by_college.txt`.
-8. A screenshot of `validation/valid-report.ttl`.
-9. A screenshot of `validation/invalid-report.ttl`.
-10. A screenshot of `mapping-suggestions.tsv`.
+8. A screenshot of `student_count_by_university.txt`.
+9. A screenshot of `same_as_student_details.txt`.
+10. A screenshot of `validation/valid-report.ttl`.
+11. A screenshot of `validation/invalid-report.ttl`.
+12. A screenshot of `mapping-suggestions.tsv`.

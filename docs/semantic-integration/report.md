@@ -8,11 +8,24 @@ This project demonstrates how four heterogeneous university data models can be i
 
 | Ontology | Source | Modeling Style | Reuse Strategy |
 | --- | --- | --- | --- |
-| University 1 | Existing `college_populated.ttl` | `Student`, `College`, `Course`, `Department`, `Program` | Reused directly as the richest local ontology |
-| University 2 | Existing `vasu-updated.ttl` seed | `Learner`, `Institute`, `Module`, `School`, `Track` | Curated and normalized from the repo file |
+| University 1 | Existing repo ontology, now stored at `semantic/ontologies/local/university1/university1.ttl` | `Student`, `College`, `Course`, `Department`, `Program` | Reused directly as the richest local ontology |
+| University 2 | Existing repo seed, now preserved under `semantic/ontologies/local/university2/reference/` and curated into `university2.ttl` | `Learner`, `Institute`, `Module`, `School`, `Track` | Curated and normalized from the repo file |
 | University 3 | New | `Pupil`, `CampusCollege`, `Subject`, `FacultyArea` | Added to increase semantic heterogeneity |
 | University 4 | New | `StudentInfo`, `AffiliatedCollege`, `Paper`, `Division`, `AcademicPlan` | Added with an indirect student-to-college structure |
-| AICTE | New | `Student`, `College`, `University`, `Course`, `Department`, `Program` | Central integration ontology |
+| AICTE | New, stored at `semantic/ontologies/central/aicte.ttl` | `Student`, `College`, `University`, `Course`, `Department`, `Program` | Central integration ontology |
+
+## Folder Structure
+
+The repository is organized so the semantic assets sit in one place:
+
+- `semantic/ontologies/central/` for the AICTE ontology
+- `semantic/ontologies/local/` for university ontologies and preserved reference files
+- `semantic/ontologies/support/` for helper datasets such as invalid validation data
+- `semantic/queries/core/` for the main demo queries
+- `semantic/queries/analysis/` for aggregate/reporting queries
+- `semantic/queries/identity/` for `owl:sameAs` exploration
+- `semantic/rules/` for the reasoning rules
+- `semantic/shapes/` for SHACL validation
 
 ## How Integration Works
 
@@ -51,14 +64,19 @@ Current inferred summary:
 
 ## Example Unified Queries
 
-The query set uses only the AICTE vocabulary and includes:
+The query set uses only the AICTE vocabulary and now includes core, analysis, and identity queries:
 
 - `all_students`
 - `students_in_computer_science`
 - `colleges_by_university`
 - `courses_by_college`
-- `same_as_clusters`
 - `student_college_resolution`
+- `student_count_by_university`
+- `student_count_by_department`
+- `course_count_by_college`
+- `department_to_college_map`
+- `same_as_clusters`
+- `same_as_student_details`
 
 Example outcomes from the generated output:
 
@@ -91,3 +109,5 @@ Validation only:
 ```bash
 mvn -q exec:java -Dexec.args="validate"
 ```
+
+For a fuller list of the grouped queries, see `docs/semantic-integration/query-catalog.md`.

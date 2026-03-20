@@ -1,0 +1,13 @@
+PREFIX aicte: <https://semlink.example.org/aicte#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT ?leftName ?leftId ?rightName ?rightId
+WHERE {
+  ?left owl:sameAs ?right ;
+    aicte:name ?leftName ;
+    aicte:id ?leftId .
+  ?right aicte:name ?rightName ;
+    aicte:id ?rightId .
+  FILTER(STR(?left) < STR(?right))
+}
+ORDER BY ?leftId ?rightId

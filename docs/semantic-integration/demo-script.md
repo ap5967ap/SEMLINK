@@ -34,6 +34,11 @@ mvn -q exec:java -Dexec.args="demo"
 - `target/semantic-output/query-results/students_in_computer_science.txt`
 - `target/semantic-output/query-results/colleges_by_university.txt`
 - `target/semantic-output/query-results/courses_by_college.txt`
+- `target/semantic-output/query-results/student_count_by_university.txt`
+- `target/semantic-output/query-results/student_count_by_department.txt`
+- `target/semantic-output/query-results/course_count_by_college.txt`
+- `target/semantic-output/query-results/department_to_college_map.txt`
+- `target/semantic-output/query-results/same_as_student_details.txt`
 
 ## 7. Show SHACL validation
 
@@ -47,3 +52,11 @@ mvn -q exec:java -Dexec.args="demo"
 - `target/semantic-output/exports/university2.owl`
 - `target/semantic-output/exports/university3.owl`
 - `target/semantic-output/exports/university4.owl`
+
+## 9. Show the cleaned folder structure
+
+- `src/main/resources/semantic/ontologies/central/`
+- `src/main/resources/semantic/ontologies/local/`
+- `src/main/resources/semantic/queries/core/`
+- `src/main/resources/semantic/queries/analysis/`
+- `src/main/resources/semantic/queries/identity/`

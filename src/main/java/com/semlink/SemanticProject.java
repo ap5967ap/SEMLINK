@@ -1,14 +1,9 @@
 package com.semlink;
 
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
 import org.apache.jena.rdf.model.InfModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.reasoner.Reasoner;
-import org.apache.jena.reasoner.ReasonerRegistry;
 import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
 import org.apache.jena.reasoner.rulesys.Rule;
 import org.apache.jena.riot.Lang;
@@ -38,19 +33,19 @@ public class SemanticProject {
     private static final Logger logger = LoggerFactory.getLogger(SemanticProject.class);
 
     private static final List<OntologyResource> ONTOLOGY_RESOURCES = List.of(
-        new OntologyResource("university1", "db/college1/college_populated.ttl"),
-        new OntologyResource("university2", "semantic/ontologies/university2.ttl"),
-        new OntologyResource("university3", "semantic/ontologies/university3.ttl"),
-        new OntologyResource("university4", "semantic/ontologies/university4.ttl"),
-        new OntologyResource("aicte", "semantic/ontologies/aicte.ttl")
+        new OntologyResource("university1", "semantic/ontologies/local/university1/university1.ttl"),
+        new OntologyResource("university2", "semantic/ontologies/local/university2/university2.ttl"),
+        new OntologyResource("university3", "semantic/ontologies/local/university3/university3.ttl"),
+        new OntologyResource("university4", "semantic/ontologies/local/university4/university4.ttl"),
+        new OntologyResource("aicte", "semantic/ontologies/central/aicte.ttl")
     );
 
     private static final Path OUTPUT_DIR = Path.of("target", "semantic-output");
     private static final String SHAPES_RESOURCE = "semantic/shapes/aicte-shapes.ttl";
-    private static final String INVALID_SAMPLE_RESOURCE = "semantic/ontologies/invalid-sample.ttl";
-    private static final String RULE_RESOURCE = "semantic/rules/inference.rules";
+    private static final String INVALID_SAMPLE_RESOURCE = "semantic/ontologies/support/invalid-sample.ttl";
+    private static final String RULE_RESOURCE = "semantic/rules/alignment.rules";
 
-    private final QueryEngine queryEngine = new QueryEngine("semantic/queries");
+    private final QueryEngine queryEngine = new QueryEngine();
     private final SimilarityMatcher similarityMatcher = new SimilarityMatcher("https://semlink.example.org/aicte#");
 
     public void runDemo() {
