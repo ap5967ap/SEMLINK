@@ -1,0 +1,43 @@
+@prefix aicte: <https://semlink.example.org/aicte#> .
+
+<https://semlink.example.org/r2o/university/U500> a aicte:University ;
+  aicte:id "U500" ;
+  aicte:name "Pragati Technical University" .
+
+<https://semlink.example.org/r2o/college/C501> a aicte:College ;
+  aicte:id "C501" ;
+  aicte:name "Pragati College of Engineering" ;
+  aicte:belongsToUniversity <https://semlink.example.org/r2o/university/U500> ;
+  aicte:offersCourse <https://semlink.example.org/r2o/course/CR701> .
+
+<https://semlink.example.org/r2o/college/C502> a aicte:College ;
+  aicte:id "C502" ;
+  aicte:name "Pragati School of Data Science" ;
+  aicte:belongsToUniversity <https://semlink.example.org/r2o/university/U500> ;
+  aicte:offersCourse <https://semlink.example.org/r2o/course/CR702> .
+
+<https://semlink.example.org/r2o/student/S501> a aicte:Student ;
+  aicte:id "S501" ;
+  aicte:name "Rohan Kulkarni" ;
+  aicte:department "Computer Science" ;
+  aicte:studiesAt <https://semlink.example.org/r2o/college/C501> .
+
+<https://semlink.example.org/r2o/student/S502> a aicte:Student ;
+  aicte:id "S502" ;
+  aicte:name "Meera Patil" ;
+  aicte:department "Computer Science" ;
+  aicte:studiesAt <https://semlink.example.org/r2o/college/C501> .
+
+<https://semlink.example.org/r2o/student/S503> a aicte:Student ;
+  aicte:id "S503" ;
+  aicte:name "Aarav Nair" ;
+  aicte:department "Data Science" ;
+  aicte:studiesAt <https://semlink.example.org/r2o/college/C502> .
+
+<https://semlink.example.org/r2o/course/CR701> a aicte:Course ;
+  aicte:id "CR701" ;
+  aicte:name "Knowledge Graph Fundamentals" .
+
+<https://semlink.example.org/r2o/course/CR702> a aicte:Course ;
+  aicte:id "CR702" ;
+  aicte:name "Applied Data Analytics" .

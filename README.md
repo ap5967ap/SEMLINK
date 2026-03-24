@@ -23,7 +23,9 @@ Recommended reading order:
 
 1. `docs/semantic-integration/report.md`
 2. `docs/semantic-integration/deep-dive.md`
-3. `docs/semantic-integration/query-catalog.md`
+3. `docs/semantic-integration/r2o-extension.md`
+4. `docs/semantic-integration/query-catalog.md`
+5. `docs/semantic-integration/real-world-extensions.md`
 
 ## Project Structure
 
@@ -35,10 +37,10 @@ Recommended reading order:
 │       ├── deep-dive.md
 │       ├── demo-script.md
 │       ├── query-catalog.md
+│       ├── r2o-extension.md
+│       ├── real-world-extensions.md
 │       ├── report.md
 │       └── screenshot-checklist.md
-├── pom.xml
-├── README.md
 ├── src
 │   └── main
 │       ├── java
@@ -69,6 +71,13 @@ Recommended reading order:
 │               │   │       └── university4.ttl
 │               │   └── support
 │               │       └── invalid-sample.ttl
+│               ├── r2o
+│               │   └── example-college
+│               │       ├── README.md
+│               │       ├── generated-aicte-ready.ttl
+│               │       ├── r2rml-mapping.ttl
+│               │       ├── sample-data.sql
+│               │       └── schema.sql
 │               ├── queries
 │               │   ├── analysis
 │               │   │   ├── course_count_by_college.rq
@@ -88,96 +97,6 @@ Recommended reading order:
 │               │   └── alignment.rules
 │               └── shapes
 │                   └── aicte-shapes.ttl
-└── target
-    ├── classes
-    │   ├── com
-    │   │   └── semlink
-    │   │       ├── Main.class
-    │   │       ├── QueryEngine.class
-    │   │       ├── SemanticProject.class
-    │   │       ├── SemanticProject$OntologyResource.class
-    │   │       ├── SimilarityMatcher.class
-    │   │       ├── SimilarityMatcher$Suggestion.class
-    │   │       └── SimilarityMatcher$Term.class
-    │   ├── db
-    │   │   ├── college1
-    │   │   ├── college2
-    │   │   ├── college3
-    │   │   └── college4
-    │   └── semantic
-    │       ├── ontologies
-    │       │   ├── central
-    │       │   │   └── aicte.ttl
-    │       │   ├── local
-    │       │   │   ├── university1
-    │       │   │   │   ├── reference
-    │       │   │   │   │   ├── college_populated.owx
-    │       │   │   │   │   └── college_schema.ttl
-    │       │   │   │   └── university1.ttl
-    │       │   │   ├── university2
-    │       │   │   │   ├── reference
-    │       │   │   │   │   └── vasu-updated.ttl
-    │       │   │   │   └── university2.ttl
-    │       │   │   ├── university3
-    │       │   │   │   └── university3.ttl
-    │       │   │   └── university4
-    │       │   │       └── university4.ttl
-    │       │   └── support
-    │       │       └── invalid-sample.ttl
-    │       ├── queries
-    │       │   ├── analysis
-    │       │   │   ├── course_count_by_college.rq
-    │       │   │   ├── department_to_college_map.rq
-    │       │   │   ├── student_count_by_department.rq
-    │       │   │   └── student_count_by_university.rq
-    │       │   ├── core
-    │       │   │   ├── all_students.rq
-    │       │   │   ├── colleges_by_university.rq
-    │       │   │   ├── courses_by_college.rq
-    │       │   │   ├── student_college_resolution.rq
-    │       │   │   └── students_in_computer_science.rq
-    │       │   └── identity
-    │       │       ├── same_as_clusters.rq
-    │       │       └── same_as_student_details.rq
-    │       ├── rules
-    │       │   └── alignment.rules
-    │       └── shapes
-    │           └── aicte-shapes.ttl
-    ├── generated-sources
-    │   └── annotations
-    ├── maven-status
-    │   └── maven-compiler-plugin
-    │       └── compile
-    │           └── default-compile
-    │               ├── createdFiles.lst
-    │               └── inputFiles.lst
-    ├── semantic-output
-    │   ├── exports
-    │   │   ├── aicte.owl
-    │   │   ├── university1.owl
-    │   │   ├── university2.owl
-    │   │   ├── university3.owl
-    │   │   └── university4.owl
-    │   ├── inferred.ttl
-    │   ├── mapping-suggestions.tsv
-    │   ├── merged.ttl
-    │   ├── query-results
-    │   │   ├── all_students.txt
-    │   │   ├── colleges_by_university.txt
-    │   │   ├── course_count_by_college.txt
-    │   │   ├── courses_by_college.txt
-    │   │   ├── department_to_college_map.txt
-    │   │   ├── same_as_clusters.txt
-    │   │   ├── same_as_student_details.txt
-    │   │   ├── student_college_resolution.txt
-    │   │   ├── student_count_by_department.txt
-    │   │   ├── student_count_by_university.txt
-    │   │   └── students_in_computer_science.txt
-    │   ├── summary.txt
-    │   └── validation
-    │       ├── invalid-report.ttl
-    │       └── valid-report.ttl
-    └── test-classes
-
-63 directories, 86 files
+├── pom.xml
+└── README.md
 ```

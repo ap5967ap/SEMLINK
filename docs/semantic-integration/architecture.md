@@ -2,7 +2,10 @@
 
 ```mermaid
 flowchart LR
-    U1["University 1\nlocal/university1/university1.ttl"] --> A["Central AICTE Ontology"]
+    DB["Optional Step 0\nRelational Database Input"] --> M["R2O Mapping Layer"]
+    M --> U0["Generated RDF or Local Ontology"]
+    U0 --> A["Central AICTE Ontology"]
+    U1["University 1\nlocal/university1/university1.ttl"] --> A
     U2["University 2\nlocal/university2/university2.ttl"] --> A
     U3["University 3\nPupil / CampusCollege / Subject"] --> A
     U4["University 4\nStudentInfo / AffiliatedCollege / Paper"] --> A
@@ -17,6 +20,7 @@ flowchart LR
 
 ## Runtime Flow
 
+0. Optionally convert a college relational database into RDF through the R2O layer.
 1. Load the four university ontologies plus the AICTE ontology.
 2. Merge them into one RDF model without physically flattening the source files.
 3. Apply controlled rules to materialize AICTE-aligned classes and properties.
@@ -29,4 +33,5 @@ flowchart LR
 - `semantic/ontologies/central/` holds the AICTE ontology.
 - `semantic/ontologies/local/` holds the four university ontologies plus preserved reference material for the reused repo sources.
 - `semantic/ontologies/support/` holds validation-only helper data such as the invalid sample.
+- `semantic/r2o/` holds the new relational-to-ontology onboarding example.
 - `semantic/queries/core/`, `analysis/`, and `identity/` group the SPARQL files by purpose.

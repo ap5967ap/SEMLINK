@@ -4,6 +4,8 @@
 
 This project demonstrates how four heterogeneous university data models can be integrated semantically without physically merging their databases. The integration layer is a central AICTE ontology. Each university keeps its own vocabulary, while OWL mappings and reasoning expose a unified AICTE view for SPARQL querying.
 
+The project now also includes an **optional Step 0** for real-world onboarding: a relational-database-to-ontology conversion layer, so colleges can start from their existing database tables instead of manually authoring ontology files.
+
 ## Ontology Set
 
 | Ontology | Source | Modeling Style | Reuse Strategy |
@@ -29,6 +31,7 @@ The repository is organized so the semantic assets sit in one place:
 
 ## How Integration Works
 
+0. Optionally convert relational college data into RDF or ontology instances through the new R2O step.
 1. The AICTE ontology declares the standard academic vocabulary.
 2. Local classes and properties are aligned with AICTE using `owl:equivalentClass` and `owl:equivalentProperty`.
 3. Selected duplicate entities are linked with `owl:sameAs`.
@@ -47,7 +50,7 @@ The latest demo run produced these artifacts in `target/semantic-output/`:
 
 - 5 exported OWL files in RDF/XML format
 - `merged.ttl` and `inferred.ttl`
-- 6 named query result files
+- 11 named query result files
 - `mapping-suggestions.tsv`
 - `validation/valid-report.ttl`
 - `validation/invalid-report.ttl`
@@ -91,6 +94,7 @@ Example outcomes from the generated output:
 - The curated merged model passes validation.
 - A separate invalid sample intentionally fails validation to demonstrate constraint checking.
 - `mapping-suggestions.tsv` shows Levenshtein-based suggestions with synonym boosts, including mappings such as `Learner -> Student`, `Module -> Course`, and `registeredAt -> studiesAt`.
+- An R2O onboarding example now shows how a relational database can be converted into AICTE-ready RDF before the current semantic pipeline begins.
 
 ## How To Run
 
@@ -113,3 +117,7 @@ mvn -q exec:java -Dexec.args="validate"
 For a fuller list of the grouped queries, see `docs/semantic-integration/query-catalog.md`.
 
 For a diagram-rich conceptual explanation, see `docs/semantic-integration/deep-dive.md`.
+
+For the new relational-to-ontology onboarding extension, see `docs/semantic-integration/r2o-extension.md`.
+
+For future production-oriented features, see `docs/semantic-integration/real-world-extensions.md`.

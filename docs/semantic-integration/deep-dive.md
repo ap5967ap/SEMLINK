@@ -18,6 +18,9 @@ This project solves that problem by using a central AICTE ontology as the semant
 
 ```mermaid
 flowchart LR
+    RDB["Optional Relational DB Input"] --> R2O["Step 0 R2O Conversion"]
+    R2O --> U0["Generated Semantic Data"]
+    U0 --> G["AICTE Global Ontology"]
     U1["University 1\nStudent / College / Course"] --> G["AICTE Global Ontology"]
     U2["University 2\nLearner / Institute / Module"] --> G
     U3["University 3\nPupil / CampusCollege / Subject"] --> G
@@ -29,6 +32,7 @@ flowchart LR
 
 ### What this means
 
+- A new college can start from its relational database through the R2O onboarding path.
 - The four universities keep their own models.
 - AICTE acts as the common meaning layer.
 - Reasoning converts heterogeneous local facts into a unified semantic view.
@@ -221,6 +225,7 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
+    A0["Optional Step 0\nR2O from relational DB"] --> A["Design or generate local semantic data"]
     A["Design local ontologies"] --> B["Design AICTE ontology"]
     B --> C["Create class and property alignments"]
     C --> D["Add sample instance data"]
@@ -232,10 +237,10 @@ flowchart TD
 
 ### Full explanation
 
-1. We start with four local university ontologies.
-2. We build a standard AICTE ontology.
+1. We can now start either from a local ontology or from a relational database through the R2O step.
+2. We build or reuse a standard AICTE ontology.
 3. We connect each local ontology to the AICTE ontology semantically.
-4. We populate local ontologies with students, colleges, courses, departments, and universities.
+4. We populate or generate semantic data for students, colleges, courses, departments, and universities.
 5. We reason over the merged graph to produce a unified AICTE view.
 6. We query only the AICTE vocabulary.
 7. We validate the integrated result.
