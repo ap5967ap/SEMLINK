@@ -30,11 +30,78 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    S0["Step 0\nR2O Conversion"] --> S1["Step 1\nLocal Ontology or AICTE-Ready RDF"]
+    DB["Relational DB"] --> M0["Manual Mapping"]
+    DB --> A0["Assisted Mapping Agent"]
+    A0 --> H0["Human Refinement"]
+    M0 --> S0["R2O Conversion"]
+    H0 --> S0
+    S0 --> S1["Step 1\nLocal Ontology or AICTE-Ready RDF"]
     S1 --> S2["Step 2\nAICTE Alignment"]
     S2 --> S3["Step 3\nReasoning"]
     S3 --> S4["Step 4\nSPARQL Querying"]
     S4 --> S5["Step 5\nValidation and Reporting"]
+```
+
+## Three Supported R2O Modes
+
+### 1. Manual Mode
+
+This is the fully controlled academic mode.
+
+- A domain expert writes or edits the R2RML mapping manually.
+- The mapping is reviewed directly by a human.
+- RDF is generated from the approved mapping.
+
+Command:
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college manual"
+```
+
+### 2. Assisted Mode
+
+This is the new automated middle step.
+
+- The system inspects the SQL schema.
+- It classifies tables into candidate AICTE concepts such as `Student`, `College`, `University`, and `Course`.
+- It infers likely property mappings using column names and foreign-key structure.
+- It generates a draft R2RML mapping and a review report.
+
+Command:
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o assist example-college"
+```
+
+Generated files:
+
+- `target/semantic-output/r2o/example-college/assisted/draft-r2rml-mapping.ttl`
+- `target/semantic-output/r2o/example-college/assisted/refined-r2rml-mapping.ttl`
+- `target/semantic-output/r2o/example-college/assisted/review-report.md`
+- `target/semantic-output/r2o/example-college/assisted/schema-profile.tsv`
+
+### 3. Human-Reviewed Assisted Mode
+
+This is the practical production mode.
+
+- The draft mapping is generated automatically.
+- A human refines or approves it.
+- RDF is generated from the refined mapping.
+
+Command:
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college refined"
+```
+
+### 4. End-to-End Assisted Pipeline
+
+This runs the automated draft generation and then renders RDF from the draft immediately.
+
+Command:
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o pipeline example-college"
 ```
 
 ## Why This Is Better For Real Deployment
@@ -43,6 +110,8 @@ flowchart TD
 - Adoption becomes easier because colleges keep using familiar database screens.
 - Semantic integration becomes an onboarding layer, not a manual modeling burden.
 - New institutions can join the system faster.
+- Automation reduces the first-pass mapping effort.
+- Human review remains in the loop so semantic quality is not delegated blindly to heuristics.
 
 ## Example Added To This Project
 
@@ -59,6 +128,8 @@ The project now includes a worked R2O example at:
 - Sample SQL inserts
 - A standards-style R2RML mapping file
 - The semantic RDF output that would be produced
+- A local agentic-style mapping assistant that drafts R2RML automatically
+- A review report that highlights omitted columns and uncertain decisions
 
 ## Why R2RML Was Chosen For The Example
 
@@ -69,10 +140,11 @@ The project now includes a worked R2O example at:
 ## What Colleges Would Actually Do
 
 1. Keep entering data in their existing relational database.
-2. Register the schema with a mapping template.
-3. Run an R2O engine on schedule or on demand.
-4. Produce RDF that is AICTE-ready or easily alignable.
-5. Feed the result into the same semantic integration pipeline used in the current project.
+2. Run the assisted R2O step to produce a first-pass mapping draft.
+3. Let a data steward refine or approve the generated mapping.
+4. Run the R2O renderer on schedule or on demand.
+5. Produce RDF that is AICTE-ready or easily alignable.
+6. Feed the result into the same semantic integration pipeline used in the current project.
 
 ## Important Design Decision
 
@@ -81,4 +153,4 @@ This R2O extension does **not** replace the current ontology-based version.
 Instead, the project now supports two entry modes:
 
 - **Mode A:** ontology-first onboarding, which is the existing demo
-- **Mode B:** R2O-assisted onboarding, which is the new practical deployment extension
+- **Mode B:** R2O-assisted onboarding, which now includes manual, assisted, and human-reviewed assisted workflows

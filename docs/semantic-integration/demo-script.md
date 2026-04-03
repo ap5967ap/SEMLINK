@@ -3,14 +3,26 @@
 ## 1. Compile the project
 
 ```bash
-mvn -q -DskipTests compile
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q -DskipTests compile
 ```
 
 ## 2. Run the full semantic demo
 
 ```bash
-mvn -q exec:java -Dexec.args="demo"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="demo"
 ```
+
+## 2A. Show the new R2O onboarding options
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o assist example-college"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college manual"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college refined"
+```
+
+- Explain that `manual` uses the hand-authored R2RML mapping.
+- Explain that `assist` generates a draft mapping and review report from the relational schema.
+- Explain that `refined` is the human-reviewed version of the generated draft.
 
 ## 3. Explain the local ontologies
 
@@ -57,6 +69,9 @@ mvn -q exec:java -Dexec.args="demo"
 
 - `src/main/resources/semantic/ontologies/central/`
 - `src/main/resources/semantic/ontologies/local/`
+- `src/main/resources/semantic/r2o/example-college/`
 - `src/main/resources/semantic/queries/core/`
 - `src/main/resources/semantic/queries/analysis/`
 - `src/main/resources/semantic/queries/identity/`
+- `target/semantic-output/r2o/example-college/assisted/`
+- `target/semantic-output/r2o/example-college/generated/`

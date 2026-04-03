@@ -2,17 +2,26 @@
 
 Semantic integration of heterogeneous university databases using OWL, RDF, SPARQL, SHACL, and a central AICTE ontology.
 
+Use JDK 21 or newer. If your shell points to an older Java version, prefix commands with:
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25)
+```
+
 ## Run
 
 ```bash
-mvn -q exec:java -Dexec.args="demo"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="demo"
 ```
 
 Useful commands:
 
 ```bash
-mvn -q exec:java -Dexec.args="query all_students"
-mvn -q exec:java -Dexec.args="validate"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="query all_students"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="validate"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o assist example-college"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college manual"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college refined"
 ```
 
 Generated outputs are written to `target/semantic-output/`.
@@ -48,8 +57,12 @@ Recommended reading order:
 │       │       └── semlink
 │       │           ├── Main.java
 │       │           ├── QueryEngine.java
+│       │           ├── R2oAssistant.java
+│       │           ├── R2oWorkflow.java
+│       │           ├── R2rmlRenderer.java
 │       │           ├── SemanticProject.java
-│       │           └── SimilarityMatcher.java
+│       │           ├── SimilarityMatcher.java
+│       │           └── SqlInputParser.java
 │       └── resources
 │           └── semantic
 │               ├── ontologies
@@ -100,3 +113,16 @@ Recommended reading order:
 ├── pom.xml
 └── README.md
 ```
+
+## R2O Modes
+
+The project now supports three Step 0 onboarding modes before the ontology integration flow:
+
+1. Manual R2O
+   Use the curated R2RML mapping in `src/main/resources/semantic/r2o/example-college/r2rml-mapping.ttl`.
+
+2. Assisted R2O
+   Run the local agentic-style assistant to inspect the relational schema and generate a draft mapping plus review report.
+
+3. Human-Reviewed R2O
+   Edit the generated `refined-r2rml-mapping.ttl`, then render RDF from that reviewed mapping.

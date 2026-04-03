@@ -14,3 +14,14 @@ Files:
 - `generated-aicte-ready.ttl` shows the RDF output expected from the mapping.
 
 This example is intentionally kept separate from the main demo so the current ontology-first workflow remains intact.
+
+Commands:
+
+- `JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o assist example-college"`
+- `JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college manual"`
+- `JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college refined"`
+
+Generated artifacts:
+
+- `target/semantic-output/r2o/example-college/assisted/`
+- `target/semantic-output/r2o/example-college/generated/`

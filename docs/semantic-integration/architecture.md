@@ -2,8 +2,11 @@
 
 ```mermaid
 flowchart LR
-    DB["Optional Step 0\nRelational Database Input"] --> M["R2O Mapping Layer"]
-    M --> U0["Generated RDF or Local Ontology"]
+    DB["Optional Step 0\nRelational Database Input"] --> M1["Manual R2RML Mapping"]
+    DB --> M2["Assisted Mapping Agent"]
+    M2 --> M3["Human Refinement"]
+    M1 --> U0["Generated RDF or Local Ontology"]
+    M3 --> U0
     U0 --> A["Central AICTE Ontology"]
     U1["University 1\nlocal/university1/university1.ttl"] --> A
     U2["University 2\nlocal/university2/university2.ttl"] --> A
@@ -21,6 +24,7 @@ flowchart LR
 ## Runtime Flow
 
 0. Optionally convert a college relational database into RDF through the R2O layer.
+   That layer now supports manual mapping, assisted draft generation, and human-reviewed refinement.
 1. Load the four university ontologies plus the AICTE ontology.
 2. Merge them into one RDF model without physically flattening the source files.
 3. Apply controlled rules to materialize AICTE-aligned classes and properties.

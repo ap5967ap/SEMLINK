@@ -47,6 +47,7 @@ public class SemanticProject {
 
     private final QueryEngine queryEngine = new QueryEngine();
     private final SimilarityMatcher similarityMatcher = new SimilarityMatcher("https://semlink.example.org/aicte#");
+    private final R2oWorkflow r2oWorkflow = new R2oWorkflow();
 
     public void runDemo() {
         try {
@@ -103,6 +104,26 @@ public class SemanticProject {
         System.out.println("Validation conforms: " + report.conforms());
         System.out.println("Validation entries: " + report.getEntries().size());
         System.out.println("Report output is written during `demo` execution.");
+    }
+
+    public void runR2o(String[] args) {
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Missing R2O command.\n" + r2oWorkflow.usage());
+        }
+
+        String subcommand = args[0];
+        String exampleName = args.length >= 2 ? args[1] : "example-college";
+
+        switch (subcommand) {
+            case "assist" -> r2oWorkflow.assist(exampleName);
+            case "pipeline" -> r2oWorkflow.pipeline(exampleName);
+            case "generate" -> {
+                String mode = args.length >= 3 ? args[2] : "manual";
+                String customPath = "file".equals(mode) && args.length >= 4 ? args[3] : null;
+                r2oWorkflow.generate(exampleName, mode, customPath);
+            }
+            default -> throw new IllegalArgumentException("Unknown R2O command: " + subcommand + "\n" + r2oWorkflow.usage());
+        }
     }
 
     private Map<String, Model> loadOntologyModels() {

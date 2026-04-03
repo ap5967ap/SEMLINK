@@ -4,7 +4,7 @@
 
 This project demonstrates how four heterogeneous university data models can be integrated semantically without physically merging their databases. The integration layer is a central AICTE ontology. Each university keeps its own vocabulary, while OWL mappings and reasoning expose a unified AICTE view for SPARQL querying.
 
-The project now also includes an **optional Step 0** for real-world onboarding: a relational-database-to-ontology conversion layer, so colleges can start from their existing database tables instead of manually authoring ontology files.
+The project now also includes an **optional Step 0** for real-world onboarding: a relational-database-to-ontology conversion layer, so colleges can start from their existing database tables instead of manually authoring ontology files. This Step 0 now has both a manual mode and an assisted human-in-the-loop mode.
 
 ## Ontology Set
 
@@ -32,6 +32,7 @@ The repository is organized so the semantic assets sit in one place:
 ## How Integration Works
 
 0. Optionally convert relational college data into RDF or ontology instances through the new R2O step.
+   This can now happen through a hand-authored R2RML mapping or through an assisted draft-generation step followed by human refinement.
 1. The AICTE ontology declares the standard academic vocabulary.
 2. Local classes and properties are aligned with AICTE using `owl:equivalentClass` and `owl:equivalentProperty`.
 3. Selected duplicate entities are linked with `owl:sameAs`.
@@ -95,6 +96,7 @@ Example outcomes from the generated output:
 - A separate invalid sample intentionally fails validation to demonstrate constraint checking.
 - `mapping-suggestions.tsv` shows Levenshtein-based suggestions with synonym boosts, including mappings such as `Learner -> Student`, `Module -> Course`, and `registeredAt -> studiesAt`.
 - An R2O onboarding example now shows how a relational database can be converted into AICTE-ready RDF before the current semantic pipeline begins.
+- The project includes a local assisted R2O workflow that inspects SQL schema files, drafts R2RML mappings, writes a review report, and then lets a human refine the mapping before final RDF generation.
 
 ## How To Run
 

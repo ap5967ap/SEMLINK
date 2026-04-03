@@ -9,6 +9,7 @@ public class Main {
 
         switch (command) {
             case "demo" -> project.runDemo();
+            case "r2o" -> project.runR2o(Arrays.copyOfRange(args, 1, args.length));
             case "query" -> {
                 if (args.length < 2) {
                     printUsage();
@@ -29,5 +30,8 @@ public class Main {
         System.out.println("  mvn exec:java -Dexec.args=\"demo\"");
         System.out.println("  mvn exec:java -Dexec.args=\"query all_students\"");
         System.out.println("  mvn exec:java -Dexec.args=\"validate\"");
+        System.out.println("  mvn exec:java -Dexec.args=\"r2o assist example-college\"");
+        System.out.println("  mvn exec:java -Dexec.args=\"r2o pipeline example-college\"");
+        System.out.println("  mvn exec:java -Dexec.args=\"r2o generate example-college manual\"");
     }
 }
