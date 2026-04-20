@@ -14,7 +14,7 @@ So the practical solution is to add a new Step 0:
 
 **Relational Database to Ontology (R2O)**
 
-This means a college can continue using its relational system, and an R2O mapping layer converts that data into RDF/OWL before the rest of the semantic integration pipeline starts.
+This means a college can continue using its relational system, and an R2O layer converts that data into RDF before the rest of the semantic integration pipeline starts.
 
 ## New Step 0 Diagram
 
@@ -31,8 +31,8 @@ flowchart LR
 ```mermaid
 flowchart TD
     DB["Relational DB"] --> M0["Manual Mapping"]
-    DB --> A0["Assisted Mapping Agent"]
-    A0 --> H0["Human Refinement"]
+    DB --> A0["Direct Raw RDF Export"]
+    A0 --> H0["Assisted RDF Refinement"]
     M0 --> S0["R2O Conversion"]
     H0 --> S0
     S0 --> S1["Step 1\nLocal Ontology or AICTE-Ready RDF"]
@@ -58,14 +58,32 @@ Command:
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college manual"
 ```
 
-### 2. Assisted Mode
+### 2. Raw RDF Export Mode
 
-This is the new automated middle step.
+This is the direct standards-style projection step.
 
-- The system inspects the SQL schema.
-- It classifies tables into candidate AICTE concepts such as `Student`, `College`, `University`, and `Course`.
-- It infers likely property mappings using column names and foreign-key structure.
-- It generates a draft R2RML mapping and a review report.
+- The system reads the relational schema and rows.
+- It emits raw RDF triples for tables, columns, and foreign-key links.
+- It preserves source semantics before any AICTE-specific interpretation is applied.
+
+Command:
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o raw example-college"
+```
+
+Generated files:
+
+- `target/semantic-output/r2o/example-college/raw/raw-direct-mapping.ttl`
+- `target/semantic-output/r2o/example-college/raw/summary.txt`
+
+### 3. Assisted Refinement Mode
+
+This is the practical production mode.
+
+- Raw RDF is generated first.
+- The assistant reads those raw triples and promotes obvious facts into an AICTE-ready RDF layer.
+- A human reviews the promoted output and the review report.
 
 Command:
 
@@ -73,30 +91,9 @@ Command:
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o assist example-college"
 ```
 
-Generated files:
-
-- `target/semantic-output/r2o/example-college/assisted/draft-r2rml-mapping.ttl`
-- `target/semantic-output/r2o/example-college/assisted/refined-r2rml-mapping.ttl`
-- `target/semantic-output/r2o/example-college/assisted/review-report.md`
-- `target/semantic-output/r2o/example-college/assisted/schema-profile.tsv`
-
-### 3. Human-Reviewed Assisted Mode
-
-This is the practical production mode.
-
-- The draft mapping is generated automatically.
-- A human refines or approves it.
-- RDF is generated from the refined mapping.
-
-Command:
-
-```bash
-JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college refined"
-```
-
 ### 4. End-to-End Assisted Pipeline
 
-This runs the automated draft generation and then renders RDF from the draft immediately.
+This runs the raw RDF export and then the refinement pass immediately.
 
 Command:
 
@@ -110,7 +107,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o pipe
 - Adoption becomes easier because colleges keep using familiar database screens.
 - Semantic integration becomes an onboarding layer, not a manual modeling burden.
 - New institutions can join the system faster.
-- Automation reduces the first-pass mapping effort.
+- Automation reduces the first-pass semantic interpretation effort.
 - Human review remains in the loop so semantic quality is not delegated blindly to heuristics.
 
 ## Example Added To This Project
@@ -128,7 +125,8 @@ The project now includes a worked R2O example at:
 - Sample SQL inserts
 - A standards-style R2RML mapping file
 - The semantic RDF output that would be produced
-- A local agentic-style mapping assistant that drafts R2RML automatically
+- A direct raw-RDF export that preserves table and foreign-key structure
+- A local assistant that refines the raw triples into a compact AICTE-ready view
 - A review report that highlights omitted columns and uncertain decisions
 
 ## Why R2RML Was Chosen For The Example
@@ -140,10 +138,10 @@ The project now includes a worked R2O example at:
 ## What Colleges Would Actually Do
 
 1. Keep entering data in their existing relational database.
-2. Run the assisted R2O step to produce a first-pass mapping draft.
-3. Let a data steward refine or approve the generated mapping.
-4. Run the R2O renderer on schedule or on demand.
-5. Produce RDF that is AICTE-ready or easily alignable.
+2. Run the raw export step to produce source-faithful RDF triples.
+3. Let the assistant refine the raw graph into an AICTE-ready view.
+4. Let a data steward review the promoted triples and any warnings.
+5. Run the R2O renderer on schedule or on demand where manual mappings are preferred.
 6. Feed the result into the same semantic integration pipeline used in the current project.
 
 ## Important Design Decision
@@ -153,4 +151,4 @@ This R2O extension does **not** replace the current ontology-based version.
 Instead, the project now supports two entry modes:
 
 - **Mode A:** ontology-first onboarding, which is the existing demo
-- **Mode B:** R2O-assisted onboarding, which now includes manual, assisted, and human-reviewed assisted workflows
+- **Mode B:** R2O-assisted onboarding, which now includes manual mapping, raw RDF export, and assisted refinement over the raw graph

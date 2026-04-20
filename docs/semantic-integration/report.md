@@ -4,7 +4,9 @@
 
 This project demonstrates how four heterogeneous university data models can be integrated semantically without physically merging their databases. The integration layer is a central AICTE ontology. Each university keeps its own vocabulary, while OWL mappings and reasoning expose a unified AICTE view for SPARQL querying.
 
-The project now also includes an **optional Step 0** for real-world onboarding: a relational-database-to-ontology conversion layer, so colleges can start from their existing database tables instead of manually authoring ontology files. This Step 0 now has both a manual mode and an assisted human-in-the-loop mode.
+The project now also includes an **optional Step 0** for real-world onboarding: a relational-database-to-ontology conversion layer, so colleges can start from their existing database tables instead of manually authoring ontology files. This Step 0 now has a manual mode plus a raw-RDF-first assisted mode.
+
+The project also now supports a separate bring-your-own-OWL onboarding module: a college can submit its own OWL file plus a Jena mapping-rules file, and the application runs the normal AICTE reasoning, querying, and validation pipeline on top of that package.
 
 ## Ontology Set
 
@@ -23,6 +25,7 @@ The repository is organized so the semantic assets sit in one place:
 - `semantic/ontologies/central/` for the AICTE ontology
 - `semantic/ontologies/local/` for university ontologies and preserved reference files
 - `semantic/ontologies/support/` for helper datasets such as invalid validation data
+- `semantic/onboarding/` for bring-your-own-OWL onboarding packages
 - `semantic/queries/core/` for the main demo queries
 - `semantic/queries/analysis/` for aggregate/reporting queries
 - `semantic/queries/identity/` for `owl:sameAs` exploration
@@ -32,7 +35,8 @@ The repository is organized so the semantic assets sit in one place:
 ## How Integration Works
 
 0. Optionally convert relational college data into RDF or ontology instances through the new R2O step.
-   This can now happen through a hand-authored R2RML mapping or through an assisted draft-generation step followed by human refinement.
+   This can now happen through a hand-authored R2RML mapping or through a direct raw RDF export followed by assisted refinement.
+0A. Alternatively, a college can submit its own OWL plus a mapping-rules file through the custom onboarding module.
 1. The AICTE ontology declares the standard academic vocabulary.
 2. Local classes and properties are aligned with AICTE using `owl:equivalentClass` and `owl:equivalentProperty`.
 3. Selected duplicate entities are linked with `owl:sameAs`.
@@ -96,7 +100,35 @@ Example outcomes from the generated output:
 - A separate invalid sample intentionally fails validation to demonstrate constraint checking.
 - `mapping-suggestions.tsv` shows Levenshtein-based suggestions with synonym boosts, including mappings such as `Learner -> Student`, `Module -> Course`, and `registeredAt -> studiesAt`.
 - An R2O onboarding example now shows how a relational database can be converted into AICTE-ready RDF before the current semantic pipeline begins.
-- The project includes a local assisted R2O workflow that inspects SQL schema files, drafts R2RML mappings, writes a review report, and then lets a human refine the mapping before final RDF generation.
+- The project includes a local assisted R2O workflow that first exports raw RDF triples from the relational source, then lets an assistant promote obvious facts into an AICTE-ready graph and write a review report.
+- The project includes a custom onboarding workflow for user-supplied OWL plus mapping rules, with outputs isolated under `target/semantic-output/custom/`.
+
+## Custom OWL Onboarding
+
+The custom onboarding module is intended for colleges that already maintain ontology data and want to plug into the SEMLINK runtime directly.
+
+Inputs:
+
+- a local OWL file containing the college vocabulary and instances
+- a Jena rules file that maps local terms into the AICTE vocabulary
+
+Processing:
+
+- the application loads the supplied OWL
+- merges it with the central AICTE ontology
+- combines the standard rule set with the college's custom mapping rules
+- materializes the inferred graph
+- runs the standard query and validation steps
+
+Outputs:
+
+- `target/semantic-output/custom/<package-name>/merged.ttl`
+- `target/semantic-output/custom/<package-name>/inferred.ttl`
+- `target/semantic-output/custom/<package-name>/query-results/`
+- `target/semantic-output/custom/<package-name>/validation/report.ttl`
+- `target/semantic-output/custom/<package-name>/summary.txt`
+
+For a fuller walkthrough, see `docs/semantic-integration/custom-onboarding.md`.
 
 ## How To Run
 
@@ -121,5 +153,7 @@ For a fuller list of the grouped queries, see `docs/semantic-integration/query-c
 For a diagram-rich conceptual explanation, see `docs/semantic-integration/deep-dive.md`.
 
 For the new relational-to-ontology onboarding extension, see `docs/semantic-integration/r2o-extension.md`.
+
+For the bring-your-own-OWL workflow, see `docs/semantic-integration/custom-onboarding.md`.
 
 For future production-oriented features, see `docs/semantic-integration/real-world-extensions.md`.

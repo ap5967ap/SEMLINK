@@ -1,5 +1,14 @@
 package com.semlink;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.RDF;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -10,6 +19,7 @@ import java.util.Set;
 
 public class R2oAssistant {
     private static final String AICTE_NS = "https://semlink.example.org/aicte#";
+    private static final String REFINED_NS = "https://semlink.example.org/r2o/refined/";
     private static final Map<String, List<String>> CLASS_HINTS = Map.of(
         "University", List.of("university", "hub", "parentuniversity"),
         "College", List.of("college", "institute", "campus", "affiliatedcollege"),
@@ -18,23 +28,25 @@ public class R2oAssistant {
         "Department", List.of("department", "school", "division", "faculty"),
         "Program", List.of("program", "track", "plan")
     );
-
     private static final Set<String> NAME_HINTS = Set.of("name", "title", "label");
 
-    public DraftResult buildDraft(String exampleName, SqlInputParser.SqlSchema schema) {
+    public DraftResult refine(String exampleName,
+                              SqlInputParser.SqlSchema schema,
+                              Model rawModel,
+                              Map<String, String> primaryKeys) {
         List<TablePlan> tablePlans = new ArrayList<>();
         for (SqlInputParser.TableDefinition table : schema.tables().values()) {
-            tablePlans.add(planTable(table, schema));
+            tablePlans.add(planTable(table));
         }
         tablePlans.sort(Comparator.comparing(plan -> plan.table().name()));
 
-        String draftMapping = writeDraftMapping(exampleName, tablePlans);
+        Model refinedModel = buildRefinedModel(schema, rawModel, primaryKeys, tablePlans);
         String reviewReport = writeReviewReport(exampleName, tablePlans);
         String schemaProfile = writeSchemaProfile(tablePlans);
-        return new DraftResult(draftMapping, reviewReport, schemaProfile);
+        return new DraftResult(refinedModel, reviewReport, schemaProfile);
     }
 
-    private TablePlan planTable(SqlInputParser.TableDefinition table, SqlInputParser.SqlSchema schema) {
+    private TablePlan planTable(SqlInputParser.TableDefinition table) {
         Candidate classMatch = guessClass(table.name());
         String idColumn = guessIdColumn(table, classMatch.localName());
         String nameColumn = guessNameColumn(table);
@@ -62,44 +74,16 @@ public class R2oAssistant {
             SqlInputParser.ForeignKey foreignKey = entry.getValue();
             Candidate targetClass = guessClass(foreignKey.targetTable());
             if ("College".equals(classMatch.localName()) && "University".equals(targetClass.localName())) {
-                objects.add(new ObjectMapping(
-                    localColumn,
-                    "belongsToUniversity",
-                    foreignKey.targetTable(),
-                    false,
-                    0.95,
-                    "college-to-university-foreign-key"
-                ));
+                objects.add(new ObjectMapping(localColumn, "belongsToUniversity", foreignKey.targetTable(), false, 0.95, "college-to-university-foreign-key"));
             } else if ("Student".equals(classMatch.localName()) && "College".equals(targetClass.localName())) {
-                objects.add(new ObjectMapping(
-                    localColumn,
-                    "studiesAt",
-                    foreignKey.targetTable(),
-                    false,
-                    0.95,
-                    "student-to-college-foreign-key"
-                ));
+                objects.add(new ObjectMapping(localColumn, "studiesAt", foreignKey.targetTable(), false, 0.95, "student-to-college-foreign-key"));
             } else if ("Student".equals(classMatch.localName()) && "Department".equals(targetClass.localName())) {
-                objects.add(new ObjectMapping(
-                    localColumn,
-                    "memberOfDepartment",
-                    foreignKey.targetTable(),
-                    false,
-                    0.90,
-                    "student-to-department-foreign-key"
-                ));
+                objects.add(new ObjectMapping(localColumn, "memberOfDepartment", foreignKey.targetTable(), false, 0.90, "student-to-department-foreign-key"));
             } else if ("Course".equals(classMatch.localName()) && "College".equals(targetClass.localName())) {
-                objects.add(new ObjectMapping(
-                    localColumn,
-                    "offersCourse",
-                    foreignKey.targetTable(),
-                    true,
-                    0.89,
-                    "reverse-course-offering-foreign-key"
-                ));
+                objects.add(new ObjectMapping(localColumn, "offersCourse", foreignKey.targetTable(), true, 0.89, "reverse-course-offering-foreign-key"));
             } else {
                 notes.add("Foreign key " + localColumn + " -> " + foreignKey.targetTable()
-                    + " was not mapped into the compact AICTE core automatically.");
+                    + " remains in the raw RDF only; it was not elevated into the compact AICTE core automatically.");
             }
         }
 
@@ -114,9 +98,9 @@ public class R2oAssistant {
         }
 
         if (omittedColumns.isEmpty()) {
-            notes.add("All business columns are covered by the current AICTE core draft.");
+            notes.add("All business columns were either preserved in raw RDF or promoted into the compact AICTE refinement.");
         } else {
-            notes.add("Columns omitted from the draft because they are outside the compact AICTE core: "
+            notes.add("Columns preserved only in raw RDF because they are outside the compact AICTE core: "
                 + String.join(", ", omittedColumns));
         }
 
@@ -124,95 +108,111 @@ public class R2oAssistant {
         return new TablePlan(table, classMatch, idColumn, nameColumn, literals, objects, omittedColumns, notes, confidence);
     }
 
-    private String writeDraftMapping(String exampleName, List<TablePlan> plans) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("@prefix rr: <http://www.w3.org/ns/r2rml#> .\n");
-        builder.append("@prefix aicte: <").append(AICTE_NS).append("> .\n\n");
-        builder.append("# Draft mapping generated by the SEMLINK assisted R2O workflow.\n");
-        builder.append("# Review this file before using it for production conversion.\n\n");
+    private Model buildRefinedModel(SqlInputParser.SqlSchema schema,
+                                    Model rawModel,
+                                    Map<String, String> primaryKeys,
+                                    List<TablePlan> tablePlans) {
+        Model refinedModel = ModelFactory.createDefaultModel();
+        refinedModel.setNsPrefix("aicte", AICTE_NS);
 
-        for (TablePlan plan : plans) {
-            if (plan.classMatch().score() < 0.55 || plan.idColumn() == null) {
+        Map<String, TablePlan> plansByTable = new LinkedHashMap<>();
+        for (TablePlan plan : tablePlans) {
+            plansByTable.put(plan.table().name(), plan);
+        }
+
+        for (SqlInputParser.TableDefinition table : schema.tables().values()) {
+            TablePlan plan = plansByTable.get(table.name());
+            if (plan == null || plan.classMatch().score() < 0.55 || plan.idColumn() == null) {
                 continue;
             }
-            String entitySlug = slug(plan.classMatch().localName());
-            String mapName = plan.classMatch().localName() + "DraftMap";
-            builder.append("<#").append(mapName).append("> a rr:TriplesMap ;\n");
-            builder.append("  rr:logicalTable [ rr:tableName \"").append(plan.table().name()).append("\" ] ;\n");
-            builder.append("  rr:subjectMap [\n");
-            builder.append("    rr:template \"https://semlink.example.org/r2o/").append(entitySlug)
-                .append("/{").append(plan.idColumn()).append("}\" ;\n");
-            builder.append("    rr:class aicte:").append(plan.classMatch().localName()).append('\n');
-            builder.append("  ]");
 
-            List<String> predicateBlocks = new ArrayList<>();
-            for (LiteralMapping literal : plan.literals()) {
-                predicateBlocks.add(literalBlock(literal.column(), literal.propertyLocalName()));
-            }
-            for (ObjectMapping mapping : plan.objects()) {
-                if (!mapping.reverseSubject()) {
-                    Candidate targetClass = guessClass(mapping.targetTable());
-                    predicateBlocks.add(templateBlock(
-                        mapping.predicateLocalName(),
-                        "https://semlink.example.org/r2o/" + slug(targetClass.localName()) + "/{" + mapping.column() + "}"
-                    ));
+            Property tableType = rawModel.createProperty(RDF.type.getURI());
+            Resource rawTableClass = rawModel.createResource(rawClassUri(table.name()));
+            StmtIterator rows = rawModel.listStatements(null, tableType, rawTableClass);
+            try {
+                while (rows.hasNext()) {
+                    Resource rawRow = rows.nextStatement().getSubject();
+                    Resource refinedSubject = refinedModel.createResource(refinedUri(plan.classMatch().localName(), rawRow, plan.idColumn()));
+                    refinedModel.add(refinedSubject, RDF.type, refinedModel.createResource(AICTE_NS + plan.classMatch().localName()));
+
+                    for (LiteralMapping literalMapping : plan.literals()) {
+                        RDFNode value = rawValue(rawModel, rawRow, literalMapping.column());
+                        if (value != null) {
+                            refinedModel.add(refinedSubject, refinedModel.createProperty(AICTE_NS + literalMapping.propertyLocalName()), value);
+                        }
+                    }
+
+                    for (ObjectMapping objectMapping : plan.objects()) {
+                        Resource objectResource = rawReference(rawModel, rawRow, objectMapping.column());
+                        if (objectResource == null) {
+                            continue;
+                        }
+                        Candidate targetClass = guessClass(objectMapping.targetTable());
+                        Resource refinedObject = refinedModel.createResource(refinedUri(
+                            targetClass.localName(),
+                            objectResource,
+                            primaryKeys.getOrDefault(objectMapping.targetTable(), objectMapping.column())
+                        ));
+                        if (objectMapping.reverseSubject()) {
+                            refinedModel.add(refinedObject,
+                                refinedModel.createProperty(AICTE_NS + objectMapping.predicateLocalName()),
+                                refinedSubject);
+                        } else {
+                            refinedModel.add(refinedSubject,
+                                refinedModel.createProperty(AICTE_NS + objectMapping.predicateLocalName()),
+                                refinedObject);
+                        }
+                    }
                 }
-            }
-
-            if (predicateBlocks.isEmpty()) {
-                builder.append(" .\n\n");
-            } else {
-                builder.append(" ;\n");
-                builder.append(String.join(" ;\n", predicateBlocks));
-                builder.append(" .\n\n");
-            }
-
-            for (ObjectMapping mapping : plan.objects()) {
-                if (!mapping.reverseSubject()) {
-                    continue;
-                }
-                Candidate targetClass = guessClass(mapping.targetTable());
-                builder.append("<#").append(targetClass.localName()).append(plan.classMatch().localName()).append("ReverseMap> a rr:TriplesMap ;\n");
-                builder.append("  rr:logicalTable [ rr:tableName \"").append(plan.table().name()).append("\" ] ;\n");
-                builder.append("  rr:subjectMap [\n");
-                builder.append("    rr:template \"https://semlink.example.org/r2o/")
-                    .append(slug(targetClass.localName())).append("/{").append(mapping.column()).append("}\"\n");
-                builder.append("  ] ;\n");
-                builder.append(templateBlock(mapping.predicateLocalName(),
-                    "https://semlink.example.org/r2o/" + slug(plan.classMatch().localName()) + "/{" + plan.idColumn() + "}"));
-                builder.append(" .\n\n");
+            } finally {
+                rows.close();
             }
         }
 
-        builder.append("# Example name: ").append(exampleName).append('\n');
-        return builder.toString();
+        return refinedModel;
     }
 
-    private String literalBlock(String column, String propertyLocalName) {
-        return "  rr:predicateObjectMap [\n"
-            + "    rr:predicate aicte:" + propertyLocalName + " ;\n"
-            + "    rr:objectMap [ rr:column \"" + column + "\" ]\n"
-            + "  ]";
+    private RDFNode rawValue(Model rawModel, Resource subject, String column) {
+        Statement statement = rawModel.getProperty(subject, rawModel.createProperty(rawClassPropertyUri(column)));
+        return statement == null ? null : statement.getObject();
     }
 
-    private String templateBlock(String predicateLocalName, String template) {
-        return "  rr:predicateObjectMap [\n"
-            + "    rr:predicate aicte:" + predicateLocalName + " ;\n"
-            + "    rr:objectMap [ rr:template \"" + template + "\" ]\n"
-            + "  ]";
+    private Resource rawReference(Model rawModel, Resource subject, String column) {
+        Statement statement = rawModel.getProperty(subject, rawModel.createProperty(rawReferenceUri(column)));
+        return statement != null && statement.getObject().isResource() ? statement.getResource() : null;
+    }
+
+    private String refinedUri(String classLocalName, Resource rawRow, String idColumn) {
+        RDFNode identifier = rawValue(rawRow.getModel(), rawRow, idColumn);
+        if (identifier != null && identifier.isLiteral()) {
+            return REFINED_NS + slug(classLocalName) + "/" + slug(identifier.asLiteral().getString());
+        }
+        return REFINED_NS + slug(classLocalName) + "/" + slug(rawRow.getLocalName());
+    }
+
+    private String rawClassUri(String tableName) {
+        return "https://semlink.example.org/r2o/raw#" + camelLocalName(tableName);
+    }
+
+    private String rawClassPropertyUri(String column) {
+        return "https://semlink.example.org/r2o/raw#" + camelLocalName(column);
+    }
+
+    private String rawReferenceUri(String column) {
+        return "https://semlink.example.org/r2o/raw#ref" + capitalize(camelLocalName(column));
     }
 
     private String writeReviewReport(String exampleName, List<TablePlan> plans) {
         StringBuilder builder = new StringBuilder();
-        builder.append("# Assisted R2O Review Report\n\n");
+        builder.append("# Raw RDF Refinement Report\n\n");
         builder.append("Example: `").append(exampleName).append("`\n\n");
-        builder.append("This report was generated by the local assisted R2O workflow.\n");
-        builder.append("It behaves like a lightweight agentic reviewer: it inspects the schema, scores candidate AICTE mappings, drafts R2RML, and leaves human checkpoints before conversion.\n\n");
+        builder.append("This report was generated after exporting the relational source into raw RDF triples using direct table, column, and foreign-key rules.\n");
+        builder.append("The assistant does not author R2RML here. It reads the raw triples, promotes obvious facts into the compact AICTE view, and leaves the rest in the raw layer.\n\n");
         builder.append("## Recommended Flow\n\n");
-        builder.append("1. Run `mvn -q exec:java -Dexec.args=\"r2o assist ").append(exampleName).append("\"`\n");
-        builder.append("2. Review `draft-r2rml-mapping.ttl`\n");
-        builder.append("3. Edit `refined-r2rml-mapping.ttl` if needed\n");
-        builder.append("4. Run `mvn -q exec:java -Dexec.args=\"r2o generate ").append(exampleName).append(" refined\"`\n\n");
+        builder.append("1. Run `mvn -q exec:java -Dexec.args=\"r2o raw ").append(exampleName).append("\"`\n");
+        builder.append("2. Inspect `raw/raw-direct-mapping.ttl`\n");
+        builder.append("3. Run `mvn -q exec:java -Dexec.args=\"r2o assist ").append(exampleName).append("\"`\n");
+        builder.append("4. Review `assisted/refined-from-raw.ttl` and this report\n\n");
         builder.append("## Table Decisions\n\n");
 
         for (TablePlan plan : plans) {
@@ -222,7 +222,7 @@ public class R2oAssistant {
             builder.append("- Identifier column: `").append(plan.idColumn() == null ? "not-detected" : plan.idColumn()).append("`\n");
             builder.append("- Label column: `").append(plan.nameColumn() == null ? "not-detected" : plan.nameColumn()).append("`\n");
             if (!plan.literals().isEmpty()) {
-                builder.append("- Literal mappings: ");
+                builder.append("- Promoted literals: ");
                 builder.append(plan.literals().stream()
                     .map(mapping -> mapping.column() + " -> aicte:" + mapping.propertyLocalName())
                     .reduce((left, right) -> left + ", " + right)
@@ -230,7 +230,7 @@ public class R2oAssistant {
                 builder.append('\n');
             }
             if (!plan.objects().isEmpty()) {
-                builder.append("- Relationship mappings: ");
+                builder.append("- Promoted relationships: ");
                 builder.append(plan.objects().stream()
                     .map(mapping -> mapping.column() + " -> aicte:" + mapping.predicateLocalName()
                         + (mapping.reverseSubject() ? " (reverse)" : ""))
@@ -246,9 +246,9 @@ public class R2oAssistant {
 
         builder.append("## Human Refinement Checklist\n\n");
         builder.append("- Confirm every table really represents the suggested AICTE class.\n");
-        builder.append("- Confirm `*_name` and `*_title` columns are semantically safe to map to `aicte:name`.\n");
-        builder.append("- Add local extensions for omitted columns such as `city`, `credits`, or accreditation fields if your deployment needs them.\n");
-        builder.append("- Review any reverse relationship drafts, especially `aicte:offersCourse`, because they depend on business meaning rather than syntax alone.\n");
+        builder.append("- Confirm `*_name` and `*_title` columns are semantically safe to promote to `aicte:name`.\n");
+        builder.append("- Check whether raw-only columns such as `city` or `credits` should be mapped into local extensions.\n");
+        builder.append("- Review reverse relationships such as `aicte:offersCourse`, because they depend on domain meaning rather than schema syntax alone.\n");
         return builder.toString();
     }
 
@@ -261,63 +261,71 @@ public class R2oAssistant {
                 .append(String.format(Locale.ROOT, "%.2f", plan.confidence())).append('\t')
                 .append(plan.idColumn() == null ? "" : plan.idColumn()).append('\t')
                 .append(plan.nameColumn() == null ? "" : plan.nameColumn()).append('\t')
-                .append(String.join(",", plan.omittedColumns())).append('\n');
+                .append(String.join(",", plan.omittedColumns()))
+                .append('\n');
         }
         return builder.toString();
     }
 
-    private Candidate guessClass(String rawName) {
-        String normalized = normalize(rawName)
-            .replace("master", "")
-            .replace("table", "")
-            .replace("tbl", "");
-
-        return CLASS_HINTS.entrySet().stream()
-            .map(entry -> scoreClass(entry.getKey(), normalized, entry.getValue()))
-            .max(Comparator.comparingDouble(Candidate::score))
-            .orElse(new Candidate("Student", 0.0, "fallback"));
-    }
-
-    private Candidate scoreClass(String classLocalName, String normalizedInput, List<String> hints) {
-        String normalizedClass = normalize(classLocalName);
-        for (String hint : hints) {
-            String normalizedHint = normalize(hint);
-            if (normalizedInput.contains(normalizedHint) || normalizedHint.contains(normalizedInput)) {
-                return new Candidate(classLocalName, 0.95, "keyword");
+    private Candidate guessClass(String tableName) {
+        String normalized = tableName.toLowerCase(Locale.ROOT);
+        Candidate best = new Candidate("Entity", 0.25);
+        for (Map.Entry<String, List<String>> entry : CLASS_HINTS.entrySet()) {
+            for (String hint : entry.getValue()) {
+                if (normalized.contains(hint)) {
+                    double score = 0.65 + (0.05 * hint.length() / 10.0);
+                    if (score > best.score()) {
+                        best = new Candidate(entry.getKey(), Math.min(score, 0.98));
+                    }
+                }
             }
         }
-        double levenshtein = similarity(normalizedInput, normalizedClass);
-        return new Candidate(classLocalName, levenshtein, "levenshtein");
+        return best;
     }
 
-    private String guessIdColumn(SqlInputParser.TableDefinition table, String classLocalName) {
-        String exactId = findFirstMatchingColumn(table, List.of(slug(classLocalName) + "_id"));
-        if (exactId != null) {
-            return exactId;
+    private String guessIdColumn(SqlInputParser.TableDefinition table, String className) {
+        List<String> candidates = List.of(
+            slug(className) + "_id",
+            table.normalizedName() + "_id",
+            "id"
+        );
+        for (String candidate : candidates) {
+            String match = findExactColumn(table, candidate);
+            if (match != null) {
+                return match;
+            }
         }
-        return table.columns().stream()
-            .filter(column -> column.toLowerCase(Locale.ROOT).endsWith("_id"))
-            .findFirst()
-            .orElse(null);
+        for (String column : table.columns()) {
+            if (column.toLowerCase(Locale.ROOT).endsWith("_id")) {
+                return column;
+            }
+        }
+        return table.columns().isEmpty() ? null : table.columns().getFirst();
     }
 
     private String guessNameColumn(SqlInputParser.TableDefinition table) {
+        for (String hint : NAME_HINTS) {
+            String match = findFirstMatchingColumn(table, List.of(hint, table.normalizedName() + "_" + hint));
+            if (match != null) {
+                return match;
+            }
+        }
+        return findFirstMatchingColumn(table, List.of("name", "title"));
+    }
+
+    private String findExactColumn(SqlInputParser.TableDefinition table, String expected) {
         for (String column : table.columns()) {
-            String normalized = normalize(column);
-            for (String hint : NAME_HINTS) {
-                if (normalized.contains(hint)) {
-                    return column;
-                }
+            if (column.equalsIgnoreCase(expected)) {
+                return column;
             }
         }
         return null;
     }
 
-    private String findFirstMatchingColumn(SqlInputParser.TableDefinition table, List<String> matches) {
-        for (String column : table.columns()) {
-            String normalizedColumn = normalize(column);
-            for (String match : matches) {
-                if (normalizedColumn.equals(normalize(match))) {
+    private String findFirstMatchingColumn(SqlInputParser.TableDefinition table, List<String> patterns) {
+        for (String pattern : patterns) {
+            for (String column : table.columns()) {
+                if (column.equalsIgnoreCase(pattern) || column.toLowerCase(Locale.ROOT).contains(pattern.toLowerCase(Locale.ROOT))) {
                     return column;
                 }
             }
@@ -326,84 +334,54 @@ public class R2oAssistant {
     }
 
     private boolean isDepartmentColumn(String column) {
-        String normalized = normalize(column);
+        String normalized = column.toLowerCase(Locale.ROOT);
         return normalized.contains("department") || normalized.contains("dept");
     }
 
-    private double averageConfidence(double classConfidence, List<LiteralMapping> literals, List<ObjectMapping> objects) {
+    private double averageConfidence(double classConfidence,
+                                     List<LiteralMapping> literals,
+                                     List<ObjectMapping> objects) {
         double total = classConfidence;
         int count = 1;
         for (LiteralMapping literal : literals) {
-            total += literal.score();
+            total += literal.confidence();
             count++;
         }
         for (ObjectMapping object : objects) {
-            total += object.score();
+            total += object.confidence();
             count++;
         }
         return total / count;
     }
 
-    private String normalize(String value) {
-        return value.replaceAll("([a-z])([A-Z])", "$1 $2")
-            .replaceAll("[^A-Za-z0-9]+", "")
-            .toLowerCase(Locale.ROOT);
-    }
-
-    private double similarity(String left, String right) {
-        int maxLength = Math.max(left.length(), right.length());
-        if (maxLength == 0) {
-            return 1.0;
-        }
-        int distance = levenshtein(left, right);
-        return 1.0 - ((double) distance / maxLength);
-    }
-
-    private int levenshtein(String left, String right) {
-        int[] previous = new int[right.length() + 1];
-        int[] current = new int[right.length() + 1];
-
-        for (int index = 0; index <= right.length(); index++) {
-            previous[index] = index;
-        }
-
-        for (int row = 1; row <= left.length(); row++) {
-            current[0] = row;
-            for (int column = 1; column <= right.length(); column++) {
-                int substitution = left.charAt(row - 1) == right.charAt(column - 1) ? 0 : 1;
-                current[column] = Math.min(
-                    Math.min(current[column - 1] + 1, previous[column] + 1),
-                    previous[column - 1] + substitution
-                );
-            }
-            int[] swap = previous;
-            previous = current;
-            current = swap;
-        }
-        return previous[right.length()];
-    }
-
     private String slug(String value) {
-        return value.toLowerCase(Locale.ROOT);
+        return value.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]+", "-").replaceAll("^-+|-+$", "");
     }
 
-    public record DraftResult(String draftMapping, String reviewReport, String schemaProfile) {
+    private String camelLocalName(String value) {
+        String[] parts = value.split("_+");
+        StringBuilder builder = new StringBuilder();
+        for (String part : parts) {
+            if (part.isBlank()) {
+                continue;
+            }
+            builder.append(capitalize(part.toLowerCase(Locale.ROOT)));
+        }
+        if (builder.isEmpty()) {
+            return "value";
+        }
+        String camel = builder.toString();
+        return Character.toLowerCase(camel.charAt(0)) + camel.substring(1);
     }
 
-    private record Candidate(String localName, double score, String method) {
+    private String capitalize(String value) {
+        if (value == null || value.isBlank()) {
+            return "";
+        }
+        return Character.toUpperCase(value.charAt(0)) + value.substring(1);
     }
 
-    private record LiteralMapping(String column, String propertyLocalName, double score, String method) {
-    }
-
-    private record ObjectMapping(
-        String column,
-        String predicateLocalName,
-        String targetTable,
-        boolean reverseSubject,
-        double score,
-        String method
-    ) {
+    public record DraftResult(Model refinedModel, String reviewReport, String schemaProfile) {
     }
 
     private record TablePlan(
@@ -416,6 +394,22 @@ public class R2oAssistant {
         List<String> omittedColumns,
         List<String> notes,
         double confidence
+    ) {
+    }
+
+    private record Candidate(String localName, double score) {
+    }
+
+    private record LiteralMapping(String column, String propertyLocalName, double confidence, String rationale) {
+    }
+
+    private record ObjectMapping(
+        String column,
+        String predicateLocalName,
+        String targetTable,
+        boolean reverseSubject,
+        double confidence,
+        String rationale
     ) {
     }
 }

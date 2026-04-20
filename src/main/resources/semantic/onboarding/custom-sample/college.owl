@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:c="https://semlink.example.org/customcollege#">
+
+  <owl:Ontology rdf:about="https://semlink.example.org/ontology/customcollege">
+    <rdfs:label>Custom College Input Ontology</rdfs:label>
+    <rdfs:comment>Sample bring-your-own-OWL package for the custom onboarding workflow.</rdfs:comment>
+  </owl:Ontology>
+
+  <owl:Class rdf:about="https://semlink.example.org/customcollege#LearnerRecord"/>
+  <owl:Class rdf:about="https://semlink.example.org/customcollege#InstituteRecord"/>
+  <owl:Class rdf:about="https://semlink.example.org/customcollege#ModuleRecord"/>
+  <owl:Class rdf:about="https://semlink.example.org/customcollege#UniversityRecord"/>
+  <owl:Class rdf:about="https://semlink.example.org/customcollege#DisciplineRecord"/>
+
+  <owl:ObjectProperty rdf:about="https://semlink.example.org/customcollege#enrolledAt"/>
+  <owl:ObjectProperty rdf:about="https://semlink.example.org/customcollege#managedBy"/>
+  <owl:ObjectProperty rdf:about="https://semlink.example.org/customcollege#listedByInstitute"/>
+  <owl:ObjectProperty rdf:about="https://semlink.example.org/customcollege#belongsToDiscipline"/>
+
+  <owl:DatatypeProperty rdf:about="https://semlink.example.org/customcollege#registrationNumber"/>
+  <owl:DatatypeProperty rdf:about="https://semlink.example.org/customcollege#fullName"/>
+  <owl:DatatypeProperty rdf:about="https://semlink.example.org/customcollege#instituteTitle"/>
+  <owl:DatatypeProperty rdf:about="https://semlink.example.org/customcollege#moduleTitle"/>
+  <owl:DatatypeProperty rdf:about="https://semlink.example.org/customcollege#disciplineName"/>
+  <owl:DatatypeProperty rdf:about="https://semlink.example.org/customcollege#universityTitle"/>
+
+  <c:UniversityRecord rdf:about="https://semlink.example.org/customcollege#MetroUniversity">
+    <c:universityTitle>Metro Skills University</c:universityTitle>
+  </c:UniversityRecord>
+
+  <c:InstituteRecord rdf:about="https://semlink.example.org/customcollege#MetroEngineering">
+    <c:instituteTitle>Metro Engineering College</c:instituteTitle>
+    <c:managedBy rdf:resource="https://semlink.example.org/customcollege#MetroUniversity"/>
+  </c:InstituteRecord>
+
+  <c:DisciplineRecord rdf:about="https://semlink.example.org/customcollege#CSE">
+    <c:disciplineName>Computer Science</c:disciplineName>
+  </c:DisciplineRecord>
+
+  <c:ModuleRecord rdf:about="https://semlink.example.org/customcollege#SemanticSystems">
+    <c:moduleTitle>Semantic Systems</c:moduleTitle>
+    <c:listedByInstitute rdf:resource="https://semlink.example.org/customcollege#MetroEngineering"/>
+    <c:belongsToDiscipline rdf:resource="https://semlink.example.org/customcollege#CSE"/>
+  </c:ModuleRecord>
+
+  <c:LearnerRecord rdf:about="https://semlink.example.org/customcollege#A101">
+    <c:registrationNumber>A101</c:registrationNumber>
+    <c:fullName>Aditi Kulkarni</c:fullName>
+    <c:enrolledAt rdf:resource="https://semlink.example.org/customcollege#MetroEngineering"/>
+    <c:belongsToDiscipline rdf:resource="https://semlink.example.org/customcollege#CSE"/>
+  </c:LearnerRecord>
+
+  <c:LearnerRecord rdf:about="https://semlink.example.org/customcollege#A102">
+    <c:registrationNumber>A102</c:registrationNumber>
+    <c:fullName>Rohit Menon</c:fullName>
+    <c:enrolledAt rdf:resource="https://semlink.example.org/customcollege#MetroEngineering"/>
+    <c:belongsToDiscipline rdf:resource="https://semlink.example.org/customcollege#CSE"/>
+  </c:LearnerRecord>
+</rdf:RDF>

@@ -15,14 +15,23 @@ JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="demo"
 ## 2A. Show the new R2O onboarding options
 
 ```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o raw example-college"
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o assist example-college"
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college manual"
-JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college refined"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="custom run college-pack src/main/resources/semantic/onboarding/custom-sample/college.owl src/main/resources/semantic/onboarding/custom-sample/mapping-rules.rules"
 ```
 
 - Explain that `manual` uses the hand-authored R2RML mapping.
-- Explain that `assist` generates a draft mapping and review report from the relational schema.
-- Explain that `refined` is the human-reviewed version of the generated draft.
+- Explain that `raw` exports source-faithful RDF triples directly from the relational schema and rows.
+- Explain that `assist` refines those raw triples into an AICTE-ready view and writes a review report.
+- Explain that `custom` lets a college provide its own OWL plus mapping rules and run the standard semantic pipeline directly.
+
+For the `custom` path, show:
+
+- the local OWL file as the college-controlled semantic input
+- the mapping-rules file as the explicit AICTE projection layer
+- `target/semantic-output/custom/college-pack/inferred.ttl` as the integrated result
+- `target/semantic-output/custom/college-pack/query-results/all_students.txt` as proof that the normal AICTE queries run unchanged
 
 ## 3. Explain the local ontologies
 
@@ -73,5 +82,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o gene
 - `src/main/resources/semantic/queries/core/`
 - `src/main/resources/semantic/queries/analysis/`
 - `src/main/resources/semantic/queries/identity/`
+- `src/main/resources/semantic/onboarding/custom-sample/`
+- `target/semantic-output/r2o/example-college/raw/`
 - `target/semantic-output/r2o/example-college/assisted/`
 - `target/semantic-output/r2o/example-college/generated/`

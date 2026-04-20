@@ -1,0 +1,78 @@
+[custom-student-class:
+  (?x rdf:type <https://semlink.example.org/customcollege#LearnerRecord>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Student>)
+]
+
+[custom-college-class:
+  (?x rdf:type <https://semlink.example.org/customcollege#InstituteRecord>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#College>)
+]
+
+[custom-course-class:
+  (?x rdf:type <https://semlink.example.org/customcollege#ModuleRecord>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#Course>)
+]
+
+[custom-university-class:
+  (?x rdf:type <https://semlink.example.org/customcollege#UniversityRecord>)
+  ->
+  (?x rdf:type <https://semlink.example.org/aicte#University>)
+]
+
+[custom-student-id:
+  (?x <https://semlink.example.org/customcollege#registrationNumber> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#id> ?value)
+]
+
+[custom-student-name:
+  (?x <https://semlink.example.org/customcollege#fullName> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[custom-college-name:
+  (?x <https://semlink.example.org/customcollege#instituteTitle> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[custom-course-name:
+  (?x <https://semlink.example.org/customcollege#moduleTitle> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[custom-university-name:
+  (?x <https://semlink.example.org/customcollege#universityTitle> ?value)
+  ->
+  (?x <https://semlink.example.org/aicte#name> ?value)
+]
+
+[custom-studies-at:
+  (?student <https://semlink.example.org/customcollege#enrolledAt> ?college)
+  ->
+  (?student <https://semlink.example.org/aicte#studiesAt> ?college)
+]
+
+[custom-department:
+  (?student <https://semlink.example.org/customcollege#belongsToDiscipline> ?discipline)
+  (?discipline <https://semlink.example.org/customcollege#disciplineName> ?name)
+  ->
+  (?student <https://semlink.example.org/aicte#department> ?name)
+]
+
+[custom-belongs-to-university:
+  (?college <https://semlink.example.org/customcollege#managedBy> ?university)
+  ->
+  (?college <https://semlink.example.org/aicte#belongsToUniversity> ?university)
+]
+
+[custom-offers-course:
+  (?course <https://semlink.example.org/customcollege#listedByInstitute> ?college)
+  ->
+  (?college <https://semlink.example.org/aicte#offersCourse> ?course)
+]

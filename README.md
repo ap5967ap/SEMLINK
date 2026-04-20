@@ -19,9 +19,10 @@ Useful commands:
 ```bash
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="query all_students"
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="validate"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o raw example-college"
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o assist example-college"
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college manual"
-JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="r2o generate example-college refined"
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="custom run college-pack src/main/resources/semantic/onboarding/custom-sample/college.owl src/main/resources/semantic/onboarding/custom-sample/mapping-rules.rules"
 ```
 
 Generated outputs are written to `target/semantic-output/`.
@@ -58,6 +59,7 @@ Recommended reading order:
 │       │           ├── Main.java
 │       │           ├── QueryEngine.java
 │       │           ├── R2oAssistant.java
+│       │           ├── R2oRawExporter.java
 │       │           ├── R2oWorkflow.java
 │       │           ├── R2rmlRenderer.java
 │       │           ├── SemanticProject.java
@@ -66,6 +68,10 @@ Recommended reading order:
 │       └── resources
 │           └── semantic
 │               ├── ontologies
+│               ├── onboarding
+│               │   └── custom-sample
+│               │       ├── college.owl
+│               │       └── mapping-rules.rules
 │               │   ├── central
 │               │   │   └── aicte.ttl
 │               │   ├── local
@@ -121,8 +127,50 @@ The project now supports three Step 0 onboarding modes before the ontology integ
 1. Manual R2O
    Use the curated R2RML mapping in `src/main/resources/semantic/r2o/example-college/r2rml-mapping.ttl`.
 
-2. Assisted R2O
-   Run the local agentic-style assistant to inspect the relational schema and generate a draft mapping plus review report.
+2. Raw RDF Export
+   Convert the relational database directly into raw RDF triples using standard table, column, and foreign-key projection rules.
 
-3. Human-Reviewed R2O
-   Edit the generated `refined-r2rml-mapping.ttl`, then render RDF from that reviewed mapping.
+3. Assisted Refinement
+   Run the local assistant on the raw triples so it promotes obvious facts into an AICTE-ready RDF view and leaves a review report for anything uncertain.
+
+## Custom OWL Onboarding
+
+Colleges can now provide:
+
+- a raw OWL file containing their local classes, properties, and instances
+- a separate Jena rules file describing how that OWL should map into AICTE terms
+
+What the application does with those two inputs:
+
+- loads the college OWL as the local source graph
+- loads the mapping rules as additional Jena inference rules
+- merges the college graph with the central AICTE ontology
+- materializes AICTE-aligned triples through the existing reasoning layer
+- runs the standard SPARQL query set and SHACL validation
+- writes a self-contained output package for that college under `target/semantic-output/custom/`
+
+Expected input shape:
+
+- `college.owl`: the college's local ontology plus instance data, typically in RDF/XML OWL form
+- `mapping-rules.rules`: Jena rule syntax that maps local classes and properties into AICTE classes and properties such as `aicte:Student`, `aicte:name`, `aicte:studiesAt`, and `aicte:belongsToUniversity`
+
+Run:
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="custom run college-pack src/main/resources/semantic/onboarding/custom-sample/college.owl src/main/resources/semantic/onboarding/custom-sample/mapping-rules.rules"
+```
+
+Example package:
+
+- [college.owl](/home/ap/Downloads/SEMLINK/src/main/resources/semantic/onboarding/custom-sample/college.owl)
+- [mapping-rules.rules](/home/ap/Downloads/SEMLINK/src/main/resources/semantic/onboarding/custom-sample/mapping-rules.rules)
+
+Outputs are written to `target/semantic-output/custom/<package-name>/` and include:
+
+- `college-input.ttl`
+- `mapping-rules.rules`
+- `merged.ttl`
+- `inferred.ttl`
+- `query-results/`
+- `validation/report.ttl`
+- `summary.txt`

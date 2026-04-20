@@ -33,7 +33,7 @@ flowchart LR
 ### What this means
 
 - A new college can start from its relational database through the R2O onboarding path.
-- That R2O path is no longer only conceptual: the project now includes manual, assisted, and human-reviewed assisted conversion modes.
+- That R2O path is no longer only conceptual: the project now includes manual mapping, direct raw RDF export, and assisted refinement over the raw graph.
 - The four universities keep their own models.
 - AICTE acts as the common meaning layer.
 - Reasoning converts heterogeneous local facts into a unified semantic view.

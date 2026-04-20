@@ -48,6 +48,7 @@ public class SemanticProject {
     private final QueryEngine queryEngine = new QueryEngine();
     private final SimilarityMatcher similarityMatcher = new SimilarityMatcher("https://semlink.example.org/aicte#");
     private final R2oWorkflow r2oWorkflow = new R2oWorkflow();
+    private final CustomOnboardingWorkflow customOnboardingWorkflow = new CustomOnboardingWorkflow();
 
     public void runDemo() {
         try {
@@ -106,6 +107,18 @@ public class SemanticProject {
         System.out.println("Report output is written during `demo` execution.");
     }
 
+    public void runCustom(String[] args) {
+        if (args.length < 4 || !"run".equals(args[0])) {
+            throw new IllegalArgumentException("Invalid custom command.\n" + customOnboardingWorkflow.usage());
+        }
+
+        String packageName = args[1];
+        Path owlPath = Path.of(args[2]);
+        Path mappingRulesPath = Path.of(args[3]);
+        Model aicteModel = loadModel("semantic/ontologies/central/aicte.ttl");
+        customOnboardingWorkflow.run(packageName, owlPath, mappingRulesPath, aicteModel, loadRules(), this::validate);
+    }
+
     public void runR2o(String[] args) {
         if (args.length == 0) {
             throw new IllegalArgumentException("Missing R2O command.\n" + r2oWorkflow.usage());
@@ -115,6 +128,7 @@ public class SemanticProject {
         String exampleName = args.length >= 2 ? args[1] : "example-college";
 
         switch (subcommand) {
+            case "raw" -> r2oWorkflow.raw(exampleName);
             case "assist" -> r2oWorkflow.assist(exampleName);
             case "pipeline" -> r2oWorkflow.pipeline(exampleName);
             case "generate" -> {

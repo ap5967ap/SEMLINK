@@ -16,35 +16,62 @@ public class R2oWorkflow {
     private static final Path OUTPUT_ROOT = Path.of("target", "semantic-output", "r2o");
 
     private final SqlInputParser sqlInputParser = new SqlInputParser();
+    private final R2oRawExporter rawExporter = new R2oRawExporter();
     private final R2oAssistant assistant = new R2oAssistant();
     private final R2rmlRenderer renderer = new R2rmlRenderer();
 
+    public void raw(String exampleName) {
+        String schemaSql = readResource(resource(exampleName, "schema.sql"));
+        String dataSql = readResource(resource(exampleName, "sample-data.sql"));
+
+        SqlInputParser.SqlSchema schema = sqlInputParser.parseSchema(schemaSql);
+        SqlInputParser.SqlData data = sqlInputParser.parseData(dataSql);
+        R2oRawExporter.ExportResult exportResult = rawExporter.export(schema, data);
+
+        Path outputDir = rawDirectory(exampleName);
+        Path outputPath = outputDir.resolve("raw-direct-mapping.ttl");
+        writeModel(exportResult.model(), outputPath, Lang.TURTLE);
+
+        StringBuilder summary = new StringBuilder();
+        summary.append("Raw RDF export completed.\n");
+        summary.append("Mode: direct relational projection\n");
+        summary.append("Input rows processed: ").append(countRows(data)).append('\n');
+        summary.append("Tables exported: ").append(schema.tables().size()).append('\n');
+        summary.append("Triples generated: ").append(exportResult.model().size()).append('\n');
+        summary.append("Output file: ").append(outputPath.toAbsolutePath()).append('\n');
+        writeString(outputDir.resolve("summary.txt"), summary.toString());
+        System.out.println(summary);
+    }
+
     public void assist(String exampleName) {
         String schemaSql = readResource(resource(exampleName, "schema.sql"));
+        String dataSql = readResource(resource(exampleName, "sample-data.sql"));
         SqlInputParser.SqlSchema schema = sqlInputParser.parseSchema(schemaSql);
-        R2oAssistant.DraftResult draft = assistant.buildDraft(exampleName, schema);
+
+        SqlInputParser.SqlData data = sqlInputParser.parseData(dataSql);
+        R2oRawExporter.ExportResult rawExport = rawExporter.export(schema, data);
+        R2oAssistant.DraftResult draft = assistant.refine(exampleName, schema, rawExport.model(), rawExport.primaryKeys());
 
         Path outputDir = assistedDirectory(exampleName);
-        writeString(outputDir.resolve("draft-r2rml-mapping.ttl"), draft.draftMapping());
-        Path refinedPath = outputDir.resolve("refined-r2rml-mapping.ttl");
-        if (Files.notExists(refinedPath)) {
-            writeString(refinedPath, draft.draftMapping());
-        }
+        writeModel(rawExport.model(), rawDirectory(exampleName).resolve("raw-direct-mapping.ttl"), Lang.TURTLE);
+        Path refinedPath = outputDir.resolve("refined-from-raw.ttl");
+        writeModel(draft.refinedModel(), refinedPath, Lang.TURTLE);
         writeString(outputDir.resolve("review-report.md"), draft.reviewReport());
         writeString(outputDir.resolve("schema-profile.tsv"), draft.schemaProfile());
 
-        System.out.println("Assisted R2O draft generated.");
-        System.out.println("Review files written to: " + outputDir.toAbsolutePath());
-        if (Files.exists(refinedPath)) {
-            System.out.println("Refined mapping file preserved at: " + refinedPath.toAbsolutePath());
-        }
-        System.out.println("Next step: edit refined-r2rml-mapping.ttl and run:");
-        System.out.println("  mvn -q exec:java -Dexec.args=\"r2o generate " + exampleName + " refined\"");
+        StringBuilder summary = new StringBuilder();
+        summary.append("Assisted raw-RDF refinement completed.\n");
+        summary.append("Raw RDF file: ").append(rawDirectory(exampleName).resolve("raw-direct-mapping.ttl").toAbsolutePath()).append('\n');
+        summary.append("Refined AICTE-ready file: ").append(refinedPath.toAbsolutePath()).append('\n');
+        summary.append("Input rows processed: ").append(countRows(data)).append('\n');
+        summary.append("Raw triples generated: ").append(rawExport.model().size()).append('\n');
+        summary.append("Refined triples generated: ").append(draft.refinedModel().size()).append('\n');
+        writeString(outputDir.resolve("summary.txt"), summary.toString());
+        System.out.println(summary);
     }
 
     public void pipeline(String exampleName) {
         assist(exampleName);
-        generate(exampleName, "draft", null);
     }
 
     public void generate(String exampleName, String mode, String customPath) {
@@ -55,8 +82,6 @@ public class R2oWorkflow {
         Path outputDir = generatedDirectory(exampleName);
         String outputFile = switch (selection.label()) {
             case "manual" -> "generated-from-manual.ttl";
-            case "draft" -> "generated-from-draft.ttl";
-            case "refined" -> "generated-from-refined.ttl";
             default -> "generated-from-custom.ttl";
         };
 
@@ -77,12 +102,11 @@ public class R2oWorkflow {
 
     public String usage() {
         return String.join("\n",
+            "  mvn exec:java -Dexec.args=\"r2o raw example-college\"",
             "  mvn exec:java -Dexec.args=\"r2o assist example-college\"",
             "  mvn exec:java -Dexec.args=\"r2o pipeline example-college\"",
             "  mvn exec:java -Dexec.args=\"r2o generate example-college manual\"",
-            "  mvn exec:java -Dexec.args=\"r2o generate example-college draft\"",
-            "  mvn exec:java -Dexec.args=\"r2o generate example-college refined\"",
-            "  mvn exec:java -Dexec.args=\"r2o generate example-college file target/semantic-output/r2o/example-college/assisted/refined-r2rml-mapping.ttl\""
+            "  mvn exec:java -Dexec.args=\"r2o generate example-college file src/main/resources/semantic/r2o/example-college/r2rml-mapping.ttl\""
         );
     }
 
@@ -93,14 +117,6 @@ public class R2oWorkflow {
                 resource(exampleName, "r2rml-mapping.ttl"),
                 readResource(resource(exampleName, "r2rml-mapping.ttl"))
             );
-            case "draft" -> {
-                Path draftPath = assistedDirectory(exampleName).resolve("draft-r2rml-mapping.ttl");
-                yield new MappingSelection("draft", draftPath.toString(), readFile(draftPath));
-            }
-            case "refined" -> {
-                Path refinedPath = assistedDirectory(exampleName).resolve("refined-r2rml-mapping.ttl");
-                yield new MappingSelection("refined", refinedPath.toString(), readFile(refinedPath));
-            }
             case "file" -> {
                 if (customPath == null || customPath.isBlank()) {
                     throw new IllegalArgumentException("Custom file mode requires a mapping path.");
@@ -120,8 +136,18 @@ public class R2oWorkflow {
         return OUTPUT_ROOT.resolve(exampleName).resolve("assisted");
     }
 
+    private Path rawDirectory(String exampleName) {
+        return OUTPUT_ROOT.resolve(exampleName).resolve("raw");
+    }
+
     private Path generatedDirectory(String exampleName) {
         return OUTPUT_ROOT.resolve(exampleName).resolve("generated");
+    }
+
+    private int countRows(SqlInputParser.SqlData data) {
+        return data.rowsByTable().values().stream()
+            .mapToInt(java.util.List::size)
+            .sum();
     }
 
     private String readResource(String resourcePath) {
