@@ -1,0 +1,97 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix aicte: <https://semlink.example.org/aicte#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<#UniversityMapping>
+    rr:logicalTable [ rr:tableName "u7_main" ] ;
+    rr:subjectMap [
+        rr:template "https://semlink.example.org/universities/university7/u7_main/{uid}" ;
+        rr:class aicte:University ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:id ;
+        rr:objectMap [ rr:column "uid" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:name ;
+        rr:objectMap [ rr:column "official_name" ] ;
+    ] .
+
+<#CollegeMapping>
+    rr:logicalTable [ rr:tableName "u7_colleges" ] ;
+    rr:subjectMap [
+        rr:template "https://semlink.example.org/universities/university7/u7_colleges/{cid}" ;
+        rr:class aicte:College ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:id ;
+        rr:objectMap [ rr:column "cid" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:name ;
+        rr:objectMap [ rr:column "cname" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:belongsToUniversity ;
+        rr:objectMap [
+            rr:parentTriplesMap <#UniversityMapping> ;
+            rr:joinCondition [
+                rr:child "parent_uid" ;
+                rr:parent "uid" ;
+            ] ;
+        ] ;
+    ] .
+
+<#DepartmentMapping>
+    rr:logicalTable [ rr:tableName "u7_departments" ] ;
+    rr:subjectMap [
+        rr:template "https://semlink.example.org/universities/university7/u7_departments/{did}" ;
+        rr:class aicte:Department ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:id ;
+        rr:objectMap [ rr:column "did" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:name ;
+        rr:objectMap [ rr:column "dname" ] ;
+    ] .
+
+<#StudentMapping>
+    rr:logicalTable [ rr:tableName "u7_students" ] ;
+    rr:subjectMap [
+        rr:template "https://semlink.example.org/universities/university7/u7_students/{sid}" ;
+        rr:class aicte:Student ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:id ;
+        rr:objectMap [ rr:column "sid" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:name ;
+        rr:objectMap [ rr:column "sname" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:cgpa ;
+        rr:objectMap [ rr:column "gpa" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:department ;
+        rr:objectMap [
+            rr:parentTriplesMap <#DepartmentMapping> ;
+            rr:joinCondition [
+                rr:child "dept_id" ;
+                rr:parent "did" ;
+            ] ;
+        ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate aicte:studiesAt ;
+        rr:objectMap [
+            rr:parentTriplesMap <#CollegeMapping> ;
+            rr:joinCondition [
+                rr:child "coll_id" ;
+                rr:parent "cid" ;
+            ] ;
+        ] ;
+    ] .

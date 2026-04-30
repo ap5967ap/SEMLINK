@@ -19,6 +19,11 @@ public class R2oWorkflow {
     private final R2oRawExporter rawExporter = new R2oRawExporter();
     private final R2oAssistant assistant = new R2oAssistant();
     private final R2rmlRenderer renderer = new R2rmlRenderer();
+    private final com.semlink.onboarding.LLMMappingService llmService;
+
+    public R2oWorkflow(String geminiApiKey) {
+        this.llmService = new com.semlink.onboarding.LLMMappingService(geminiApiKey);
+    }
 
     public void raw(String exampleName) {
         String schemaSql = readResource(resource(exampleName, "schema.sql"));
@@ -74,6 +79,29 @@ public class R2oWorkflow {
         assist(exampleName);
     }
 
+    public void automate(String exampleName) {
+        System.out.println("Automating R2RML generation for: " + exampleName);
+        String schemaSql = readResource(resource(exampleName, "schema.sql"));
+        String dataSql = readResource(resource(exampleName, "sample-data.sql"));
+        SqlInputParser.SchemaStatistics stats = sqlInputParser.buildSchemaStatistics(schemaSql, dataSql);
+
+        String r2rml = llmService.generateR2rml(stats, exampleName);
+        if (r2rml == null || r2rml.isBlank()) {
+            throw new IllegalStateException("Gemini failed to generate R2RML mapping.");
+        }
+
+        Path mappingPath = Path.of("mappings", exampleName, "r2rml-mapping.ttl");
+        try {
+            Files.createDirectories(mappingPath.getParent());
+            Files.writeString(mappingPath, r2rml, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to save automated mapping to: " + mappingPath, e);
+        }
+
+        System.out.println("AI-Generated R2RML mapping saved to: " + mappingPath.toAbsolutePath());
+        System.out.println("You can now run: mvn exec:java -Dexec.args=\"r2o generate " + exampleName + " file " + mappingPath + "\"");
+    }
+
     public void generate(String exampleName, String mode, String customPath) {
         String dataSql = readResource(resource(exampleName, "sample-data.sql"));
         MappingSelection selection = resolveMappingSelection(exampleName, mode, customPath);
@@ -104,6 +132,7 @@ public class R2oWorkflow {
         return String.join("\n",
             "  mvn exec:java -Dexec.args=\"r2o raw example-college\"",
             "  mvn exec:java -Dexec.args=\"r2o assist example-college\"",
+            "  mvn exec:java -Dexec.args=\"r2o automate example-college\"",
             "  mvn exec:java -Dexec.args=\"r2o pipeline example-college\"",
             "  mvn exec:java -Dexec.args=\"r2o generate example-college manual\"",
             "  mvn exec:java -Dexec.args=\"r2o generate example-college file src/main/resources/semantic/r2o/example-college/r2rml-mapping.ttl\""

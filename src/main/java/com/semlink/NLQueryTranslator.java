@@ -96,7 +96,7 @@ public class NLQueryTranslator {
                 - aicte:studiesAt (Domain: Student, Range: College)
                 - aicte:belongsToUniversity (Domain: College, Range: University)
                 - aicte:offersCourse (Domain: College, Range: Course)
-                - aicte:memberOfDepartment (Domain: Student, Range: Department)
+                - aicte:department (Domain: Student, Range: Department or String)
                 - aicte:enrolledIn (Domain: Student, Range: Course)
                 - aicte:name (Datatype property for names)
                 - aicte:id (Datatype property for IDs)
@@ -106,6 +106,7 @@ public class NLQueryTranslator {
                 1. ONLY output the raw SPARQL query.
                 2. DO NOT include markdown formatting like ```sparql or ```.
                 3. DO NOT include any explanations.
+                4. Use LCASE(STR(?var)) for department name filters to handle variations like "CSE" vs "Computer Science".
 
                 Question: """
                 + question;

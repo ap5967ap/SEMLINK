@@ -44,6 +44,18 @@ public class LLMMappingService {
         return generateWithHeuristics(stats);
     }
 
+    public String generateR2rml(SqlInputParser.SchemaStatistics stats, String universityName) {
+        if (!llmEnabled) {
+            throw new IllegalStateException("Gemini API key not found. Cannot automate mapping generation.");
+        }
+        String prompt = buildR2rmlPrompt(stats, universityName);
+        GenerateContentResponse response = geminiClient.models.generateContent(
+            "gemini-3-flash-preview", prompt, null);
+        String text = response.text();
+        if (text == null) return null;
+        return text.replace("```turtle", "").replace("```", "").trim();
+    }
+
     public boolean isLLMEnabled() {
         return llmEnabled;
     }
@@ -94,6 +106,29 @@ public class LLMMappingService {
         sb.append("\"rationale\": brief reason,\n");
         sb.append("\"matchType\": \"property\" or \"relationship\"\n");
         sb.append("Only output the JSON array. No explanation.\n");
+        return sb.toString();
+    }
+
+    private String buildR2rmlPrompt(SqlInputParser.SchemaStatistics stats, String universityName) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("You are an expert R2RML author. Generate a valid R2RML Turtle mapping for the following SQL schema.\n\n");
+        sb.append("TARGET ONTOLOGY:\n");
+        sb.append("  Namespace: https://semlink.example.org/aicte# (prefix aicte:)\n");
+        sb.append("  Classes: Student, College, University, Course, Department\n");
+        sb.append("  Properties: id, name, cgpa, department, studiesAt, belongsToUniversity\n\n");
+        sb.append("RULES:\n");
+        sb.append("  - Use templates for subject URIs: https://semlink.example.org/universities/").append(universityName).append("/{table}/{id}\n");
+        sb.append("  - Map local IDs to aicte:id.\n");
+        sb.append("  - Map labels/names to aicte:name.\n");
+        sb.append("  - Map foreign keys to aicte:studiesAt or aicte:belongsToUniversity where applicable.\n\n");
+        sb.append("SCHEMA:\n");
+        for (SqlInputParser.TableStats table : stats.tables()) {
+            sb.append("- Table: ").append(table.name()).append("\n");
+            for (SqlInputParser.ColumnStats col : table.columns()) {
+                sb.append("    Column: ").append(col.name()).append(" (").append(col.sqlType()).append(")\n");
+            }
+        }
+        sb.append("\nOutput ONLY the R2RML Turtle code. No markdown code blocks, no explanation.\n");
         return sb.toString();
     }
 

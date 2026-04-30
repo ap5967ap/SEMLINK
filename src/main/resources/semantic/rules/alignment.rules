@@ -418,3 +418,27 @@
   ->
   (?student <https://semlink.example.org/aicte#studiesAt> ?college)
 ]
+
+[u5-department-alignment:
+  (?student <https://semlink.example.org/aicte#department> ?deptId)
+  (?dept rdf:type <https://semlink.example.org/aicte#Department>)
+  (?dept <https://semlink.example.org/aicte#id> ?deptId)
+  (?dept <https://semlink.example.org/aicte#name> ?deptName)
+  ->
+  (?student <https://semlink.example.org/aicte#department> ?deptName)
+]
+
+[u5-offersCourse:
+  (?student <https://semlink.example.org/aicte#studiesAt> ?college)
+  (?student <https://semlink.example.org/aicte#enrolledIn> ?course)
+  ->
+  (?college <https://semlink.example.org/aicte#offersCourse> ?course)
+]
+
+[generic-department-alignment:
+  (?student <https://semlink.example.org/aicte#department> ?dept)
+  (?dept rdf:type <https://semlink.example.org/aicte#Department>)
+  (?dept <https://semlink.example.org/aicte#name> ?deptName)
+  ->
+  (?student <https://semlink.example.org/aicte#department> ?deptName)
+]

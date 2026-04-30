@@ -103,15 +103,15 @@
 <#StudentEnrollmentsMap> a rr:TriplesMap ;
   rr:logicalTable [ rr:tableName "student_enrollments" ] ;
   rr:subjectMap [
-    rr:template "https://semlink.example.org/universities/university5/enrollment/{student_id}_{course_code}" ;
+    rr:template "https://semlink.example.org/universities/university5/student-enrollments/{student_id}" ;
     rr:class aicte:Enrollment
   ] ;
   rr:predicateObjectMap [
-    rr:predicate aicte:enrolledStudent ;
-    rr:objectMap [ rr:template "https://semlink.example.org/universities/university5/student-registry/{student_id}" ]
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "student_id" ]
   ] ;
   rr:predicateObjectMap [
-    rr:predicate aicte:enrolledCourse ;
-    rr:objectMap [ rr:template "https://semlink.example.org/universities/university5/course-catalog/{course_code}" ]
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "course_code" ]
   ] .
 

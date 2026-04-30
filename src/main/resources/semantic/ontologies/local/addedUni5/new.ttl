@@ -1,0 +1,156 @@
+<https://semlink.example.org/universities/university5/student-enrollments/5002>
+        a       <https://semlink.example.org/aicte#Enrollment>;
+        <https://semlink.example.org/aicte#id>
+                "5002"^^<http://www.w3.org/2001/XMLSchema#int> , "DS201" .
+
+<https://semlink.example.org/universities/university5/student-registry/5002>
+        a       <https://semlink.example.org/aicte#Student>;
+        <https://semlink.example.org/aicte#cgpa>
+                "8.9"^^<http://www.w3.org/2001/XMLSchema#double>;
+        <https://semlink.example.org/aicte#department>
+                "20"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#id>
+                "5002"^^<http://www.w3.org/2001/XMLSchema#int> , "102"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Bob Williams";
+        <https://semlink.example.org/aicte#studiesAt>
+                <https://semlink.example.org/universities/university5/college-info/102> .
+
+<https://semlink.example.org/universities/university5/department-data/10>
+        a       <https://semlink.example.org/aicte#Department>;
+        <https://semlink.example.org/aicte#id>
+                "10"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Computer Science" .
+
+<https://semlink.example.org/universities/university5/student-enrollments/5005>
+        a       <https://semlink.example.org/aicte#Enrollment>;
+        <https://semlink.example.org/aicte#id>
+                "5005"^^<http://www.w3.org/2001/XMLSchema#int> , "DS201" .
+
+<https://semlink.example.org/universities/university5/course-catalog/CS101>
+        a       <https://semlink.example.org/aicte#Course>;
+        <https://semlink.example.org/aicte#id>
+                "CS101";
+        <https://semlink.example.org/aicte#name>
+                "Intro to Programming" .
+
+<https://semlink.example.org/universities/university5/student-registry/5005>
+        a       <https://semlink.example.org/aicte#Student>;
+        <https://semlink.example.org/aicte#cgpa>
+                "9.5"^^<http://www.w3.org/2001/XMLSchema#double>;
+        <https://semlink.example.org/aicte#department>
+                "20"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#id>
+                "5005"^^<http://www.w3.org/2001/XMLSchema#int> , "102"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Evan Wright";
+        <https://semlink.example.org/aicte#studiesAt>
+                <https://semlink.example.org/universities/university5/college-info/102> .
+
+<https://semlink.example.org/universities/university5/department-data/20>
+        a       <https://semlink.example.org/aicte#Department>;
+        <https://semlink.example.org/aicte#id>
+                "20"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Data Science" .
+
+<https://semlink.example.org/universities/university5/student-enrollments/5003>
+        a       <https://semlink.example.org/aicte#Enrollment>;
+        <https://semlink.example.org/aicte#id>
+                "5003"^^<http://www.w3.org/2001/XMLSchema#int> , "EC301" .
+
+<https://semlink.example.org/universities/university5/department-data/30>
+        a       <https://semlink.example.org/aicte#Department>;
+        <https://semlink.example.org/aicte#id>
+                "30"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Electronics" .
+
+<https://semlink.example.org/universities/university5/student-registry/5003>
+        a       <https://semlink.example.org/aicte#Student>;
+        <https://semlink.example.org/aicte#cgpa>
+                "7.45"^^<http://www.w3.org/2001/XMLSchema#double>;
+        <https://semlink.example.org/aicte#department>
+                "30"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#id>
+                "5003"^^<http://www.w3.org/2001/XMLSchema#int> , "101"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Charlie Davis";
+        <https://semlink.example.org/aicte#studiesAt>
+                <https://semlink.example.org/universities/university5/college-info/101> .
+
+<https://semlink.example.org/universities/university5/college-info/101>
+        a       <https://semlink.example.org/aicte#College>;
+        <https://semlink.example.org/aicte#belongsToUniversity>
+                <https://semlink.example.org/universities/university5/university-details/1>;
+        <https://semlink.example.org/aicte#id>
+                "101"^^<http://www.w3.org/2001/XMLSchema#int> , "1"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "WIT Engineering College" .
+
+<https://semlink.example.org/universities/university5/course-catalog/DS201>
+        a       <https://semlink.example.org/aicte#Course>;
+        <https://semlink.example.org/aicte#id>
+                "DS201";
+        <https://semlink.example.org/aicte#name>
+                "Machine Learning Basics" .
+
+<https://semlink.example.org/universities/university5/student-enrollments/5001>
+        a       <https://semlink.example.org/aicte#Enrollment>;
+        <https://semlink.example.org/aicte#id>
+                "5001"^^<http://www.w3.org/2001/XMLSchema#int> , "CS101" .
+
+<https://semlink.example.org/universities/university5/student-registry/5001>
+        a       <https://semlink.example.org/aicte#Student>;
+        <https://semlink.example.org/aicte#cgpa>
+                "9.85"^^<http://www.w3.org/2001/XMLSchema#double>;
+        <https://semlink.example.org/aicte#department>
+                "10"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#id>
+                "5001"^^<http://www.w3.org/2001/XMLSchema#int> , "101"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Alice Freeman";
+        <https://semlink.example.org/aicte#studiesAt>
+                <https://semlink.example.org/universities/university5/college-info/101> .
+
+<https://semlink.example.org/universities/university5/course-catalog/EC301>
+        a       <https://semlink.example.org/aicte#Course>;
+        <https://semlink.example.org/aicte#id>
+                "EC301";
+        <https://semlink.example.org/aicte#name>
+                "Digital Circuits" .
+
+<https://semlink.example.org/universities/university5/student-enrollments/5004>
+        a       <https://semlink.example.org/aicte#Enrollment>;
+        <https://semlink.example.org/aicte#id>
+                "5004"^^<http://www.w3.org/2001/XMLSchema#int> , "CS101" .
+
+<https://semlink.example.org/universities/university5/student-registry/5004>
+        a       <https://semlink.example.org/aicte#Student>;
+        <https://semlink.example.org/aicte#cgpa>
+                "9.99"^^<http://www.w3.org/2001/XMLSchema#double>;
+        <https://semlink.example.org/aicte#department>
+                "10"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#id>
+                "5004"^^<http://www.w3.org/2001/XMLSchema#int> , "101"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Diana Prince";
+        <https://semlink.example.org/aicte#studiesAt>
+                <https://semlink.example.org/universities/university5/college-info/101> .
+
+<https://semlink.example.org/universities/university5/university-details/1>
+        a       <https://semlink.example.org/aicte#University>;
+        <https://semlink.example.org/aicte#id>
+                "1"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "Western Institute of Technology" .
+
+<https://semlink.example.org/universities/university5/college-info/102>
+        a       <https://semlink.example.org/aicte#College>;
+        <https://semlink.example.org/aicte#belongsToUniversity>
+                <https://semlink.example.org/universities/university5/university-details/1>;
+        <https://semlink.example.org/aicte#id>
+                "102"^^<http://www.w3.org/2001/XMLSchema#int> , "1"^^<http://www.w3.org/2001/XMLSchema#int>;
+        <https://semlink.example.org/aicte#name>
+                "WIT Sciences College" .

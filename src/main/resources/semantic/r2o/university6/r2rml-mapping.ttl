@@ -1,0 +1,79 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix aicte: <https://semlink.example.org/aicte#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<#UniversityMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "university_details" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university6/details/{id}" ;
+    rr:class aicte:University
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "name" ]
+  ] .
+
+<#CollegeMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "college_info" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university6/college/{id}" ;
+    rr:class aicte:College
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "name" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:belongsToUniversity ;
+    rr:objectMap [ rr:template "https://semlink.example.org/universities/university6/details/{uni_id}" ]
+  ] .
+
+<#BranchMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "branch_info" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university6/department/{branch_id}" ;
+    rr:class aicte:Department
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "branch_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "branch_name" ]
+  ] .
+
+<#StudentMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "student_master" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university6/student/{roll_no}" ;
+    rr:class aicte:Student
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "roll_no" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "full_name" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:cgpa ;
+    rr:objectMap [ rr:column "pointer" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:department ;
+    rr:objectMap [ rr:column "branch_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:studiesAt ;
+    rr:objectMap [ rr:template "https://semlink.example.org/universities/university6/college/{college_id}" ]
+  ] .

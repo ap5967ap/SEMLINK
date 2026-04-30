@@ -1,0 +1,97 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix aicte: <https://semlink.example.org/aicte#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<#UniversityMapping>
+    rr:logicalTable [ rr:tableName "university_details" ];
+    rr:subjectMap [
+        rr:template "https://semlink.example.org/universities/university6/university_details/{id}";
+        rr:class aicte:University;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:id;
+        rr:objectMap [ rr:column "id" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:name;
+        rr:objectMap [ rr:column "name" ];
+    ].
+
+<#CollegeMapping>
+    rr:logicalTable [ rr:tableName "college_info" ];
+    rr:subjectMap [
+        rr:template "https://semlink.example.org/universities/university6/college_info/{id}";
+        rr:class aicte:College;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:id;
+        rr:objectMap [ rr:column "id" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:name;
+        rr:objectMap [ rr:column "name" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:belongsToUniversity;
+        rr:objectMap [
+            rr:parentTriplesMap <#UniversityMapping>;
+            rr:joinCondition [
+                rr:child "uni_id";
+                rr:parent "id";
+            ];
+        ];
+    ].
+
+<#DepartmentMapping>
+    rr:logicalTable [ rr:tableName "branch_info" ];
+    rr:subjectMap [
+        rr:template "https://semlink.example.org/universities/university6/branch_info/{branch_id}";
+        rr:class aicte:Department;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:id;
+        rr:objectMap [ rr:column "branch_id" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:name;
+        rr:objectMap [ rr:column "branch_name" ];
+    ].
+
+<#StudentMapping>
+    rr:logicalTable [ rr:tableName "student_master" ];
+    rr:subjectMap [
+        rr:template "https://semlink.example.org/universities/university6/student_master/{roll_no}";
+        rr:class aicte:Student;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:id;
+        rr:objectMap [ rr:column "roll_no" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:name;
+        rr:objectMap [ rr:column "full_name" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:cgpa;
+        rr:objectMap [ rr:column "pointer" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:department;
+        rr:objectMap [
+            rr:parentTriplesMap <#DepartmentMapping>;
+            rr:joinCondition [
+                rr:child "branch_id";
+                rr:parent "branch_id";
+            ];
+        ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate aicte:studiesAt;
+        rr:objectMap [
+            rr:parentTriplesMap <#CollegeMapping>;
+            rr:joinCondition [
+                rr:child "college_id";
+                rr:parent "id";
+            ];
+        ];
+    ].

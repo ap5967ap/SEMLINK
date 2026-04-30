@@ -29,6 +29,10 @@ public class R2rmlRenderer {
     private static final Property PREDICATE = property(RR_NS + "predicate");
     private static final Property OBJECT_MAP = property(RR_NS + "objectMap");
     private static final Property COLUMN = property(RR_NS + "column");
+    private static final Property PARENT_TRIPLES_MAP = property(RR_NS + "parentTriplesMap");
+    private static final Property JOIN_CONDITION = property(RR_NS + "joinCondition");
+    private static final Property CHILD = property(RR_NS + "child");
+    private static final Property PARENT = property(RR_NS + "parent");
 
     private final SqlInputParser sqlInputParser = new SqlInputParser();
 
@@ -51,7 +55,7 @@ public class R2rmlRenderer {
                     output.add(subject, RDF.type, output.createResource(triplesMap.classUri()));
                 }
                 for (PredicateObjectDefinition predicateObject : triplesMap.predicateObjects()) {
-                    RDFNode objectNode = buildObject(output, predicateObject, row);
+                    RDFNode objectNode = buildObject(output, predicateObject, row, sqlData, triplesMaps);
                     if (objectNode != null) {
                         output.add(subject, output.createProperty(predicateObject.predicateUri()), objectNode);
                     }
@@ -64,7 +68,7 @@ public class R2rmlRenderer {
 
     private List<TriplesMapDefinition> readTriplesMaps(Model mappingModel) {
         List<TriplesMapDefinition> definitions = new ArrayList<>();
-        mappingModel.listResourcesWithProperty(RDF.type, TRIPLES_MAP).forEachRemaining(triplesMap -> {
+        mappingModel.listResourcesWithProperty(LOGICAL_TABLE).forEachRemaining(triplesMap -> {
             Resource logicalTable = triplesMap.getPropertyResourceValue(LOGICAL_TABLE);
             Resource subjectMap = triplesMap.getPropertyResourceValue(SUBJECT_MAP);
             if (logicalTable == null || subjectMap == null) {
@@ -94,32 +98,53 @@ public class R2rmlRenderer {
                 String predicateUri = predicateStatement.getResource().getURI();
                 String column = literalValue(objectMap.getProperty(COLUMN));
                 String template = literalValue(objectMap.getProperty(TEMPLATE));
-                predicateObjects.add(new PredicateObjectDefinition(predicateUri, column, template));
+                String parentTriplesMap = objectMap.hasProperty(PARENT_TRIPLES_MAP) 
+                    ? objectMap.getProperty(PARENT_TRIPLES_MAP).getResource().getURI() 
+                    : null;
+                
+                String childCol = null;
+                String parentCol = null;
+                if (objectMap.hasProperty(JOIN_CONDITION)) {
+                    Resource join = objectMap.getPropertyResourceValue(JOIN_CONDITION);
+                    childCol = literalValue(join.getProperty(CHILD));
+                    parentCol = literalValue(join.getProperty(PARENT));
+                }
+
+                predicateObjects.add(new PredicateObjectDefinition(predicateUri, column, template, parentTriplesMap, childCol, parentCol));
             });
 
-            definitions.add(new TriplesMapDefinition(tableName, subjectTemplate, classUri, predicateObjects));
+            definitions.add(new TriplesMapDefinition(tableName, subjectTemplate, classUri, predicateObjects, triplesMap.getURI()));
         });
         return definitions;
     }
 
-    private RDFNode buildObject(Model output, PredicateObjectDefinition definition, Map<String, Object> row) {
+    private RDFNode buildObject(Model output, PredicateObjectDefinition definition, Map<String, Object> row, SqlInputParser.SqlData sqlData, List<TriplesMapDefinition> allMaps) {
         if (definition.column() != null) {
             Object value = row.get(definition.column());
-            if (value == null) {
-                return null;
-            }
-            if (value instanceof Number number) {
-                Literal typedLiteral = output.createTypedLiteral(number);
-                return typedLiteral;
-            }
+            if (value == null) return null;
+            if (value instanceof Number number) return output.createTypedLiteral(number);
             return output.createLiteral(value.toString());
         }
         if (definition.template() != null) {
             String objectUri = applyTemplate(definition.template(), row);
-            if (objectUri == null) {
-                return null;
+            return objectUri == null ? null : output.createResource(objectUri);
+        }
+        if (definition.parentTriplesMap() != null) {
+            TriplesMapDefinition parentMap = allMaps.stream()
+                .filter(m -> m.uri().equals(definition.parentTriplesMap()))
+                .findFirst().orElse(null);
+            if (parentMap == null) return null;
+
+            Object childVal = row.get(definition.childColumn());
+            if (childVal == null) return null;
+
+            for (Map<String, Object> parentRow : sqlData.rows(parentMap.tableName())) {
+                Object parentVal = parentRow.get(definition.parentColumn());
+                if (childVal.toString().equals(String.valueOf(parentVal))) {
+                    String parentUri = applyTemplate(parentMap.subjectTemplate(), parentRow);
+                    return parentUri == null ? null : output.createResource(parentUri);
+                }
             }
-            return output.createResource(objectUri);
         }
         return null;
     }
@@ -175,10 +200,18 @@ public class R2rmlRenderer {
         String tableName,
         String subjectTemplate,
         String classUri,
-        List<PredicateObjectDefinition> predicateObjects
+        List<PredicateObjectDefinition> predicateObjects,
+        String uri
     ) {
     }
 
-    private record PredicateObjectDefinition(String predicateUri, String column, String template) {
+    private record PredicateObjectDefinition(
+        String predicateUri, 
+        String column, 
+        String template, 
+        String parentTriplesMap,
+        String childColumn,
+        String parentColumn
+    ) {
     }
 }

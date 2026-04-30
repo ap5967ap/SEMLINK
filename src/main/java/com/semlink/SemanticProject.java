@@ -39,12 +39,14 @@ public class SemanticProject {
     private static final Logger logger = LoggerFactory.getLogger(SemanticProject.class);
 
     private static final List<OntologyResource> ONTOLOGY_RESOURCES = List.of(
-        new OntologyResource("university1", "semantic/ontologies/local/university1/university1.ttl"),
-        new OntologyResource("university2", "semantic/ontologies/local/university2/university2.ttl"),
-        new OntologyResource("university3", "semantic/ontologies/local/university3/university3.ttl"),
-        new OntologyResource("university4", "semantic/ontologies/local/university4/university4.ttl"),
-        new OntologyResource("aicte", "semantic/ontologies/central/aicte.ttl")
-    );
+            new OntologyResource("university1", "semantic/ontologies/local/university1/university1.ttl"),
+            new OntologyResource("university2", "semantic/ontologies/local/university2/university2.ttl"),
+            new OntologyResource("university3", "semantic/ontologies/local/university3/university3.ttl"),
+            new OntologyResource("university4", "semantic/ontologies/local/university4/university4.ttl"),
+            new OntologyResource("university5", "target/semantic-output/r2o/university5/generated/generated-from-manual.ttl"),
+            new OntologyResource("university6", "target/semantic-output/r2o/university6/generated/generated-from-manual.ttl"),
+            new OntologyResource("university7", "target/semantic-output/r2o/university7/generated/generated-from-custom.ttl"),
+            new OntologyResource("aicte", "semantic/ontologies/central/aicte.ttl"));
 
     private static final Path OUTPUT_DIR = Path.of("target", "semantic-output");
     private static final String SHAPES_RESOURCE = "semantic/shapes/aicte-shapes.ttl";
@@ -53,8 +55,16 @@ public class SemanticProject {
 
     private final QueryEngine queryEngine = new QueryEngine();
     private final SimilarityMatcher similarityMatcher = new SimilarityMatcher("https://semlink.example.org/aicte#");
-    private final R2oWorkflow r2oWorkflow = new R2oWorkflow();
+    private final R2oWorkflow r2oWorkflow;
     private final CustomOnboardingWorkflow customOnboardingWorkflow = new CustomOnboardingWorkflow();
+
+    public SemanticProject() {
+        String apiKey = System.getenv("GEMINI_API_KEY");
+        if (apiKey == null || apiKey.isBlank()) {
+            apiKey = System.getenv("GEMINI_KEY");
+        }
+        this.r2oWorkflow = new R2oWorkflow(apiKey);
+    }
 
     public void runDemo() {
         try {
@@ -79,11 +89,14 @@ public class SemanticProject {
             }
 
             ValidationReport validReport = validate(inferredModel);
-            writeModel(validReport.getModel(), OUTPUT_DIR.resolve("validation").resolve("valid-report.ttl"), Lang.TURTLE);
+            writeModel(validReport.getModel(), OUTPUT_DIR.resolve("validation").resolve("valid-report.ttl"),
+                    Lang.TURTLE);
 
-            Model invalidData = ModelFactory.createDefaultModel().add(inferredModel).add(loadModel(INVALID_SAMPLE_RESOURCE));
+            Model invalidData = ModelFactory.createDefaultModel().add(inferredModel)
+                    .add(loadModel(INVALID_SAMPLE_RESOURCE));
             ValidationReport invalidReport = validate(invalidData);
-            writeModel(invalidReport.getModel(), OUTPUT_DIR.resolve("validation").resolve("invalid-report.ttl"), Lang.TURTLE);
+            writeModel(invalidReport.getModel(), OUTPUT_DIR.resolve("validation").resolve("invalid-report.ttl"),
+                    Lang.TURTLE);
 
             String suggestions = similarityMatcher.generateSuggestions(ontologyModels.get("aicte"), ontologyModels);
             writeString(OUTPUT_DIR.resolve("mapping-suggestions.tsv"), suggestions);
@@ -119,7 +132,8 @@ public class SemanticProject {
             return;
         }
         if (!"add".equals(args[0])) {
-            throw new IllegalArgumentException("Usage: connect add --type <type> --id <id> [--path <file>] [--host <host>] [--port <port>] [--db <database>] [--user <user>] [--password <password>]");
+            throw new IllegalArgumentException(
+                    "Usage: connect add --type <type> --id <id> [--path <file>] [--host <host>] [--port <port>] [--db <database>] [--user <user>] [--password <password>]");
         }
 
         Map<String, String> options = parseOptions(args, 1);
@@ -134,17 +148,16 @@ public class SemanticProject {
             }
         }
         ConnectionConfig config = new ConnectionConfig(
-            id,
-            type,
-            options.getOrDefault("host", ""),
-            parseInt(options.getOrDefault("port", "0")),
-            database,
-            options.getOrDefault("user", ""),
-            options.getOrDefault("password", ""),
-            Boolean.parseBoolean(options.getOrDefault("ssl", "false")),
-            parseInt(options.getOrDefault("timeout", "30")),
-            adapterOptions
-        );
+                id,
+                type,
+                options.getOrDefault("host", ""),
+                parseInt(options.getOrDefault("port", "0")),
+                database,
+                options.getOrDefault("user", ""),
+                options.getOrDefault("password", ""),
+                Boolean.parseBoolean(options.getOrDefault("ssl", "false")),
+                parseInt(options.getOrDefault("timeout", "30")),
+                adapterOptions);
         AdapterRegistry.withDefaults().create(config);
         appendConnection(config);
         System.out.println("Registered connection: " + id + " (" + type + ")");
@@ -166,16 +179,16 @@ public class SemanticProject {
 
         String sourceFilter = options.getOrDefault("source", "");
         List<ConnectionConfig> selected = connections.stream()
-            .filter(connection -> sourceFilter.isBlank()
-                || connection.id().equalsIgnoreCase(sourceFilter)
-                || connection.type().equalsIgnoreCase(sourceFilter))
-            .toList();
+                .filter(connection -> sourceFilter.isBlank()
+                        || connection.id().equalsIgnoreCase(sourceFilter)
+                        || connection.type().equalsIgnoreCase(sourceFilter))
+                .toList();
         if (selected.isEmpty()) {
             throw new IllegalArgumentException("No connection matched --source " + sourceFilter);
         }
 
         PipelineResult result = new MultiSourcePipeline(AdapterRegistry.withDefaults(), OUTPUT_DIR.resolve("pipeline"))
-            .run(selected, MappingRules.assisted());
+                .run(selected, MappingRules.assisted());
         System.out.println("AICTE demo pipeline completed.");
         System.out.println("Multi-source adapter pipeline completed.");
         System.out.println("Sources processed: " + result.sources().size());
@@ -196,7 +209,7 @@ public class SemanticProject {
         Model previous = loadModel("semantic/ontologies/central/aicte.ttl");
         Model current = ModelFactory.createDefaultModel().add(previous);
         current.createResource("https://semlink.example.org/aicte#Faculty")
-            .addProperty(RDF.type, org.apache.jena.vocabulary.OWL.Class);
+                .addProperty(RDF.type, org.apache.jena.vocabulary.OWL.Class);
         SchemaVersionManager manager = new SchemaVersionManager();
         OntologyDiff diff = manager.diff("aicte", previous, current);
         Path historyPath = OUTPUT_DIR.resolve("versions.json");
@@ -225,13 +238,18 @@ public class SemanticProject {
                 runHtmlReport();
             }
             case "usecase4" -> runNaturalLanguageQuery("Show students with CGPA above 9 from all universities");
-            case "usecase5" -> System.out.println("Simulated onboarding stopwatch: 47 seconds from connect to queryable semantic source.");
+            case "usecase5" -> System.out
+                    .println("Simulated onboarding stopwatch: 47 seconds from connect to queryable semantic source.");
             default -> throw new IllegalArgumentException("Unknown use case: " + id);
         }
     }
 
     public void runNaturalLanguageQuery(String question) {
-        NLQueryTranslator translator = NLQueryTranslator.withoutRemoteModel();
+        String apiKey = System.getenv("GEMINI_API_KEY");
+        if (apiKey == null || apiKey.isBlank()) {
+            apiKey = System.getenv("GEMINI_KEY");
+        }
+        NLQueryTranslator translator = NLQueryTranslator.withGemini(apiKey);
         String sparql = translator.translate(question);
         System.out.println("Generated SPARQL:");
         System.out.println(sparql);
@@ -245,18 +263,25 @@ public class SemanticProject {
             } else if (query.isAskType()) {
                 System.out.println(execution.execAsk());
             } else {
-                throw new IllegalArgumentException("Natural-language queries currently support SELECT and ASK outputs.");
+                throw new IllegalArgumentException(
+                        "Natural-language queries currently support SELECT and ASK outputs.");
             }
         }
     }
 
     public void runHtmlReport() {
         HtmlReport report = new HtmlReport("SEMLINK AICTE Accreditation Dashboard", List.of(
-            new HtmlReportSection("University1", "100% compliant. Relational-style normalized data mapped through R2RML.", "ok"),
-            new HtmlReportSection("University2", "87% compliant. Document model alignment works; missing optional profile fields need review.", "warn"),
-            new HtmlReportSection("University3", "61% compliant. Graph model highlights entity resolution and department-code quality issues.", "fail"),
-            new HtmlReportSection("University4", "72% compliant. KV and indirect program-to-college links require semantic inference.", "warn")
-        ));
+                new HtmlReportSection("University1",
+                        "100% compliant. Relational-style normalized data mapped through R2RML.", "ok"),
+                new HtmlReportSection("University2",
+                        "87% compliant. Document model alignment works; missing optional profile fields need review.",
+                        "warn"),
+                new HtmlReportSection("University3",
+                        "61% compliant. Graph model highlights entity resolution and department-code quality issues.",
+                        "fail"),
+                new HtmlReportSection("University4",
+                        "72% compliant. KV and indirect program-to-college links require semantic inference.",
+                        "warn")));
         Path reportPath = OUTPUT_DIR.resolve("index.html");
         new HtmlReportRenderer().render(report, reportPath);
         System.out.println("HTML report written to " + reportPath.toAbsolutePath());
@@ -291,7 +316,9 @@ public class SemanticProject {
                 String customPath = "file".equals(mode) && args.length >= 4 ? args[3] : null;
                 r2oWorkflow.generate(exampleName, mode, customPath);
             }
-            default -> throw new IllegalArgumentException("Unknown R2O command: " + subcommand + "\n" + r2oWorkflow.usage());
+            case "automate" -> r2oWorkflow.automate(exampleName);
+            default ->
+                throw new IllegalArgumentException("Unknown R2O command: " + subcommand + "\n" + r2oWorkflow.usage());
         }
     }
 
@@ -337,19 +364,27 @@ public class SemanticProject {
     private String buildSummary(Model inferredModel, ValidationReport validReport, ValidationReport invalidReport) {
         StringBuilder summary = new StringBuilder();
         summary.append("Semantic integration demo completed.\n");
-        summary.append("Students inferred: ").append(countResources(inferredModel, "https://semlink.example.org/aicte#Student")).append('\n');
-        summary.append("Colleges inferred: ").append(countResources(inferredModel, "https://semlink.example.org/aicte#College")).append('\n');
-        summary.append("Courses inferred: ").append(countResources(inferredModel, "https://semlink.example.org/aicte#Course")).append('\n');
-        summary.append("Universities inferred: ").append(countResources(inferredModel, "https://semlink.example.org/aicte#University")).append('\n');
+        summary.append("Students inferred: ")
+                .append(countResources(inferredModel, "https://semlink.example.org/aicte#Student")).append('\n');
+        summary.append("Colleges inferred: ")
+                .append(countResources(inferredModel, "https://semlink.example.org/aicte#College")).append('\n');
+        summary.append("Courses inferred: ")
+                .append(countResources(inferredModel, "https://semlink.example.org/aicte#Course")).append('\n');
+        summary.append("Universities inferred: ")
+                .append(countResources(inferredModel, "https://semlink.example.org/aicte#University")).append('\n');
         summary.append("Validation on curated merged model conforms: ").append(validReport.conforms()).append('\n');
-        summary.append("Validation on merged model plus invalid sample conforms: ").append(invalidReport.conforms()).append('\n');
+        summary.append("Validation on merged model plus invalid sample conforms: ").append(invalidReport.conforms())
+                .append('\n');
         summary.append("Named queries executed: ").append(String.join(", ", queryEngine.listQueries())).append('\n');
         summary.append("Output directory: ").append(OUTPUT_DIR.toAbsolutePath()).append('\n');
         return summary.toString();
     }
 
-    private Model loadModel(String resourcePath) {
-        URL resource = requireResource(resourcePath);
+    private Model loadModel(String path) {
+        if (path.startsWith("target/") || path.startsWith("/")) {
+            return RDFDataMgr.loadModel(path);
+        }
+        URL resource = requireResource(path);
         return RDFDataMgr.loadModel(resource.toString());
     }
 
@@ -391,7 +426,8 @@ public class SemanticProject {
     private void printConnections() {
         Path output = OUTPUT_DIR.resolve("connections.json");
         if (!Files.exists(output)) {
-            System.out.println("No registered connections. Add one with `connect add --type owl --id university1 --path <file>`.");
+            System.out.println(
+                    "No registered connections. Add one with `connect add --type owl --id university1 --path <file>`.");
             return;
         }
         try {
@@ -408,9 +444,9 @@ public class SemanticProject {
         }
         try {
             return Files.readAllLines(output).stream()
-                .filter(line -> !line.isBlank())
-                .map(ConnectionConfig::fromJson)
-                .toList();
+                    .filter(line -> !line.isBlank())
+                    .map(ConnectionConfig::fromJson)
+                    .toList();
         } catch (IOException exception) {
             throw new IllegalStateException("Failed to read connection registry.", exception);
         }
