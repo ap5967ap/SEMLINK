@@ -220,4 +220,80 @@ public class SqlInputParser {
 
     public record ForeignKey(String column, String targetTable, String targetColumn) {
     }
+
+    // ── Schema Statistics for LLM ────────────────────────────────
+
+    public SchemaStatistics buildSchemaStatistics(String schemaSql, String dataSql) {
+        SqlSchema schema = parseSchema(schemaSql);
+        SqlData data = parseData(dataSql);
+        List<TableStats> tableStats = new ArrayList<>();
+
+        for (TableDefinition table : schema.tables().values()) {
+            List<Map<String, Object>> rows = data.rowsByTable().getOrDefault(table.name(), List.of());
+            List<ColumnStats> colStats = new ArrayList<>();
+            for (String col : table.columns()) {
+                List<String> samples = collectSamples(rows, col, 5);
+                colStats.add(new ColumnStats(col, "VARCHAR", isNullable(schemaSql, table.name(), col), samples));
+            }
+            List<ForeignKeyRef> fks = table.foreignKeys().entrySet().stream()
+                .map(e -> new ForeignKeyRef(e.getKey(), e.getValue().targetTable() + "." + e.getValue().targetColumn()))
+                .toList();
+            String pk = detectPrimaryKey(table);
+            tableStats.add(new TableStats(table.name(), colStats, pk, fks, rows.size()));
+        }
+
+        return new SchemaStatistics(
+            "uploaded",
+            tableStats,
+            List.of("Student", "College", "University", "Course", "Department", "Program"),
+            List.of("studiesAt", "belongsToUniversity", "offersCourse", "memberOfDepartment",
+                    "enrolledIn", "name", "id", "cgpa", "department")
+        );
+    }
+
+    private List<String> collectSamples(List<Map<String, Object>> rows, String column, int limit) {
+        List<String> samples = new ArrayList<>();
+        for (Map<String, Object> row : rows) {
+            Object val = row.get(column);
+            if (val != null && !val.toString().equalsIgnoreCase("NULL") && samples.size() < limit) {
+                samples.add(val.toString());
+            }
+        }
+        return samples;
+    }
+
+    private boolean isNullable(String schemaSql, String tableName, String column) {
+        Pattern notNullPattern = Pattern.compile(
+            "(?i)" + column + "\\s+(INT|VARCHAR|TEXT|DOUBLE|FLOAT|DECIMAL|BOOLEAN|DATE|TIMESTAMP)\\s+NOT\\s+NULL",
+            Pattern.CASE_INSENSITIVE);
+        return !notNullPattern.matcher(schemaSql).find();
+    }
+
+    private String detectPrimaryKey(TableDefinition table) {
+        for (String col : table.columns()) {
+            if (col.equalsIgnoreCase("id") || col.toLowerCase().endsWith("_id")) {
+                return col;
+            }
+        }
+        return table.columns().isEmpty() ? null : table.columns().getFirst();
+    }
+
+    public record SchemaStatistics(
+        String datasetName,
+        List<TableStats> tables,
+        List<String> availableAicteClasses,
+        List<String> availableAicteProperties
+    ) {}
+
+    public record TableStats(
+        String name,
+        List<ColumnStats> columns,
+        String primaryKey,
+        List<ForeignKeyRef> foreignKeys,
+        int rowCount
+    ) {}
+
+    public record ColumnStats(String name, String sqlType, boolean nullable, List<String> sampleValues) {}
+
+    public record ForeignKeyRef(String column, String references) {}
 }
