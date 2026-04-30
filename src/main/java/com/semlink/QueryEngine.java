@@ -26,6 +26,7 @@ public class QueryEngine {
         QUERY_RESOURCES.put("student_college_resolution", "semantic/queries/core/student_college_resolution.rq");
         QUERY_RESOURCES.put("student_count_by_university", "semantic/queries/analysis/student_count_by_university.rq");
         QUERY_RESOURCES.put("student_count_by_department", "semantic/queries/analysis/student_count_by_department.rq");
+        QUERY_RESOURCES.put("cs_students_by_university", "semantic/queries/analysis/cs_students_by_university.rq");
         QUERY_RESOURCES.put("course_count_by_college", "semantic/queries/analysis/course_count_by_college.rq");
         QUERY_RESOURCES.put("department_to_college_map", "semantic/queries/analysis/department_to_college_map.rq");
         QUERY_RESOURCES.put("same_as_clusters", "semantic/queries/identity/same_as_clusters.rq");

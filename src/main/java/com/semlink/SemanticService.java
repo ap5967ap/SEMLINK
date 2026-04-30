@@ -45,8 +45,11 @@ public class SemanticService {
     private final QueryEngine queryEngine = new QueryEngine();
     private final SimilarityMatcher similarityMatcher = new SimilarityMatcher("https://semlink.example.org/aicte#");
     private final NLQueryTranslator nlTranslator;
+    private final OntologyDatabase ontologyDatabase;
 
-    {
+    public SemanticService(OntologyDatabase ontologyDatabase) {
+        this.ontologyDatabase = ontologyDatabase;
+        
         String apiKey = System.getenv("GEMINI_API_KEY");
         if (apiKey == null || apiKey.isBlank()) {
             apiKey = loadEnvFile("GEMINI_API_KEY");
@@ -58,7 +61,17 @@ public class SemanticService {
             log.info("No Gemini API key, using deterministic fallback");
             nlTranslator = NLQueryTranslator.withoutRemoteModel();
         }
+
+        // Initialize TDB2 database with default ontologies if empty
+        if (this.ontologyDatabase.isEmpty()) {
+            log.info("Database is empty, loading default ontologies...");
+            for (String[] res : ONTOLOGY_RESOURCES) {
+                Model m = loadModel(res[1]);
+                this.ontologyDatabase.addOntology(res[0], m);
+            }
+        }
     }
+
 
     private static String loadEnvFile(String key) {
         try {
@@ -93,8 +106,7 @@ public class SemanticService {
             Files.createDirectories(OUTPUT_DIR.resolve("query-results"));
             Files.createDirectories(OUTPUT_DIR.resolve("validation"));
 
-            Map<String, Model> ontologyModels = loadOntologyModels();
-            Model base = merge(ontologyModels.values());
+            Model base = ontologyDatabase.getAllOntologiesMerged();
             inferredModel = createInferredModel(base);
             pipelineRan = true;
             if (onboardingService != null) onboardingService.setInferredModel(inferredModel);
@@ -110,7 +122,12 @@ public class SemanticService {
             ValidationReport report = validate(inferredModel);
             writeModel(report.getModel(), OUTPUT_DIR.resolve("validation/valid-report.ttl"), Lang.TURTLE);
 
-            String suggestions = similarityMatcher.generateSuggestions(ontologyModels.get("aicte"), ontologyModels);
+            // Fetch aicte ontology explicitly for mapping suggestions
+            Model aicteModel = ontologyDatabase.getOntology("aicte");
+            Map<String, Model> ontologyModels = new LinkedHashMap<>();
+            ontologyDatabase.listOntologies().forEach(n -> ontologyModels.put(n, ontologyDatabase.getOntology(n)));
+            
+            String suggestions = similarityMatcher.generateSuggestions(aicteModel, ontologyModels);
             writeString(OUTPUT_DIR.resolve("mapping-suggestions.tsv"), suggestions);
 
             Map<String, Object> result = new LinkedHashMap<>();
@@ -137,8 +154,13 @@ public class SemanticService {
             health.put("universitiesInferred", countResources("https://semlink.example.org/aicte#University"));
             health.put("totalTriples", inferredModel.size());
         }
-        health.put("connectionsCount", connections.size());
+        health.put("connectionsCount", listConnections().size());
         return health;
+    }
+
+    public Map<String, Object> refreshHealthAfterOnboarding(String onboardedSourceName) {
+        // Recompute health metrics after onboarding publish
+        return getHealth();
     }
 
     private void ensurePipeline() {
@@ -225,7 +247,11 @@ public class SemanticService {
     }
 
     public Collection<ConnectionConfig> listConnections() {
-        return connections.values();
+        List<ConnectionConfig> all = new ArrayList<>(connections.values());
+        for (String ontName : ontologyDatabase.listOntologies()) {
+            all.add(new ConnectionConfig(ontName, "owl", "target/tdb-database", 0, "TDB2 Database", "", "", false, 0, Map.of()));
+        }
+        return all;
     }
 
     public boolean removeConnection(String id) {
@@ -261,6 +287,9 @@ public class SemanticService {
                     result.put("newTotalTriples", inferredModel.size());
                 }
             }
+            
+            // Add to persistent Database
+            ontologyDatabase.addOntology(name, export.model());
 
             // Extract class names for UI display
             List<String> classes = new ArrayList<>();

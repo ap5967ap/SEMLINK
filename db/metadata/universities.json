@@ -1,0 +1,89 @@
+[
+  {
+    "id": "aicte",
+    "name": "Central AICTE Ontology",
+    "graphUri": "https://semlink.example.org/graph/university/aicte",
+    "ontologyPath": "classpath:semantic/ontologies/central/aicte.ttl",
+    "mappingPath": "",
+    "status": "PUBLISHED",
+    "sourceType": "seed",
+    "dbConnection": {},
+    "createdAt": "2026-04-30T13:32:48.154740Z",
+    "updatedAt": "2026-04-30T13:32:48.154740Z"
+  },
+  {
+    "id": "example-college",
+    "name": "Example College R2RML Demo",
+    "graphUri": "https://semlink.example.org/graph/university/example-college",
+    "ontologyPath": "classpath:semantic/r2o/example-college/generated-aicte-ready.ttl",
+    "mappingPath": "mappings/example-college/r2rml-mapping.ttl",
+    "status": "PUBLISHED",
+    "sourceType": "seed",
+    "dbConnection": {},
+    "createdAt": "2026-04-30T13:32:50.606491Z",
+    "updatedAt": "2026-04-30T13:32:50.606491Z"
+  },
+  {
+    "id": "university1",
+    "name": "University 1",
+    "graphUri": "https://semlink.example.org/graph/university/university1",
+    "ontologyPath": "classpath:semantic/ontologies/local/university1/university1.ttl",
+    "mappingPath": "",
+    "status": "PUBLISHED",
+    "sourceType": "seed",
+    "dbConnection": {},
+    "createdAt": "2026-04-30T13:32:49.297801Z",
+    "updatedAt": "2026-04-30T13:32:49.297801Z"
+  },
+  {
+    "id": "university2",
+    "name": "University 2",
+    "graphUri": "https://semlink.example.org/graph/university/university2",
+    "ontologyPath": "classpath:semantic/ontologies/local/university2/university2.ttl",
+    "mappingPath": "",
+    "status": "PUBLISHED",
+    "sourceType": "seed",
+    "dbConnection": {},
+    "createdAt": "2026-04-30T13:32:49.679034Z",
+    "updatedAt": "2026-04-30T13:32:49.679034Z"
+  },
+  {
+    "id": "university3",
+    "name": "University 3",
+    "graphUri": "https://semlink.example.org/graph/university/university3",
+    "ontologyPath": "classpath:semantic/ontologies/local/university3/university3.ttl",
+    "mappingPath": "",
+    "status": "PUBLISHED",
+    "sourceType": "seed",
+    "dbConnection": {},
+    "createdAt": "2026-04-30T13:32:50.006596Z",
+    "updatedAt": "2026-04-30T13:32:50.006596Z"
+  },
+  {
+    "id": "university4",
+    "name": "University 4",
+    "graphUri": "https://semlink.example.org/graph/university/university4",
+    "ontologyPath": "classpath:semantic/ontologies/local/university4/university4.ttl",
+    "mappingPath": "",
+    "status": "PUBLISHED",
+    "sourceType": "seed",
+    "dbConnection": {},
+    "createdAt": "2026-04-30T13:32:50.351748Z",
+    "updatedAt": "2026-04-30T13:32:50.351748Z"
+  },
+  {
+    "id": "university5",
+    "name": "Western Institute of Technology",
+    "graphUri": "https://semlink.example.org/graph/university/university5",
+    "ontologyPath": "universities/university5/ontology.ttl",
+    "mappingPath": "mappings/university5/r2rml-mapping.ttl",
+    "status": "PUBLISHED",
+    "sourceType": "relational",
+    "dbConnection": {
+      "username": "readonly",
+      "jdbcUrl": "jdbc:demo:university5"
+    },
+    "createdAt": "2026-04-30T13:33:44.959256Z",
+    "updatedAt": "2026-04-30T13:33:44.959256Z"
+  }
+]

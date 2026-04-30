@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: SEMLINK API
+  version: 2.0.0
+  description: REST contract for the SEMLINK semantic integration framework.
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/v1/health:
+    get:
+      summary: Health check and pipeline status
+      responses:
+        "200":
+          description: Service health
+  /api/v1/connections:
+    get:
+      summary: List registered database connections
+      responses:
+        "200":
+          description: Connections
+    post:
+      summary: Register a database connection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConnectionConfig"
+      responses:
+        "201":
+          description: Connection registered
+  /api/v1/connections/{id}:
+    delete:
+      summary: Remove a connection
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Removed
+  /api/v1/pipeline/run:
+    post:
+      summary: Run the full semantic pipeline
+      responses:
+        "202":
+          description: Pipeline accepted
+  /api/v1/pipeline/run/{sourceId}:
+    post:
+      summary: Run the pipeline for one source
+      parameters:
+        - name: sourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "202":
+          description: Source pipeline accepted
+  /api/v1/query/sparql:
+    post:
+      summary: Execute SPARQL against the semantic layer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SparqlRequest"
+      responses:
+        "200":
+          description: Query result
+  /api/v1/query/natural:
+    post:
+      summary: Translate natural language to SPARQL and execute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NaturalQueryRequest"
+      responses:
+        "200":
+          description: Query result plus generated SPARQL
+  /api/v1/query/catalog:
+    get:
+      summary: List named .rq query files
+      responses:
+        "200":
+          description: Query catalog
+  /api/v1/validate:
+    post:
+      summary: Run SHACL validation for all sources
+      responses:
+        "200":
+          description: Aggregate SHACL report
+  /api/v1/validate/{sourceId}:
+    get:
+      summary: Get SHACL report for one source
+      parameters:
+        - name: sourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Source validation report
+  /api/v1/schema/{sourceId}:
+    get:
+      summary: Browse extracted source schema
+      parameters:
+        - name: sourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Schema descriptor
+  /api/v1/onboard/r2o:
+    post:
+      summary: Trigger relational-to-ontology onboarding
+      responses:
+        "202":
+          description: R2O onboarding accepted
+  /api/v1/ontology/diff:
+    get:
+      summary: Compare ontology versions or source schemas
+      responses:
+        "200":
+          description: Ontology diff
+components:
+  schemas:
+    ConnectionConfig:
+      type: object
+      required: [id, type]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [mysql, postgresql, oracle, sqlite, mongodb, neo4j, redis, cassandra, owl, csv]
+        host:
+          type: string
+        port:
+          type: integer
+        database:
+          type: string
+        username:
+          type: string
+        ssl:
+          type: boolean
+        timeoutSeconds:
+          type: integer
+        options:
+          type: object
+          additionalProperties:
+            type: string
+    SparqlRequest:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+        explain:
+          type: boolean
+    NaturalQueryRequest:
+      type: object
+      required: [question]
+      properties:
+        question:
+          type: string
+        showGeneratedSparql:
+          type: boolean

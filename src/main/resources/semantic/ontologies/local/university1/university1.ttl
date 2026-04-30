@@ -890,7 +890,7 @@ _:genid79 a rdf:List;
 
 :Fac_101 a owl:NamedIndividual, :Faculty;
   :faculty_inDepartment :Dept_CSE;
-  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :date_of_joining "2015-06-01"^^xsd:date;
   :designation "Professor";
   :faculty_email "fac1@college.edu";
   :faculty_full_name "Professor Name 1";
@@ -1031,7 +1031,7 @@ _:genid79 a rdf:List;
 
 :Fac_102 a owl:NamedIndividual, :Faculty;
   :faculty_inDepartment :Dept_CSE;
-  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :date_of_joining "2015-06-01"^^xsd:date;
   :designation "Assistant Professor";
   :faculty_email "fac2@college.edu";
   :faculty_full_name "Professor Name 2";
@@ -1039,7 +1039,7 @@ _:genid79 a rdf:List;
 
 :Fac_103 a owl:NamedIndividual, :Faculty;
   :faculty_inDepartment :Dept_ECE;
-  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :date_of_joining "2015-06-01"^^xsd:date;
   :designation "Professor";
   :faculty_email "fac3@college.edu";
   :faculty_full_name "Professor Name 3";
@@ -1047,7 +1047,7 @@ _:genid79 a rdf:List;
 
 :Fac_104 a owl:NamedIndividual, :Faculty;
   :faculty_inDepartment :Dept_ECE;
-  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :date_of_joining "2015-06-01"^^xsd:date;
   :designation "Assistant Professor";
   :faculty_email "fac4@college.edu";
   :faculty_full_name "Professor Name 4";
@@ -1055,7 +1055,7 @@ _:genid79 a rdf:List;
 
 :Fac_105 a owl:NamedIndividual, :Faculty;
   :faculty_inDepartment :Dept_MECH;
-  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :date_of_joining "2015-06-01"^^xsd:date;
   :designation "Professor";
   :faculty_email "fac5@college.edu";
   :faculty_full_name "Professor Name 5";
@@ -1063,7 +1063,7 @@ _:genid79 a rdf:List;
 
 :Fac_106 a owl:NamedIndividual, :Faculty;
   :faculty_inDepartment :Dept_MECH;
-  :date_of_joining "2015-06-01"^^xsd:dateTime;
+  :date_of_joining "2015-06-01"^^xsd:date;
   :designation "Assistant Professor";
   :faculty_email "fac6@college.edu";
   :faculty_full_name "Professor Name 6";

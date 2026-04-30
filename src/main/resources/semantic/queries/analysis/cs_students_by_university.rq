@@ -1,0 +1,13 @@
+PREFIX aicte: <https://semlink.example.org/aicte#>
+
+SELECT ?universityName (COUNT(DISTINCT ?student) AS ?csStudents)
+WHERE {
+  ?student a aicte:Student ;
+    aicte:department ?department ;
+    aicte:studiesAt ?college .
+  ?college aicte:belongsToUniversity ?university .
+  ?university aicte:name ?universityName .
+  FILTER(LCASE(STR(?department)) = "computer science")
+}
+GROUP BY ?universityName
+ORDER BY DESC(?csStudents) ?universityName

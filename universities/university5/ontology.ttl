@@ -1,0 +1,34 @@
+PREFIX aicte: <https://semlink.example.org/aicte#>
+
+<https://semlink.example.org/universities/university5/course-catalog/CS101>
+        a           aicte:Course;
+        aicte:id    "CS101";
+        aicte:name  "Intro to Programming" .
+
+<https://semlink.example.org/universities/university5/department-data/10>
+        a           aicte:Department;
+        aicte:id    "10"^^<http://www.w3.org/2001/XMLSchema#int>;
+        aicte:name  "Computer Science" .
+
+<https://semlink.example.org/universities/university5/student-enrollments/5001>
+        a         aicte:Enrollment;
+        aicte:id  "5001"^^<http://www.w3.org/2001/XMLSchema#int> , "CS101" .
+
+<https://semlink.example.org/universities/university5/college-info/101>
+        a                          aicte:College;
+        aicte:belongsToUniversity  <https://semlink.example.org/universities/university5/university-details/1>;
+        aicte:id                   "101"^^<http://www.w3.org/2001/XMLSchema#int> , "1"^^<http://www.w3.org/2001/XMLSchema#int>;
+        aicte:name                 "WIT Engineering College" .
+
+<https://semlink.example.org/universities/university5/student-registry/5001>
+        a                 aicte:Student;
+        aicte:cgpa        "9.85"^^<http://www.w3.org/2001/XMLSchema#double>;
+        aicte:department  "Computer Science";
+        aicte:id          "5001"^^<http://www.w3.org/2001/XMLSchema#int> , "101"^^<http://www.w3.org/2001/XMLSchema#int>;
+        aicte:name        "Alice Freeman";
+        aicte:studiesAt   <https://semlink.example.org/universities/university5/college-info/101> .
+
+<https://semlink.example.org/universities/university5/university-details/1>
+        a           aicte:University;
+        aicte:id    "1"^^<http://www.w3.org/2001/XMLSchema#int>;
+        aicte:name  "Western Institute of Technology" .

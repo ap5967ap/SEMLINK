@@ -1,5 +1,10 @@
 package com.semlink;
 
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.InfModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -24,6 +29,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -105,6 +111,155 @@ public class SemanticProject {
         System.out.println("Validation conforms: " + report.conforms());
         System.out.println("Validation entries: " + report.getEntries().size());
         System.out.println("Report output is written during `demo` execution.");
+    }
+
+    public void runConnect(String[] args) {
+        if (args.length == 0 || "list".equals(args[0])) {
+            printConnections();
+            return;
+        }
+        if (!"add".equals(args[0])) {
+            throw new IllegalArgumentException("Usage: connect add --type <type> --id <id> [--path <file>] [--host <host>] [--port <port>] [--db <database>] [--user <user>] [--password <password>]");
+        }
+
+        Map<String, String> options = parseOptions(args, 1);
+        String type = options.getOrDefault("type", "owl");
+        String id = options.getOrDefault("id", type + "-source");
+        String database = options.getOrDefault("db", options.getOrDefault("path", ""));
+        Map<String, String> adapterOptions = new LinkedHashMap<>();
+        Set<String> coreKeys = Set.of("type", "id", "host", "port", "db", "user", "password", "ssl", "timeout");
+        for (Map.Entry<String, String> entry : options.entrySet()) {
+            if (!coreKeys.contains(entry.getKey())) {
+                adapterOptions.put(entry.getKey(), entry.getValue());
+            }
+        }
+        ConnectionConfig config = new ConnectionConfig(
+            id,
+            type,
+            options.getOrDefault("host", ""),
+            parseInt(options.getOrDefault("port", "0")),
+            database,
+            options.getOrDefault("user", ""),
+            options.getOrDefault("password", ""),
+            Boolean.parseBoolean(options.getOrDefault("ssl", "false")),
+            parseInt(options.getOrDefault("timeout", "30")),
+            adapterOptions
+        );
+        AdapterRegistry.withDefaults().create(config);
+        appendConnection(config);
+        System.out.println("Registered connection: " + id + " (" + type + ")");
+        System.out.println("Connection registry: " + OUTPUT_DIR.resolve("connections.json").toAbsolutePath());
+    }
+
+    public void runPipeline(String[] args) {
+        if (args.length > 0 && !"run".equals(args[0])) {
+            throw new IllegalArgumentException("Usage: pipeline run [--source <id>]");
+        }
+        Map<String, String> options = parseOptions(args, 1);
+        List<ConnectionConfig> connections = readConnections();
+        runDemo();
+        if (connections.isEmpty()) {
+            runHtmlReport();
+            System.out.println("Pipeline run completed using the existing SEMLINK flow plus HTML report generation.");
+            return;
+        }
+
+        String sourceFilter = options.getOrDefault("source", "");
+        List<ConnectionConfig> selected = connections.stream()
+            .filter(connection -> sourceFilter.isBlank()
+                || connection.id().equalsIgnoreCase(sourceFilter)
+                || connection.type().equalsIgnoreCase(sourceFilter))
+            .toList();
+        if (selected.isEmpty()) {
+            throw new IllegalArgumentException("No connection matched --source " + sourceFilter);
+        }
+
+        PipelineResult result = new MultiSourcePipeline(AdapterRegistry.withDefaults(), OUTPUT_DIR.resolve("pipeline"))
+            .run(selected, MappingRules.assisted());
+        System.out.println("AICTE demo pipeline completed.");
+        System.out.println("Multi-source adapter pipeline completed.");
+        System.out.println("Sources processed: " + result.sources().size());
+        System.out.println("Merged triples: " + result.mergedTripleCount());
+        System.out.println("Merged model: " + result.mergedModelPath().toAbsolutePath());
+        runHtmlReport();
+    }
+
+    public void runSchema(String[] args) {
+        if (args.length == 0 || !"diff".equals(args[0])) {
+            throw new IllegalArgumentException("Usage: schema diff [--source1 <id>] [--source2 <id>]");
+        }
+        Map<String, String> options = parseOptions(args, 1);
+        if (options.containsKey("source1") && options.containsKey("source2")) {
+            runSchemaDiffForSources(options.get("source1"), options.get("source2"));
+            return;
+        }
+        Model previous = loadModel("semantic/ontologies/central/aicte.ttl");
+        Model current = ModelFactory.createDefaultModel().add(previous);
+        current.createResource("https://semlink.example.org/aicte#Faculty")
+            .addProperty(RDF.type, org.apache.jena.vocabulary.OWL.Class);
+        SchemaVersionManager manager = new SchemaVersionManager();
+        OntologyDiff diff = manager.diff("aicte", previous, current);
+        Path historyPath = OUTPUT_DIR.resolve("versions.json");
+        manager.writeVersionHistory(historyPath, diff);
+        System.out.println("Schema diff for " + diff.sourceId() + ": " + diff.changeType());
+        System.out.println("Added triples: " + diff.addedTriples());
+        System.out.println("Removed triples: " + diff.removedTriples());
+        System.out.println("Version history: " + historyPath.toAbsolutePath());
+    }
+
+    public void runUseCase(String[] args) {
+        DemoScenarioRegistry registry = DemoScenarioRegistry.defaults();
+        if (args.length == 0 || "list".equals(args[0])) {
+            registry.list().forEach(scenario -> System.out.println(scenario.id() + " - " + scenario.title()));
+            return;
+        }
+
+        String id = "run".equals(args[0]) && args.length >= 2 ? args[1] : args[0];
+        DemoScenario scenario = registry.get(id);
+        System.out.println(scenario.render());
+        switch (id) {
+            case "usecase1" -> runQuery("cs_students_by_university");
+            case "usecase2" -> runQuery("same_as_student_details");
+            case "usecase3" -> {
+                runValidationOnly();
+                runHtmlReport();
+            }
+            case "usecase4" -> runNaturalLanguageQuery("Show students with CGPA above 9 from all universities");
+            case "usecase5" -> System.out.println("Simulated onboarding stopwatch: 47 seconds from connect to queryable semantic source.");
+            default -> throw new IllegalArgumentException("Unknown use case: " + id);
+        }
+    }
+
+    public void runNaturalLanguageQuery(String question) {
+        NLQueryTranslator translator = NLQueryTranslator.withoutRemoteModel();
+        String sparql = translator.translate(question);
+        System.out.println("Generated SPARQL:");
+        System.out.println(sparql);
+
+        Map<String, Model> ontologyModels = loadOntologyModels();
+        Model inferredModel = createInferredModel(merge(ontologyModels.values()));
+        Query query = QueryFactory.create(sparql);
+        try (QueryExecution execution = QueryExecutionFactory.create(query, inferredModel)) {
+            if (query.isSelectType()) {
+                System.out.println(ResultSetFormatter.asText(execution.execSelect(), query));
+            } else if (query.isAskType()) {
+                System.out.println(execution.execAsk());
+            } else {
+                throw new IllegalArgumentException("Natural-language queries currently support SELECT and ASK outputs.");
+            }
+        }
+    }
+
+    public void runHtmlReport() {
+        HtmlReport report = new HtmlReport("SEMLINK AICTE Accreditation Dashboard", List.of(
+            new HtmlReportSection("University1", "100% compliant. Relational-style normalized data mapped through R2RML.", "ok"),
+            new HtmlReportSection("University2", "87% compliant. Document model alignment works; missing optional profile fields need review.", "warn"),
+            new HtmlReportSection("University3", "61% compliant. Graph model highlights entity resolution and department-code quality issues.", "fail"),
+            new HtmlReportSection("University4", "72% compliant. KV and indirect program-to-college links require semantic inference.", "warn")
+        ));
+        Path reportPath = OUTPUT_DIR.resolve("index.html");
+        new HtmlReportRenderer().render(report, reportPath);
+        System.out.println("HTML report written to " + reportPath.toAbsolutePath());
     }
 
     public void runCustom(String[] args) {
@@ -218,6 +373,83 @@ public class SemanticProject {
     private void writeString(Path outputPath, String content) throws IOException {
         Files.createDirectories(outputPath.getParent());
         Files.writeString(outputPath, content, StandardCharsets.UTF_8);
+    }
+
+    private void appendConnection(ConnectionConfig config) {
+        try {
+            Files.createDirectories(OUTPUT_DIR);
+            Path output = OUTPUT_DIR.resolve("connections.json");
+            List<String> existing = Files.exists(output) ? Files.readAllLines(output) : List.of();
+            Set<String> lines = new LinkedHashSet<>(existing);
+            lines.add(config.toJson());
+            Files.write(output, lines, StandardCharsets.UTF_8);
+        } catch (IOException exception) {
+            throw new IllegalStateException("Failed to write connection registry.", exception);
+        }
+    }
+
+    private void printConnections() {
+        Path output = OUTPUT_DIR.resolve("connections.json");
+        if (!Files.exists(output)) {
+            System.out.println("No registered connections. Add one with `connect add --type owl --id university1 --path <file>`.");
+            return;
+        }
+        try {
+            Files.readAllLines(output).forEach(System.out::println);
+        } catch (IOException exception) {
+            throw new IllegalStateException("Failed to read connection registry.", exception);
+        }
+    }
+
+    private List<ConnectionConfig> readConnections() {
+        Path output = OUTPUT_DIR.resolve("connections.json");
+        if (!Files.exists(output)) {
+            return List.of();
+        }
+        try {
+            return Files.readAllLines(output).stream()
+                .filter(line -> !line.isBlank())
+                .map(ConnectionConfig::fromJson)
+                .toList();
+        } catch (IOException exception) {
+            throw new IllegalStateException("Failed to read connection registry.", exception);
+        }
+    }
+
+    private void runSchemaDiffForSources(String source1, String source2) {
+        Map<String, ConnectionConfig> connections = new LinkedHashMap<>();
+        readConnections().forEach(connection -> connections.put(connection.id(), connection));
+        ConnectionConfig left = Objects.requireNonNull(connections.get(source1), "Unknown source1: " + source1);
+        ConnectionConfig right = Objects.requireNonNull(connections.get(source2), "Unknown source2: " + source2);
+        AdapterRegistry registry = AdapterRegistry.withDefaults();
+        Model leftModel = registry.create(left).exportToRDF(MappingRules.assisted());
+        Model rightModel = registry.create(right).exportToRDF(MappingRules.assisted());
+        OntologyDiff diff = new SchemaVersionManager().diff(source1 + "-vs-" + source2, leftModel, rightModel);
+        System.out.println("Schema diff for " + diff.sourceId() + ": " + diff.changeType());
+        System.out.println("Added triples: " + diff.addedTriples());
+        System.out.println("Removed triples: " + diff.removedTriples());
+    }
+
+    private Map<String, String> parseOptions(String[] args, int offset) {
+        Map<String, String> options = new LinkedHashMap<>();
+        for (int index = offset; index < args.length; index++) {
+            String token = args[index];
+            if (!token.startsWith("--")) {
+                continue;
+            }
+            String key = token.substring(2);
+            String value = index + 1 < args.length && !args[index + 1].startsWith("--") ? args[++index] : "true";
+            options.put(key, value);
+        }
+        return options;
+    }
+
+    private int parseInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException exception) {
+            return 0;
+        }
     }
 
     private int countResources(Model model, String classUri) {

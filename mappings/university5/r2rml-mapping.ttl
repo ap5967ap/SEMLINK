@@ -1,0 +1,113 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix aicte: <https://semlink.example.org/aicte#> .
+
+<#UniversityDetailsMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "university_details" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university5/university-details/{univ_id}" ;
+    rr:class aicte:University
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "univ_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "univ_name" ]
+  ] .
+
+<#CollegeInfoMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "college_info" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university5/college-info/{college_id}" ;
+    rr:class aicte:College
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "college_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "college_name" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "parent_univ_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:belongsToUniversity ;
+    rr:objectMap [ rr:template "https://semlink.example.org/universities/university5/university-details/{parent_univ_id}" ]
+  ] .
+
+<#DepartmentDataMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "department_data" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university5/department-data/{dept_id}" ;
+    rr:class aicte:Department
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "dept_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "dept_name" ]
+  ] .
+
+<#CourseCatalogMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "course_catalog" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university5/course-catalog/{course_code}" ;
+    rr:class aicte:Course
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "course_code" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "course_name" ]
+  ] .
+
+<#StudentRegistryMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "student_registry" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university5/student-registry/{student_id}" ;
+    rr:class aicte:Student
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "student_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "full_name" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:cgpa ;
+    rr:objectMap [ rr:column "gpa" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "college_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:studiesAt ;
+    rr:objectMap [ rr:template "https://semlink.example.org/universities/university5/college-info/{college_id}" ]
+  ] .
+
+<#StudentEnrollmentsMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "student_enrollments" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/universities/university5/student-enrollments/{student_id}" ;
+    rr:class aicte:Enrollment
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "student_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "course_code" ]
+  ] .
+

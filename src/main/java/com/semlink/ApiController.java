@@ -17,13 +17,13 @@ public class ApiController {
     private final SemanticService service;
     private final OnboardingService onboardingService;
 
-    public ApiController(SemanticService service) {
+    public ApiController(SemanticService service, OntologyDatabase ontologyDatabase) {
         this.service = service;
         String apiKey = System.getenv("GEMINI_API_KEY");
         if (apiKey == null || apiKey.isBlank()) {
             apiKey = System.getenv("GEMINI_KEY");
         }
-        this.onboardingService = new OnboardingService(apiKey);
+        this.onboardingService = new OnboardingService(apiKey, ontologyDatabase);
         service.setOnboardingService(onboardingService);
     }
 
@@ -188,7 +188,17 @@ public class ApiController {
     public Map<String, Object> onboardPublish(@RequestBody Map<String, String> body) {
         String name = body.getOrDefault("name", "");
         if (name.isBlank()) return Map.of("status", "error", "message", "name is required");
-        return onboardingService.publish(name);
+        Map<String, Object> result = onboardingService.publish(name);
+        // After publish, trigger pipeline refresh to update health metrics
+        if ("published".equals(result.get("status"))) {
+            try {
+                // Update health metrics after successful publish
+                service.getHealth(); // This will refresh counts
+            } catch (Exception e) {
+                // Non-critical, health will update on next call
+            }
+        }
+        return result;
     }
 
     @GetMapping("/onboard/status/{name}")

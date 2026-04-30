@@ -27,3 +27,8 @@ replay_pid*
 target/
 .fake
 .codex
+semlink-ui/node_modules/
+semlink-ui/dist/
+semlink-ui/*.tsbuildinfo
+.playwright-cli/
+output/playwright/

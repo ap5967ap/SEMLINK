@@ -1,0 +1,86 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix aicte: <https://semlink.example.org/aicte#> .
+@prefix ex: <https://semlink.example.org/r2o/example#> .
+
+<#UniversityMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "university_master" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/r2o/university/{university_id}" ;
+    rr:class aicte:University
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "university_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "university_name" ]
+  ] .
+
+<#CollegeMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "college_master" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/r2o/college/{college_id}" ;
+    rr:class aicte:College
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "college_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "college_name" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:belongsToUniversity ;
+    rr:objectMap [ rr:template "https://semlink.example.org/r2o/university/{university_id}" ]
+  ] .
+
+<#StudentMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "student_master" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/r2o/student/{student_id}" ;
+    rr:class aicte:Student
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "student_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "student_name" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:department ;
+    rr:objectMap [ rr:column "department_name" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:studiesAt ;
+    rr:objectMap [ rr:template "https://semlink.example.org/r2o/college/{college_id}" ]
+  ] .
+
+<#CourseMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "course_master" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/r2o/course/{course_id}" ;
+    rr:class aicte:Course
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:id ;
+    rr:objectMap [ rr:column "course_id" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:name ;
+    rr:objectMap [ rr:column "course_title" ]
+  ] .
+
+<#CollegeCourseMap> a rr:TriplesMap ;
+  rr:logicalTable [ rr:tableName "course_master" ] ;
+  rr:subjectMap [
+    rr:template "https://semlink.example.org/r2o/college/{college_id}"
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate aicte:offersCourse ;
+    rr:objectMap [ rr:template "https://semlink.example.org/r2o/course/{course_id}" ]
+  ] .

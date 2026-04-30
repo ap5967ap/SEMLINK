@@ -25,12 +25,14 @@ public class OnboardingService {
 
     private final SqlInputParser parser = new SqlInputParser();
     private final LLMMappingService llmService;
+    private final com.semlink.OntologyDatabase ontologyDatabase;
 
     private volatile Model inferredModel;
     private final Map<String, OnboardingJob> jobs = new ConcurrentHashMap<>();
 
-    public OnboardingService(String geminiApiKey) {
+    public OnboardingService(String geminiApiKey, com.semlink.OntologyDatabase ontologyDatabase) {
         this.llmService = new LLMMappingService(geminiApiKey);
+        this.ontologyDatabase = ontologyDatabase;
     }
 
     public boolean isLLMEnabled() {
@@ -213,6 +215,10 @@ public class OnboardingService {
 
         if (inferredModel != null) {
             inferredModel.add(job.outputModel);
+        }
+
+        if (ontologyDatabase != null) {
+            ontologyDatabase.addOntology(name, job.outputModel);
         }
 
         Map<String, Object> result = new LinkedHashMap<>();

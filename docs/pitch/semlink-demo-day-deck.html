@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SEMLINK Demo Day Deck</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080b12;--panel:#101725;--line:#253247;--text:#edf4ff;--muted:#9fb0c7;--accent:#4fd1c5}
+    *{box-sizing:border-box}body{margin:0;background:#080b12;color:var(--text);font-family:Inter,Arial,sans-serif}
+    main{height:100svh;overflow:auto;scroll-snap-type:y mandatory}
+    section{min-height:100svh;scroll-snap-align:start;display:grid;align-content:center;padding:7vw;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:13px;font-weight:700}
+    h1{font-size:clamp(42px,7vw,96px);line-height:1;margin:14px 0 20px;max-width:980px;letter-spacing:0}
+    ul{font-size:clamp(18px,2vw,30px);line-height:1.45;color:var(--muted);max-width:920px}
+    li{margin:12px 0}.spoken{margin-top:34px;color:var(--text);font-size:clamp(18px,1.6vw,24px);max-width:880px}
+    .visual{border:1px solid var(--line);background:linear-gradient(135deg,#101725,#0b101a);border-radius:8px;padding:18px;color:var(--muted);max-width:920px}
+  </style>
+</head>
+<body>
+<main>
+  <section><div class="kicker">Slide 1</div><h1>SEMLINK: One Query. Any Database. Every Answer.</h1><div class="visual">SQL + Document + Graph + KV + OWL -> Semantic Query</div><ul><li>Semantic integration framework for heterogeneous institutional data.</li><li>OWL/RDF ontology hub with SPARQL, SHACL, and AI-assisted mapping.</li><li>Built first for AICTE accreditation; designed for any domain.</li></ul><p class="spoken">What if every database in your organization spoke the same language?</p></section>
+  <section><div class="kicker">Slide 2</div><h1>Data Lives In Silos. Queries Do Not Travel.</h1><ul><li>Every institution models the same concepts differently.</li><li>Audits require manual schema reconciliation and duplicate detection.</li><li>Data quality issues stay hidden until reports are late.</li></ul><p class="spoken">Today, one accreditation question can require four systems, four experts, and four inconsistent answers.</p></section>
+  <section><div class="kicker">Slide 3</div><h1>SEMLINK Is The Semantic Bridge.</h1><ul><li>Connect relational, document, graph, key-value, wide-column, OWL, and CSV sources.</li><li>Align local schemas to a central domain ontology.</li><li>Query everything through SPARQL or natural language.</li></ul><p class="spoken">SEMLINK does not force one database; it creates one meaning layer.</p></section>
+  <section><div class="kicker">Slide 4</div><h1>Four Data Models. One Semantic Layer.</h1><ul><li>ER/EER concepts become normalized relational tables and ontology classes.</li><li>Local terms align to `aicte:Student` and other canonical concepts.</li><li>SHACL validates whether semantic data is complete and trustworthy.</li></ul><p class="spoken">The course lesson is visible in the software.</p></section>
+  <section><div class="kicker">Slide 5</div><h1>One Query. Four University Models.</h1><ul><li>Before: SQL, MongoDB, Cypher, Redis-style filtering.</li><li>After: one SPARQL query.</li><li>Result: unified AICTE answer with semantic provenance.</li></ul><p class="spoken">This one query counts Computer Science students across every university model.</p></section>
+  <section><div class="kicker">Slide 6</div><h1>A New Institution Joins In Under A Minute.</h1><ul><li>`connect add` registers the source.</li><li>`extractSchema()` discovers schema structure.</li><li>SEMLINK writes raw RDF, validation reports, and mapping review files.</li></ul><p class="spoken">University5 does not need OWL expertise.</p></section>
+  <section><div class="kicker">Slide 7</div><h1>Built-In Data Quality For Regulators.</h1><ul><li>SHACL checks required names, identifiers, ranges, and patterns.</li><li>Invalid samples prove that the quality gate catches bad data.</li><li>HTML report gives presentation-ready compliance evidence.</li></ul><p class="spoken">SEMLINK tells you whether the answer is trustworthy.</p></section>
+  <section><div class="kicker">Slide 8</div><h1>SEMLINK Is A Framework, Not Just A Demo.</h1><ul><li>Java SDK facade.</li><li>Adapter plugin contract.</li><li>REST and UI blueprints.</li></ul><p class="spoken">Any developer can build on the semantic integration layer.</p></section>
+  <section><div class="kicker">Slide 9</div><h1>Existing Tools Federate Data. SEMLINK Federates Meaning.</h1><ul><li>Trino and Drill focus on query federation.</li><li>Ontop and D2RQ are semantic but expert-heavy.</li><li>SEMLINK combines ontology, mapping, quality, adapters, and NL queries.</li></ul><p class="spoken">SEMLINK's wedge is open-source semantic integration that institutions can onboard.</p></section>
+  <section><div class="kicker">Slide 10</div><h1>From AICTE Accreditation To Universal Data Fabric.</h1><ul><li>v2: adapter pipeline, SDK, OpenAPI, dark UI.</li><li>v3: API, React app, Fuseki, TDB2.</li><li>v4: SaaS workspaces and ontology marketplace.</li></ul><p class="spoken">We started with universities, but the engine applies anywhere data models disagree.</p></section>
+</main>
+</body>
+</html>

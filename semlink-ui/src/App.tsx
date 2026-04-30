@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Database, ShieldCheck, PlayCircle, LogIn, Search, TerminalSquare, UploadCloud, Network, CheckCircle2 } from 'lucide-react';
+import { Database, ShieldCheck, PlayCircle, LogIn, Search, TerminalSquare, UploadCloud, CheckCircle2 } from 'lucide-react';
 import Editor from '@monaco-editor/react';
-import { ReactFlow, Background, Controls, useNodesState, useEdgesState } from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
 import * as api from './api';
 import OnboardStep from './OnboardStep';
+import Connections from './Connections';
 
 /* ── Helpers ───────────────────────────────────────────────── */
 const Nav = ({ active, onClick, icon, label }: any) => (
@@ -30,7 +29,6 @@ export default function App() {
         <div className="nav-group"><div className="nav-label">Operations</div>
           <Nav active={tab==='query'} onClick={()=>setTab('query')} icon={<TerminalSquare size={18}/>} label="Query Studio"/>
           <Nav active={tab==='validate'} onClick={()=>setTab('validate')} icon={<ShieldCheck size={18}/>} label="Validation"/>
-          <Nav active={tab==='lineage'} onClick={()=>setTab('lineage')} icon={<Network size={18}/>} label="Lineage"/>
         </div>
         <div className="nav-group"><div className="nav-label">Onboarding</div>
           <Nav active={tab==='onboard'} onClick={()=>setTab('onboard')} icon={<UploadCloud size={18}/>} label="R2O Workflow"/>
@@ -49,7 +47,7 @@ export default function App() {
         <header className="topbar"><h1 className="page-title">{tab.charAt(0).toUpperCase()+tab.slice(1)}</h1>{health?.pipelineRan&&<div className="badge good">Pipeline Live</div>}</header>
         <div className="workspace">
           {tab==='dashboard'&&<Dashboard health={health}/>}
-          {tab==='connections'&&<Connections/>}
+          {tab==='connections'&&<Connections health={health}/>}
           {tab==='explore'&&<Explore/>}
           {tab==='query'&&<QueryStudio/>}
           {tab==='validate'&&<Validate/>}
@@ -116,34 +114,6 @@ function Dashboard({health}:{health:any}) {
   );
 }
 
-/* ── Connections ────────────────────────────────────────────── */
-function Connections() {
-  const [list,setList]=useState<any[]>([]),[show,setShow]=useState(false);
-  const reload=()=>api.getConnections().then(setList).catch(()=>{});
-  useEffect(()=>{reload()},[]);
-  const add=async(e:React.FormEvent)=>{e.preventDefault();const f=new FormData(e.target as HTMLFormElement);await api.addConnection({id:f.get('id'),type:f.get('type'),database:f.get('database')});setShow(false);reload()};
-  const icons:Record<string,string>={mysql:'🐬',postgres:'🐘',mongodb:'🍃',neo4j:'🔵',owl:'📄',csv:'📊',redis:'🔴'};
-  return (
-    <div style={{display:'flex',flexDirection:'column',gap:20}}>
-      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}><h2>Data Sources</h2><button className="btn-primary" onClick={()=>setShow(!show)}>+ Add Connection</button></div>
-      {show&&<form className="glass-card" onSubmit={add} style={{display:'grid',gridTemplateColumns:'1fr 1fr 2fr auto',gap:12,alignItems:'end'}}>
-        <div><div className="nav-label">ID</div><input className="input" name="id" placeholder="source-id" required/></div>
-        <div><div className="nav-label">Type</div><select className="input" name="type"><option value="mysql">MySQL</option><option value="postgres">PostgreSQL</option><option value="mongodb">MongoDB</option><option value="neo4j">Neo4j</option><option value="owl">OWL File</option></select></div>
-        <div><div className="nav-label">Database / Path</div><input className="input" name="database" placeholder="jdbc:mysql://... or file path" required/></div>
-        <button className="btn-primary" type="submit">Save</button>
-      </form>}
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:16}}>
-        {list.map((c:any)=><div key={c.id} className="glass-card" style={{position:'relative'}}>
-          <button className="btn-secondary" style={{position:'absolute',top:12,right:12,padding:'4px 8px',fontSize:11}} onClick={async()=>{await api.removeConnection(c.id);reload()}}>✕</button>
-          <div style={{fontSize:28,marginBottom:8}}>{icons[c.type]||'📁'}</div>
-          <h3>{c.id}</h3><div className="badge blue" style={{margin:'6px 0'}}>{c.type}</div>
-          <p className="text-secondary" style={{fontSize:12,wordBreak:'break-all'}}>{c.database||c.host||'Local'}</p>
-        </div>)}
-        {list.length===0&&<p className="text-secondary">No connections yet. The pipeline uses built-in ontology sources.</p>}
-      </div>
-    </div>
-  );
-}
 
 /* ── Explore ───────────────────────────────────────────────── */
 function Explore() {
@@ -230,49 +200,3 @@ function Validate() {
 }
 
 /* ── Lineage ───────────────────────────────────────────────── */
-function Lineage({ health }: { health: any }) {
-  const [extraNodes, setExtraNodes] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (health?.totalTriples > 1408) {
-      const count = Math.max(1, Math.floor((health.totalTriples - 1408) / 300 + 1));
-      setExtraNodes(Array.from({ length: Math.min(count, 10) }, (_, i) => `u${5 + i}`));
-    }
-  }, [health?.totalTriples]);
-
-  const allNodes: any[] = [
-    {id:'aicte',position:{x:400,y:20},data:{label:'🏛 AICTE Central Ontology'},type:'input'},
-    {id:'u1',position:{x:50,y:120},data:{label:'🎓 University 1'},type:'input'},
-    {id:'u2',position:{x:250,y:120},data:{label:'🎓 University 2'},type:'input'},
-    {id:'u3',position:{x:450,y:120},data:{label:'🎓 University 3'},type:'input'},
-    {id:'u4',position:{x:650,y:120},data:{label:'🎓 University 4'},type:'input'},
-    ...extraNodes.map((id, i) => ({
-      id, position: { x: 850 + i * 200, y: 120 }, data: { label: `🎓 ${id.toUpperCase()} (SQL)` }, type: 'input'
-    })),
-    {id:'merge',position:{x:350,y:240},data:{label:'📦 Merged Graph'},type:'default'},
-    {id:'rules',position:{x:100,y:240},data:{label:'⚙️ Alignment Rules'},type:'input'},
-    {id:'inf',position:{x:350,y:360},data:{label:'🧠 Inferred AICTE Graph'},type:'output'},
-    {id:'shacl',position:{x:600,y:360},data:{label:'✅ SHACL Validation'},type:'output'}
-  ];
-
-  const allEdges: any[] = [
-    {id:'e1',source:'u1',target:'merge',animated:true},{id:'e2',source:'u2',target:'merge',animated:true},
-    {id:'e3',source:'u3',target:'merge',animated:true},{id:'e4',source:'u4',target:'merge',animated:true},
-    {id:'e5',source:'aicte',target:'merge',animated:true,style:{stroke:'var(--accent)'}},
-    {id:'e6',source:'merge',target:'inf',animated:true},{id:'e7',source:'rules',target:'inf',animated:true,style:{stroke:'var(--purple)'}},
-    {id:'e8',source:'inf',target:'shacl',animated:true,style:{stroke:'var(--good)'}},
-    ...extraNodes.map((id, i) => ({id:`e${9+i}`,source:id,target:'merge',animated:true,style:{stroke:'var(--blue)'}}))
-  ];
-
-  const [nodes,,onNC] = useNodesState(allNodes);
-  const [edges,,onEC] = useEdgesState(allEdges);
-
-  return (
-    <div style={{display:'flex',flexDirection:'column',gap:20,height:'calc(100vh - 120px)'}}>
-      <div><h2>Data Lineage & Provenance</h2><p className="text-secondary" style={{marginTop:4}}>Visual DAG showing how source ontologies merge into the unified AICTE knowledge graph.</p></div>
-      <div className="glass-card" style={{flex:1,padding:0,overflow:'hidden'}}>
-        <ReactFlow key={extraNodes.length} nodes={nodes} edges={edges} onNodesChange={onNC} onEdgesChange={onEC} fitView colorMode="dark"><Background color="var(--line-strong)" gap={20}/><Controls/></ReactFlow>
-      </div>
-    </div>
-  );
-}

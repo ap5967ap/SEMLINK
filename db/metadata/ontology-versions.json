@@ -1,0 +1,9 @@
+[
+  {
+    "id": "aicte",
+    "version": "1.0.0",
+    "path": "classpath:semantic/ontologies/central/aicte.ttl",
+    "graphUri": "https://semlink.example.org/graph/university/aicte",
+    "loadedAt": "2026-04-30T13:32:50.862735Z"
+  }
+]

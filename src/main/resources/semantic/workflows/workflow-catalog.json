@@ -1,0 +1,36 @@
+{
+  "workflows": [
+    {
+      "id": "aicte-accreditation",
+      "title": "AICTE Accreditation Dashboard",
+      "domain": "Higher Education",
+      "runnable": true,
+      "resource": "semantic/workflows/aicte-accreditation-flow.md",
+      "demoCommand": "JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args=\"query cs_students_by_university\""
+    },
+    {
+      "id": "ecommerce-semantic-commerce",
+      "title": "E-Commerce Customer Intelligence",
+      "domain": "Commerce",
+      "runnable": false,
+      "resource": "semantic/workflows/ecommerce-semantic-flow.md",
+      "demoCommand": "presentation scenario"
+    },
+    {
+      "id": "healthcare-compliance",
+      "title": "Healthcare Compliance Routing",
+      "domain": "Healthcare",
+      "runnable": false,
+      "resource": "semantic/workflows/healthcare-compliance-flow.md",
+      "demoCommand": "presentation scenario"
+    },
+    {
+      "id": "fintech-risk",
+      "title": "Fintech Risk Scoring",
+      "domain": "Financial Services",
+      "runnable": false,
+      "resource": "semantic/workflows/fintech-risk-flow.md",
+      "demoCommand": "presentation scenario"
+    }
+  ]
+}

@@ -48,6 +48,11 @@
         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
+            <artifactId>jena-tdb2</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
             <artifactId>jena-ontapi</artifactId>
             <version>6.0.0</version>
         </dependency>
