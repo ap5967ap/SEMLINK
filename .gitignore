@@ -32,3 +32,4 @@ semlink-ui/dist/
 semlink-ui/*.tsbuildinfo
 .playwright-cli/
 output/playwright/
+.env
