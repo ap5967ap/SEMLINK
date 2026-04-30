@@ -100,6 +100,31 @@ Run the full presentation pipeline in one command:
 JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="pipeline run"
 ```
 
+## AI-Powered "Zero-Touch" Onboarding
+
+SEMLINK now supports fully automated university onboarding using Google Gemini. You only need to provide a `.sql` schema, and the AI handles the rest.
+
+### The 4 Golden Steps:
+
+1. **Automate**: AI authors the R2RML mapping file from your SQL.
+   ```bash
+   export $(cat .env | xargs) && JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn exec:java -Dexec.args="r2o automate <university_name>"
+   ```
+2. **Generate**: Transform SQL data into semantic SPO triples.
+   ```bash
+   JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn exec:java -Dexec.args="r2o generate <university_name> file mappings/<university_name>/r2rml-mapping.ttl"
+   ```
+3. **Query**: Run standard SPARQL checks on the new integrated data.
+   ```bash
+   JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn exec:java -Dexec.args="query cs_students_by_university"
+   ```
+4. **Natural Language**: Ask questions in plain English across the new graph.
+   ```bash
+   export $(cat .env | xargs) && JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn exec:java -Dexec.args="nl Show all students from <university_name> in CSE"
+   ```
+
+> **Note:** Ensure your `GEMINI_API_KEY` is set in the `.env` file for steps 1 and 4.
+
 ## Main CLI Commands
 
 | Command | Purpose |
@@ -107,8 +132,9 @@ JAVA_HOME=$(/usr/libexec/java_home -v 25) mvn -q exec:java -Dexec.args="pipeline
 | `demo` | Runs the complete ontology merge, reasoning, query, validation, export, and summary flow. |
 | `query <name>` | Runs a named SPARQL query from the query catalog. |
 | `validate` | Runs SHACL validation against the inferred AICTE model. |
-| `r2o raw example-college` | Converts the SQL schema sample into raw RDF. |
-| `r2o assist example-college` | Refines raw RDF into AICTE-ready candidate triples. |
+| `r2o automate university7` | **[NEW]** AI authors a full R2RML mapping from SQL schema. |
+| `r2o raw university6` | Converts the SQL schema sample into raw RDF. |
+| `r2o assist university6` | Refines raw RDF into AICTE-ready candidate triples. |
 | `r2o generate example-college manual` | Uses the curated R2RML mapping. |
 | `custom run <pack> <owl> <rules>` | Runs bring-your-own-OWL onboarding. |
 | `connect add ...` | Registers a source connection in `target/semantic-output/connections.json`. |
