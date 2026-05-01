@@ -19,11 +19,7 @@ public class ApiController {
 
     public ApiController(SemanticService service, OntologyDatabase ontologyDatabase) {
         this.service = service;
-        String apiKey = System.getenv("GEMINI_API_KEY");
-        if (apiKey == null || apiKey.isBlank()) {
-            apiKey = System.getenv("GEMINI_KEY");
-        }
-        this.onboardingService = new OnboardingService(apiKey, ontologyDatabase);
+        this.onboardingService = new OnboardingService(EnvConfig.getGeminiApiKey(), ontologyDatabase);
         service.setOnboardingService(onboardingService);
     }
 

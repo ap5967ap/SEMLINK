@@ -35,10 +35,7 @@
         rr:predicate aicte:belongsToUniversity ;
         rr:objectMap [
             rr:parentTriplesMap <#TriplesMapUniversity> ;
-            rr:joinCondition [
-                rr:child "parent_uid" ;
-                rr:parent "uid" ;
-            ] ;
+            rr:joinCondition [ rr:child "parent_uid" ; rr:parent "uid" ] ;
         ] ;
     ] .
 
@@ -79,19 +76,13 @@
         rr:predicate aicte:department ;
         rr:objectMap [
             rr:parentTriplesMap <#TriplesMapDepartment> ;
-            rr:joinCondition [
-                rr:child "dept_id" ;
-                rr:parent "did" ;
-            ] ;
+            rr:joinCondition [ rr:child "dept_id" ; rr:parent "did" ] ;
         ] ;
     ] ;
     rr:predicateObjectMap [
         rr:predicate aicte:studiesAt ;
         rr:objectMap [
             rr:parentTriplesMap <#TriplesMapCollege> ;
-            rr:joinCondition [
-                rr:child "coll_id" ;
-                rr:parent "cid" ;
-            ] ;
+            rr:joinCondition [ rr:child "coll_id" ; rr:parent "cid" ] ;
         ] ;
     ] .

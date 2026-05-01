@@ -6,7 +6,6 @@
 
 set -e
 cd "$(dirname "$0")"
-export JAVA_HOME=$(/usr/libexec/java_home -v 25 2>/dev/null || /usr/libexec/java_home -v 21 2>/dev/null || echo "$JAVA_HOME")
 
 case "${1:-help}" in
 

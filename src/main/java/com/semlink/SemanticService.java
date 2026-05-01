@@ -50,12 +50,8 @@ public class SemanticService {
 
     public SemanticService(OntologyDatabase ontologyDatabase) {
         this.ontologyDatabase = ontologyDatabase;
-        
-        String apiKey = System.getenv("GEMINI_API_KEY");
-        if (apiKey == null || apiKey.isBlank()) {
-            apiKey = loadEnvFile("GEMINI_API_KEY");
-        }
-        this.apiKey = apiKey;
+
+        this.apiKey = EnvConfig.getGeminiApiKey();
         if (apiKey != null && !apiKey.isBlank()) {
             log.info("Gemini API key found, enabling AI query translation");
             nlTranslator = NLQueryTranslator.withGemini(apiKey);
@@ -74,20 +70,6 @@ public class SemanticService {
         }
     }
 
-
-    private static String loadEnvFile(String key) {
-        try {
-            Path envFile = Path.of(".env");
-            if (!Files.exists(envFile)) return null;
-            for (String line : Files.readAllLines(envFile)) {
-                line = line.trim();
-                if (line.startsWith("#") || !line.contains("=")) continue;
-                String[] parts = line.split("=", 2);
-                if (parts[0].trim().equals(key)) return parts[1].trim();
-            }
-        } catch (IOException e) { /* ignore */ }
-        return null;
-    }
 
     // Cached pipeline state
     private volatile Model inferredModel;

@@ -62,11 +62,7 @@ public class SemanticProject {
     private final CustomOnboardingWorkflow customOnboardingWorkflow = new CustomOnboardingWorkflow();
 
     public SemanticProject() {
-        String apiKey = System.getenv("GEMINI_API_KEY");
-        if (apiKey == null || apiKey.isBlank()) {
-            apiKey = System.getenv("GEMINI_KEY");
-        }
-        this.r2oWorkflow = new R2oWorkflow(apiKey);
+        this.r2oWorkflow = new R2oWorkflow(EnvConfig.getGeminiApiKey());
     }
 
     public void runDemo() {
@@ -248,11 +244,7 @@ public class SemanticProject {
     }
 
     public void runNaturalLanguageQuery(String question) {
-        String apiKey = System.getenv("GEMINI_API_KEY");
-        if (apiKey == null || apiKey.isBlank()) {
-            apiKey = System.getenv("GEMINI_KEY");
-        }
-        NLQueryTranslator translator = NLQueryTranslator.withGemini(apiKey);
+        NLQueryTranslator translator = NLQueryTranslator.withGemini(EnvConfig.getGeminiApiKey());
         String sparql = translator.translate(question);
         System.out.println("Generated SPARQL:");
         System.out.println(sparql);
