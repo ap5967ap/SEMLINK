@@ -46,6 +46,7 @@ public class SemanticService {
     private final SimilarityMatcher similarityMatcher = new SimilarityMatcher("https://semlink.example.org/aicte#");
     private final NLQueryTranslator nlTranslator;
     private final OntologyDatabase ontologyDatabase;
+    private final String apiKey;
 
     public SemanticService(OntologyDatabase ontologyDatabase) {
         this.ontologyDatabase = ontologyDatabase;
@@ -54,6 +55,7 @@ public class SemanticService {
         if (apiKey == null || apiKey.isBlank()) {
             apiKey = loadEnvFile("GEMINI_API_KEY");
         }
+        this.apiKey = apiKey;
         if (apiKey != null && !apiKey.isBlank()) {
             log.info("Gemini API key found, enabling AI query translation");
             nlTranslator = NLQueryTranslator.withGemini(apiKey);
@@ -346,7 +348,7 @@ public class SemanticService {
     /* ── R2O Onboarding ──────────────────────────────────────── */
 
     public Map<String, Object> runR2oOnboarding(String exampleName, String mode) {
-        R2oWorkflow workflow = new R2oWorkflow();
+        R2oWorkflow workflow = new R2oWorkflow(apiKey);
         Map<String, Object> result = new LinkedHashMap<>();
         try {
             if ("raw".equals(mode)) {

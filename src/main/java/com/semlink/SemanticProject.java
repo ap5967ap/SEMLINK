@@ -43,9 +43,12 @@ public class SemanticProject {
             new OntologyResource("university2", "semantic/ontologies/local/university2/university2.ttl"),
             new OntologyResource("university3", "semantic/ontologies/local/university3/university3.ttl"),
             new OntologyResource("university4", "semantic/ontologies/local/university4/university4.ttl"),
-            new OntologyResource("university5", "target/semantic-output/r2o/university5/generated/generated-from-manual.ttl"),
-            new OntologyResource("university6", "target/semantic-output/r2o/university6/generated/generated-from-manual.ttl"),
-            new OntologyResource("university7", "target/semantic-output/r2o/university7/generated/generated-from-custom.ttl"),
+            // new OntologyResource("university5",
+            // "target/semantic-output/r2o/university5/generated/generated-from-manual.ttl"),
+            // new OntologyResource("university6",
+            // "target/semantic-output/r2o/university6/generated/generated-from-manual.ttl"),
+            new OntologyResource("university7",
+                    "target/semantic-output/r2o/university7/generated/generated-from-custom.ttl"),
             new OntologyResource("aicte", "semantic/ontologies/central/aicte.ttl"));
 
     private static final Path OUTPUT_DIR = Path.of("target", "semantic-output");
